@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>qml;cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>qrc;rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Translation Files">
+      <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
+      <Extensions>ts</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="include\UFO.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UFO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="ui\UFO.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="ui\UFO.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\CSCInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CSCInterface_dynamics_c_loader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ids_peak_comfort_c.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ids_peak_comfort_c_dynamic_loader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PI_GCS2_DLL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PI_dynamic_c_loader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="depends\CSCInterface.dll" />
+    <None Include="depends\FirmwareUpdate_MD_VC140_v3_2_IDS.dll" />
+    <None Include="depends\GCBase_MD_VC140_v3_2_IDS.dll" />
+    <None Include="depends\GenApi_MD_VC140_v3_2_IDS.dll" />
+    <None Include="depends\ids_peak_comfort_c.dll" />
+    <None Include="depends\Log_MD_VC140_v3_2_IDS.dll" />
+    <None Include="depends\log4cpp_MD_VC140_v3_2_IDS.dll" />
+    <None Include="depends\MathParser_MD_VC140_v3_2_IDS.dll" />
+    <None Include="depends\NodeMapData_MD_VC140_v3_2_IDS.dll" />
+    <None Include="depends\PI_GCS2_DLL.dll" />
+    <None Include="depends\XmlParser_MD_VC140_v3_2_IDS.dll" />
+    <None Include="FpgaFirmware.rbf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="lib\CSCInterface.lib" />
+    <Library Include="lib\ids_peak_comfort_c.lib" />
+    <Library Include="lib\PI_GCS2_DLL.lib" />
+  </ItemGroup>
+</Project>
