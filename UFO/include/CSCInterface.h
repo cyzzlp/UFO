@@ -15,7 +15,6 @@
     #define CSC_DLL_EXPORTS
     #ifndef UNKNOWN_GCS_DLL
         #define CSC_FUNC_DECL __declspec(dllexport) __stdcall
-    #else
         #define CSC_FUNC_DECL __declspec(dllimport) __stdcall
     #endif
 #else
