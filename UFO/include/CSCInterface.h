@@ -1,14 +1,6 @@
-/*
-    \振镜官方提供的二次开发api
-*/
-
-
 #ifndef CSCINTERFACE_H
 #define CSCINTERFACE_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 #ifdef WIN32
 #undef CSC_FUNC_DECL
@@ -36,6 +28,11 @@ extern "C" {
 #define CSC_FUNC_UNDIGNED_CHAR unsigned char CSC_FUNC_DECL
 #define CSC_FUNC_UNDIGNED_SHORT unsigned short CSC_FUNC_DECL
 
+
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 //#####################################################################################################
 //#############################################################################################基本函数
