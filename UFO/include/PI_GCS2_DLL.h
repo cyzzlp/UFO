@@ -19,12 +19,15 @@
 #include <Windows.h>
 
 #ifdef WIN32
+	/*
+		官方为#ifdef PI_DLL_EXPORTS，但是编译出错，原因是这个预编译需要被具体定义，也可以保持官方，然后设置里面定义
+	*/
 	#define PI_DLL_EXPORTS
 	#undef PI_FUNC_DECL
 	#ifndef UNKNOWN_GCS_DLL
-		#define PI_FUNC_DECL __declspec(dllexport) __stdcall
-	#else
 		#define PI_FUNC_DECL __declspec(dllimport) __stdcall
+	#else
+		#define PI_FUNC_DECL __declspec(dllexport) __stdcall
 	#endif
 #endif
 

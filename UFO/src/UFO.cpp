@@ -5,9 +5,13 @@ UFO::UFO(QWidget *parent)
 {
     ui.setupUi(this);  
 
-    OpenUSB_Board(0, NULL);
+    //CSC_Mark::dynamicm::DynamicLoaderc dynamicLoaderc;
+   // OpenUSB_Board(0, NULL);
 
-    peak_Library_Init();
+    long j = PI_EnumerateUSB(szBuffer, 17, szFilter);
+
+    peak_status i = peak_Library_Init();
+
 }
 
 UFO::~UFO()

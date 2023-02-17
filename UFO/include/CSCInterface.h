@@ -6,19 +6,18 @@
 #ifndef CSCINTERFACE_H
 #define CSCINTERFACE_H
 
+#include <Windows.h>
 
 #ifdef WIN32
-    #undef CSC_FUNC_DECL
-    /*
-        官方为#ifdef PI_DLL_EXPORTS，但是编译出错，原因是这个预编译需要被具体定义，也可以保持官方，然后设置里面定义
-    */
-    #define CSC_DLL_EXPORTS
-    #ifndef UNKNOWN_GCS_DLL
-        #define CSC_FUNC_DECL __declspec(dllexport) __stdcall
-        #define CSC_FUNC_DECL __declspec(dllimport) __stdcall
-    #endif
+#undef CSC_FUNC_DECL
+#define CSC_DLL_EXPORTS
+#ifndef UNKNOWN_GCS_DLL
+#define CSC_FUNC_DECL __declspec(dllimport) __stdcall
 #else
-    #define CSC_FUNC_DECL
+#define CSC_FUNC_DECL __declspec(dllexport) __stdcall
+#endif
+#else
+#define CSC_FUNC_DECL
 #endif //WIN32
 
 
@@ -33,6 +32,7 @@
 
 
 #ifdef __cplusplus
+
 extern "C" {
 #endif
 
@@ -219,7 +219,7 @@ extern "C" {
     -----------------------------------------------------------------------------------------------------
     作者     :
     ****************************************************************************************************/
-     CSC_FUNC_UNDIGNED_INT GetProducedData();
+    CSC_FUNC_UNDIGNED_INT GetProducedData();
 
     /****************************************************************************************************
     函数名   : SetMarkParameter
@@ -1313,8 +1313,8 @@ extern "C" {
     ****************************************************************************************************/
     CSC_FUNC_BOOL License(char* filePath);
 
-//#########################################################################################动态轴授权
-//#####################################################################################################
+    //#########################################################################################动态轴授权
+    //#####################################################################################################
 
 #ifdef __cplusplus
 } // extern "C"
