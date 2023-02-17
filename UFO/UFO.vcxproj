@@ -25,10 +25,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\CSCInterface.h" />
-    <ClInclude Include="include\CSCInterface_dynamics_c_loader.h" />
+    <ClInclude Include="include\CSCInterface_dynamicm_loader.h" />
     <ClInclude Include="include\ids_peak_comfort_c.h" />
     <ClInclude Include="include\ids_peak_comfort_c_dynamic_loader.h" />
-    <ClInclude Include="include\PI_dynamic_c_loader.h" />
+    <ClInclude Include="include\PI_GCS2_DLL_dynamicp_loader.h" />
     <ClInclude Include="include\PI_GCS2_DLL.h" />
   </ItemGroup>
   <ItemGroup>

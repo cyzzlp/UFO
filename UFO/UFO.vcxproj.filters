@@ -49,7 +49,7 @@
     <ClInclude Include="include\CSCInterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\CSCInterface_dynamics_c_loader.h">
+    <ClInclude Include="include\CSCInterface_dynamicm_loader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\ids_peak_comfort_c.h">
@@ -61,7 +61,7 @@
     <ClInclude Include="include\PI_GCS2_DLL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\PI_dynamic_c_loader.h">
+    <ClInclude Include="include\PI_GCS2_DLL_dynamicp_loader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

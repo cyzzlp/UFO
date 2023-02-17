@@ -21,7 +21,7 @@
 
 namespace CSC_Mark
 {
-	namespace dynamicc
+	namespace dynamicm
 	{
 		typedef CSC_FUNC_INT(*lpOpenUSB_Board)(int deviceIndex, void* handle);
 		typedef CSC_FUNC_INT(*lpLoadFPGA_FirmwareProgram)(char* rbfFilePath);

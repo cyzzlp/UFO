@@ -2,9 +2,9 @@
 
 #include <QtWidgets/QMainWindow>
 #include "ui_UFO.h"
-#include "CSCInterface_dynamics_c_loader.h"
+#include "CSCInterface_dynamicm_loader.h"
 #include "ids_peak_comfort_c_dynamic_loader.h"
-#include"PI_dynamic_c_loader.h"
+#include "PI_GCS2_DLL_dynamicp_loader.h"
 
 class UFO : public QMainWindow
 {
