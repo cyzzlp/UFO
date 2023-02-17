@@ -15,39 +15,38 @@
 #ifndef PI_GCS2_DLL_H
 #define PI_GCS2_DLL_H
 
-
-#include <Windows.h>
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifdef WIN32
-	/*
-		官方为#ifdef PI_DLL_EXPORTS，但是编译出错，原因是这个预编译需要被具体定义，也可以保持官方，然后设置里面定义
-	*/
-	#define PI_DLL_EXPORTS
-	#undef PI_FUNC_DECL
-	#ifndef UNKNOWN_GCS_DLL
-		#define PI_FUNC_DECL __declspec(dllimport) __stdcall
-	#else
-		#define PI_FUNC_DECL __declspec(dllexport) __stdcall
-	#endif
+#undef PI_FUNC_DECL
+#ifdef PI_DLL_EXPORTS
+#ifndef UNKNOWN_GCS_DLL
+#define PI_FUNC_DECL __declspec(dllexport) __stdcall
+#else
+#define PI_FUNC_DECL WINAPI
 #endif
-
-#ifndef WIN32
-	#define PI_FUNC_DECL
+#else
+#define PI_FUNC_DECL __declspec(dllimport) __stdcall
+#endif
+#else
+#define PI_FUNC_DECL
 #endif
 
 
 #ifndef WIN32
-	#ifndef BOOL
-	#define BOOL int
-	#endif
+#ifndef BOOL
+#define BOOL int
+#endif
 
-	#ifndef TRUE
-	#define TRUE 1
-	#endif
+#ifndef TRUE
+#define TRUE 1
+#endif
 
-	#ifndef FALSE
-	#define FALSE 0
-	#endif
+#ifndef FALSE
+#define FALSE 0
+#endif
 #endif //WIN32
 
 
@@ -56,15 +55,6 @@
 #define PI_FUNC_INT int PI_FUNC_DECL
 #define PI_FUNC_BOOL BOOL PI_FUNC_DECL
 #define PI_FUNC_VOID void PI_FUNC_DECL
-
-
-#ifdef __cplusplus
-#    include <cstddef>
-#    include <cstdint>
-
-extern "C" {
-
-#endif
 
 ////////////////////////////////
 // E-7XX Bits (PI_BIT_XXX). //

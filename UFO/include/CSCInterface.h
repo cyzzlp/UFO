@@ -6,8 +6,37 @@
 #ifndef CSCINTERFACE_H
 #define CSCINTERFACE_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#ifdef WIN32
+#undef CSC_FUNC_DECL
+#ifdef CSC_DLL_EXPORTS
+#ifndef UNKNOWN_GCS_DLL
+#define CSC_FUNC_DECL __declspec(dllexport) __stdcall
+#else
+#define PI_FUNC_DECL WINAPI
+#endif
+#else
+#define PI_FUNC_DECL __declspec(dllimport) __stdcall
+#endif
+#else
+#define PI_FUNC_DECL
+#endif
+
 #define IN
 #define OUT
+
+#define CSC_FUNC_INT int CSC_FUNC_DECL
+#define CSC_FUNC_BOOL bool CSC_FUNC_DECL
+#define CSC_FUNC_VOID void CSC_FUNC_DECL
+#define CSC_FUNC_UNDIGNED_INT unsigned __int64 CSC_FUNC_DECL
+#define CSC_FUNC_UNDIGNED_LONG unsigned long CSC_FUNC_DECL
+#define CSC_FUNC_UNDIGNED_CHAR unsigned char CSC_FUNC_DECL
+#define CSC_FUNC_UNDIGNED_SHORT unsigned short CSC_FUNC_DECL
+
+
 //#####################################################################################################
 //#############################################################################################基本函数
 /****************************************************************************************************
@@ -27,7 +56,7 @@
                                第二块CSC-USB卡的索引号 deviceIndex为1;
 -----------------------------------------------------------------------------------------------------
 ****************************************************************************************************/
-int __stdcall OpenUSB_Board(int deviceIndex, void* handle);
+CSC_FUNC_INT OpenUSB_Board(int deviceIndex, void* handle);
 
 /****************************************************************************************************
 函数名:    LoadFPGA_FirmwareProgram
@@ -41,7 +70,7 @@ int __stdcall OpenUSB_Board(int deviceIndex, void* handle);
 备注     : 该函数必须在OpenUSB_Board后立即调用，否则其他接口函数不能正常使用
 -----------------------------------------------------------------------------------------------------
 ****************************************************************************************************/
-int __stdcall LoadFPGA_FirmwareProgram(IN char* rbfFilePath);
+CSC_FUNC_INT LoadFPGA_FirmwareProgram(IN char* rbfFilePath);
 
 /****************************************************************************************************
 函数名   : SetLaserMode
@@ -64,7 +93,7 @@ int __stdcall LoadFPGA_FirmwareProgram(IN char* rbfFilePath);
            3、frequency 和 pulseWidth 只有在IPG下可设置
 -----------------------------------------------------------------------------------------------------
 ****************************************************************************************************/
-int __stdcall SetLaserMode(IN int laserType, IN int standby, IN float frequency, IN float pulseWidth);
+CSC_FUNC_INT SetLaserMode(IN int laserType, IN int standby, IN float frequency, IN float pulseWidth);
 
 
 /****************************************************************************************************
@@ -85,7 +114,7 @@ int __stdcall SetLaserMode(IN int laserType, IN int standby, IN float frequency,
 -----------------------------------------------------------------------------------------------------
 作者     :
 ****************************************************************************************************/
-int  __stdcall SetSystemParameters(IN double rangeX, IN double rangeY,
+CSC_FUNC_INT SetSystemParameters(IN double rangeX, IN double rangeY,
     IN bool exchangeXY, IN bool invertX, IN bool invertY, IN int startMarkMode);
 
 /****************************************************************************************************
@@ -109,7 +138,7 @@ int  __stdcall SetSystemParameters(IN double rangeX, IN double rangeY,
 -----------------------------------------------------------------------------------------------------
 作者     :
 ****************************************************************************************************/
-int  __stdcall SetCorrectParameters_0(IN double xCorrection, IN double yCorrection,
+CSC_FUNC_INT SetCorrectParameters_0(IN double xCorrection, IN double yCorrection,
     IN double xShear, IN double yShear, IN double xLadder, IN double yLadder,
     IN double ratioX, IN double ratioY, IN double ratioZ);
 
@@ -129,7 +158,7 @@ int  __stdcall SetCorrectParameters_0(IN double xCorrection, IN double yCorrecti
 -----------------------------------------------------------------------------------------------------
 作者     :
 ****************************************************************************************************/
-int  __stdcall SetCorrectParameters_1(IN double ratioX, IN double ratioY, IN double ratioZ, IN char* filePath);
+CSC_FUNC_INT SetCorrectParameters_1(IN double ratioX, IN double ratioY, IN double ratioZ, IN char* filePath);
 
 /****************************************************************************************************
 函数名   : WriteDataEnd
@@ -141,7 +170,7 @@ int  __stdcall SetCorrectParameters_1(IN double ratioX, IN double ratioY, IN dou
 -----------------------------------------------------------------------------------------------------
 作者     :
 ****************************************************************************************************/
-void __stdcall WriteDataEnd();
+CSC_FUNC_VOID WriteDataEnd();
 
 /****************************************************************************************************
 函数名   : SetOverallMarkCounts
@@ -155,7 +184,7 @@ void __stdcall WriteDataEnd();
 -----------------------------------------------------------------------------------------------------
 作者     :
 ****************************************************************************************************/
-void __stdcall SetOverallMarkCounts(IN int count);
+CSC_FUNC_VOID SetOverallMarkCounts(IN int count);
 
 /****************************************************************************************************
 函数名   : IsReadDataEnd
@@ -168,7 +197,7 @@ void __stdcall SetOverallMarkCounts(IN int count);
 -----------------------------------------------------------------------------------------------------
 作者     :
 ****************************************************************************************************/
-bool __stdcall IsReadDataEnd();
+CSC_FUNC_BOOL IsReadDataEnd();
 
 /****************************************************************************************************
 函数名   : IsMarkEnd
@@ -181,7 +210,7 @@ bool __stdcall IsReadDataEnd();
 -----------------------------------------------------------------------------------------------------
 作者     :
 ****************************************************************************************************/
-bool __stdcall IsMarkEnd();
+CSC_FUNC_BOOL IsMarkEnd();
 
 /****************************************************************************************************
 函数名   : StartMark
@@ -194,7 +223,7 @@ bool __stdcall IsMarkEnd();
 -----------------------------------------------------------------------------------------------------
 作者     :
 ****************************************************************************************************/
-bool __stdcall StartMark();
+CSC_FUNC_BOOL StartMark();
 
 /****************************************************************************************************
 函数名   : GetProducedData
@@ -206,7 +235,7 @@ bool __stdcall StartMark();
 -----------------------------------------------------------------------------------------------------
 作者     :
 ****************************************************************************************************/
-unsigned __int64 __stdcall GetProducedData();
+CSC_FUNC_UNDIGNED_INT GetProducedData();
 
 /****************************************************************************************************
 函数名   : SetMarkParameter
@@ -236,7 +265,7 @@ unsigned __int64 __stdcall GetProducedData();
 备注     :   控制卡最多 256 组标刻参数
 -----------------------------------------------------------------------------------------------------
 ****************************************************************************************************/
-int __stdcall SetMarkParameter(
+CSC_FUNC_INT SetMarkParameter(
     IN int index,                   //层号
     IN int markCounts,              //标刻次数
     IN int isBitmap,                //是否是位图
@@ -266,7 +295,7 @@ int __stdcall SetMarkParameter(
 备注     : 必须在SetSystemParameters、SetLaserMode之后，标刻前调用
 -----------------------------------------------------------------------------------------------------
 ****************************************************************************************************/
-bool  __stdcall DownloadMarkParameters();
+CSC_FUNC_BOOL DownloadMarkParameters();
 
 /****************************************************************************************************
 函数名:    SetFirstMarkParameter
@@ -280,7 +309,7 @@ bool  __stdcall DownloadMarkParameters();
 -----------------------------------------------------------------------------------------------------
 作 者:
 ****************************************************************************************************/
-bool __stdcall SetFirstMarkParameter(IN int pen);
+CSC_FUNC_BOOL SetFirstMarkParameter(IN int pen);
 
 /****************************************************************************************************
 函数名   : ReadyMark
@@ -293,7 +322,7 @@ bool __stdcall SetFirstMarkParameter(IN int pen);
 备注     : 启动ReadDataThread线程前调用
 -----------------------------------------------------------------------------------------------------
 ****************************************************************************************************/
-bool __stdcall ReadyMark();
+CSC_FUNC_BOOL ReadyMark();
 
 /****************************************************************************************************
 函数名	:	ReadyPreview
@@ -305,7 +334,7 @@ bool __stdcall ReadyMark();
 备注     : 启动ReadDataThread线程前调用
 -----------------------------------------------------------------------------------------------------
 ****************************************************************************************************/
-bool __stdcall ReadyPreview();
+CSC_FUNC_BOOL ReadyPreview();
 
 /****************************************************************************************************
 函数名    :  StartReadDataThread
@@ -318,7 +347,7 @@ bool __stdcall ReadyPreview();
 -----------------------------------------------------------------------------------------------------
 作者      :
 ****************************************************************************************************/
-bool __stdcall StartReadDataThread();
+CSC_FUNC_BOOL StartReadDataThread();
 
 /****************************************************************************************************
 函数名    :  ZeroCounter
@@ -330,7 +359,7 @@ bool __stdcall StartReadDataThread();
 备注      :  在每次标刻数据分解之前，必须调用该函数
 -----------------------------------------------------------------------------------------------------
 ****************************************************************************************************/
-int __stdcall ZeroCounter();
+CSC_FUNC_INT ZeroCounter();
 
 /****************************************************************************************************
 函数名   : StopMark
@@ -342,7 +371,7 @@ int __stdcall ZeroCounter();
 备注     :  无
 -----------------------------------------------------------------------------------------------------
 ****************************************************************************************************/
-bool __stdcall StopMark();
+CSC_FUNC_BOOL StopMark();
 
 /****************************************************************************************************
 函数名	:  StopPreview
@@ -354,7 +383,7 @@ bool __stdcall StopMark();
 备注     :
 -----------------------------------------------------------------------------------------------------
 ****************************************************************************************************/
-bool __stdcall StopPreview();
+CSC_FUNC_BOOL StopPreview();
 
 /****************************************************************************************************
 函数名   : StopCalcData
@@ -367,7 +396,7 @@ false: 失败
 停止上位机的送数
 -----------------------------------------------------------------------------------------------------
 ****************************************************************************************************/
-bool __stdcall StopCalcData();
+CSC_FUNC_BOOL StopCalcData();
 
 /****************************************************************************************************
 函数名   : SetDelayPA_MO
@@ -381,7 +410,7 @@ bool __stdcall StopCalcData();
 -----------------------------------------------------------------------------------------------------
 作者     :
 ****************************************************************************************************/
-bool __stdcall SetDelayPA_MO(IN float delay);
+CSC_FUNC_BOOL SetDelayPA_MO(IN float delay);
 
 /****************************************************************************************************
 函数名   : SPI_SimmerCurrent
@@ -395,7 +424,7 @@ bool __stdcall SetDelayPA_MO(IN float delay);
 -----------------------------------------------------------------------------------------------------
 作者     :
 ****************************************************************************************************/
-bool __stdcall SPI_SimmerCurrent(IN double simmer);
+CSC_FUNC_BOOL SPI_SimmerCurrent(IN double simmer);
 
 /****************************************************************************************************
 函数名   : SPI_ModeSelect
@@ -409,7 +438,7 @@ bool __stdcall SPI_SimmerCurrent(IN double simmer);
 -----------------------------------------------------------------------------------------------------
 作者     :
 ****************************************************************************************************/
-bool __stdcall SPI_ModeSelect(IN int mode);
+CSC_FUNC_BOOL SPI_ModeSelect(IN int mode);
 
 /****************************************************************************************************
 函数名   : SPI_WaveForm
@@ -423,7 +452,7 @@ bool __stdcall SPI_ModeSelect(IN int mode);
 -----------------------------------------------------------------------------------------------------
 作者     :
 ****************************************************************************************************/
-bool __stdcall SPI_WaveForm(IN int wave);
+CSC_FUNC_BOOL SPI_WaveForm(IN int wave);
 
 /****************************************************************************************************
 函数名    : SetExternalStartSignalMode
@@ -436,7 +465,7 @@ bool __stdcall SPI_WaveForm(IN int wave);
 备注      :  无
 -----------------------------------------------------------------------------------------------------
 ****************************************************************************************************/
-int __stdcall SetExternalStartSignalMode(IN int mode);
+CSC_FUNC_INT SetExternalStartSignalMode(IN int mode);
 
 /****************************************************************************************************
 函数名    :  GetCSCInterfaceVersion
@@ -449,7 +478,7 @@ int __stdcall SetExternalStartSignalMode(IN int mode);
 备注      :  无
 -----------------------------------------------------------------------------------------------------
 ****************************************************************************************************/
-int __stdcall GetCSCInterfaceVersion(OUT char* version);
+CSC_FUNC_INT GetCSCInterfaceVersion(OUT char* version);
 
 /****************************************************************************************************
 函数名   : OpenGuideLight
@@ -461,7 +490,7 @@ int __stdcall GetCSCInterfaceVersion(OUT char* version);
 备注     : 无
 -----------------------------------------------------------------------------------------------------
 ****************************************************************************************************/
-bool __stdcall OpenGuideLight();
+CSC_FUNC_BOOL OpenGuideLight();
 
 /****************************************************************************************************
 函数名   : CloseGuideLight
@@ -473,7 +502,7 @@ bool __stdcall OpenGuideLight();
 备注     : 无
 -----------------------------------------------------------------------------------------------------
 ****************************************************************************************************/
-bool __stdcall CloseGuideLight();
+CSC_FUNC_BOOL CloseGuideLight();
 
 /****************************************************************************************************
 函数名   :   CloseUSB_Board
@@ -484,7 +513,7 @@ bool __stdcall CloseGuideLight();
 备注     :  在每次关闭程序时必须调用该函数，用以释放32M内存区
 -----------------------------------------------------------------------------------------------------
 ****************************************************************************************************/
-void __stdcall  CloseUSB_Board();
+CSC_FUNC_VOID  CloseUSB_Board();
 //#############################################################################################基本函数
 //#####################################################################################################
 
@@ -502,7 +531,7 @@ void __stdcall  CloseUSB_Board();
 备注     :  无
 -----------------------------------------------------------------------------------------------------
 ****************************************************************************************************/
-bool __stdcall GetMarkStatus();
+CSC_FUNC_BOOL GetMarkStatus();
 
 /****************************************************************************************************
 函数名   : GetMarkTime
@@ -514,7 +543,7 @@ bool __stdcall GetMarkStatus();
 备注     : 标刻时间取值范围:0-4294967295(ms)
 -----------------------------------------------------------------------------------------------------
 ****************************************************************************************************/
-unsigned long __stdcall GetMarkTime();
+CSC_FUNC_UNDIGNED_LONG GetMarkTime();
 
 /****************************************************************************************************
 函数名   :	GetMarkCounts
@@ -529,7 +558,7 @@ unsigned long __stdcall GetMarkTime();
             externalMarkCounts: 1-255
 -----------------------------------------------------------------------------------------------------
 ****************************************************************************************************/
-bool __stdcall GetMarkCounts(OUT unsigned char& internalMarkCounts, OUT unsigned char& externalMarkCounts);
+CSC_FUNC_BOOL GetMarkCounts(OUT unsigned char& internalMarkCounts, OUT unsigned char& externalMarkCounts);
 
 /****************************************************************************************************
 函数名   : GetUSB_BoardCounts
@@ -540,7 +569,7 @@ bool __stdcall GetMarkCounts(OUT unsigned char& internalMarkCounts, OUT unsigned
 备注     : 无
 -----------------------------------------------------------------------------------------------------
 ****************************************************************************************************/
-int __stdcall GetUSB_BoardCounts();
+CSC_FUNC_INT GetUSB_BoardCounts();
 
 /****************************************************************************************************
 函数名    :  GetUSB_FirmwareVersion
@@ -553,7 +582,7 @@ int __stdcall GetUSB_BoardCounts();
 备注      :  无
 -----------------------------------------------------------------------------------------------------
 ****************************************************************************************************/
-int __stdcall GetUSB_FirmwareVersion(OUT char* version);
+CSC_FUNC_INT GetUSB_FirmwareVersion(OUT char* version);
 
 /****************************************************************************************************
 函数名    :  GetFPGA_FirmwareVersion
@@ -566,7 +595,7 @@ int __stdcall GetUSB_FirmwareVersion(OUT char* version);
 备注      :  无
 -----------------------------------------------------------------------------------------------------
 ****************************************************************************************************/
-int __stdcall GetFPGA_FirmwareVersion(OUT char* version);
+CSC_FUNC_INT GetFPGA_FirmwareVersion(OUT char* version);
 
 /****************************************************************************************************
 函数名   :	GetLaserAndScannerStatus
@@ -580,7 +609,7 @@ int __stdcall GetFPGA_FirmwareVersion(OUT char* version);
 备注     :  激光器状态2为正常;振镜状态0为正常
 -----------------------------------------------------------------------------------------------------
 ****************************************************************************************************/
-bool __stdcall GetLaserAndScannerStatus(OUT int& laserStatus, OUT int& scannerStatus);
+CSC_FUNC_BOOL GetLaserAndScannerStatus(OUT int& laserStatus, OUT int& scannerStatus);
 
 /****************************************************************************************************
 函数名   :	ReadUSB_BoardSN
@@ -593,7 +622,7 @@ bool __stdcall GetLaserAndScannerStatus(OUT int& laserStatus, OUT int& scannerSt
 备注     : 无
 -----------------------------------------------------------------------------------------------------
 ****************************************************************************************************/
-int __stdcall ReadUSB_BoardSN(OUT char* boardSN);
+CSC_FUNC_INT ReadUSB_BoardSN(OUT char* boardSN);
 
 /****************************************************************************************************
 函数名   :	ReadUSB_BoardSN
@@ -606,7 +635,7 @@ int __stdcall ReadUSB_BoardSN(OUT char* boardSN);
 备注     : 无
 -----------------------------------------------------------------------------------------------------
 ****************************************************************************************************/
-int __stdcall ReadUSB_BoardSN_ByIndex(IN int index, OUT char* boardSN);
+CSC_FUNC_INT ReadUSB_BoardSN_ByIndex(IN int index, OUT char* boardSN);
 
 
 /****************************************************************************************************
@@ -620,7 +649,7 @@ int __stdcall ReadUSB_BoardSN_ByIndex(IN int index, OUT char* boardSN);
 -----------------------------------------------------------------------------------------------------
 作者     :
 ****************************************************************************************************/
-bool __stdcall GetScannerPosition(OUT float& xPos, OUT float& yPos);
+CSC_FUNC_BOOL GetScannerPosition(OUT float& xPos, OUT float& yPos);
 //##############################################################################读取CSC-USB卡信息的函数
 //#####################################################################################################
 
@@ -636,7 +665,7 @@ bool __stdcall GetScannerPosition(OUT float& xPos, OUT float& yPos);
 备注     :  无
 -----------------------------------------------------------------------------------------------------
 ****************************************************************************************************/
-bool __stdcall LaserSignalOn();
+CSC_FUNC_BOOL LaserSignalOn();
 
 /****************************************************************************************************
 函数名    :  LaserSignalOff
@@ -648,7 +677,7 @@ bool __stdcall LaserSignalOn();
 备注      :  无
 -----------------------------------------------------------------------------------------------------
 ****************************************************************************************************/
-bool __stdcall LaserSignalOff();
+CSC_FUNC_BOOL LaserSignalOff();
 
 //##########################################################################################开激光命令
 //#####################################################################################################
@@ -665,7 +694,7 @@ bool __stdcall LaserSignalOff();
 备注     : AD模拟数字转换器
 -----------------------------------------------------------------------------------------------------
 ****************************************************************************************************/
-bool __stdcall InitAD();
+CSC_FUNC_BOOL InitAD();
 
 /****************************************************************************************************
 函数名:    GetAD
@@ -678,7 +707,7 @@ bool __stdcall InitAD();
 备注     : AD模拟数字转换器
 -----------------------------------------------------------------------------------------------------
 ****************************************************************************************************/
-int __stdcall GetAD();
+CSC_FUNC_INT GetAD();
 //############################################################################################## AD命令
 //#####################################################################################################
 
@@ -697,7 +726,7 @@ int __stdcall GetAD();
 备注      :  I/O控制接口中的Output
 --------------------------------------------------------------------------------------
 *************************************************************************************/
-bool __stdcall Write_IO_Port(IN unsigned char port);
+CSC_FUNC_BOOL Write_IO_Port(IN unsigned char port);
 
 /*************************************************************************************
 函数名    :  GetOutputPortState
@@ -708,7 +737,7 @@ bool __stdcall Write_IO_Port(IN unsigned char port);
 备注      :  I/O控制接口中的Output
 --------------------------------------------------------------------------------------
 *************************************************************************************/
-unsigned char __stdcall GetOutputPortState();
+CSC_FUNC_UNDIGNED_CHAR GetOutputPortState();
 
 /*************************************************************************************
 函数名   : Read_IO_Port
@@ -720,7 +749,7 @@ unsigned char __stdcall GetOutputPortState();
 备注     :  I/O控制接口中的Input
 --------------------------------------------------------------------------------------
 *************************************************************************************/
-unsigned short __stdcall Read_IO_Port();
+CSC_FUNC_UNDIGNED_SHORT Read_IO_Port();
 
 /*************************************************************************************
 函数名   :	GetExternalStartStopSignal
@@ -734,7 +763,7 @@ unsigned short __stdcall Read_IO_Port();
 备注     :  无
 --------------------------------------------------------------------------------------
 *************************************************************************************/
-bool __stdcall GetExternalStartStopSignal(OUT int& start, OUT int& stop);
+CSC_FUNC_BOOL GetExternalStartStopSignal(OUT int& start, OUT int& stop);
 
 /*************************************************************************************
 函数名   : ResetStartStopSignal
@@ -749,7 +778,7 @@ false :   执行失败
 2011-11-21 zhy 樊工添加重置Stop信号的接口函数
 --------------------------------------------------------------------------------------
 *************************************************************************************/
-bool __stdcall ResetStartStopSignal();
+CSC_FUNC_BOOL ResetStartStopSignal();
 //////////////////////////////////////////////////////////////////////////////////////Control Command
 
 /////////////////////////////////////////////////////////////////////////////////////////List Command
@@ -765,7 +794,7 @@ bool __stdcall ResetStartStopSignal();
 -----------------------------------------------------------------------------------------
 作者     :
 ****************************************************************************************/
-int  __stdcall  InputCommand(IN unsigned char port);
+CSC_FUNC_INT  InputCommand(IN unsigned char port);
 
 /****************************************************************************************
 函数名   : OutputCommand
@@ -783,7 +812,7 @@ int  __stdcall  InputCommand(IN unsigned char port);
 -----------------------------------------------------------------------------------------
 作者     :
 ****************************************************************************************/
-int  __stdcall  OutputCommand(IN unsigned char port, IN int outMode, IN int level, IN int outputPulseWidth);
+CSC_FUNC_INT  OutputCommand(IN unsigned char port, IN int outMode, IN int level, IN int outputPulseWidth);
 /////////////////////////////////////////////////////////////////////////////////////////List Command
 //############################################################################################# I/O命令
 //#####################################################################################################
@@ -814,7 +843,7 @@ int  __stdcall  OutputCommand(IN unsigned char port, IN int outMode, IN int leve
 -----------------------------------------------------------------------------------------------------
 作者     :
 ****************************************************************************************************/
-int __stdcall SetStepMotorParameters(IN int motorType, IN int direction, IN float pitch, IN float pulsePerRevolution,
+CSC_FUNC_INT SetStepMotorParameters(IN int motorType, IN int direction, IN float pitch, IN float pulsePerRevolution,
     IN float subdivision, IN float correctionFactor, IN float reductionRatio,
     IN float startSpeed, IN float speed, IN float speedupTime);
 
@@ -831,7 +860,7 @@ int __stdcall SetStepMotorParameters(IN int motorType, IN int direction, IN floa
             direction =rLimit*128+rZero*64+zLimit*32+zZero*16+yLimit*8+yZero*4+xLimit*2+xZero
 --------------------------------------------------------------------------------------
 *************************************************************************************/
-bool __stdcall SetStepMotorLimitDirect(IN int direction);
+CSC_FUNC_BOOL SetStepMotorLimitDirect(IN int direction);
 
 /**************************************************************************************************************
 函数名   : StepMotorZeroCounter
@@ -845,7 +874,7 @@ bool __stdcall SetStepMotorLimitDirect(IN int direction);
 --------------------------------------------------------------------------------------------------------------
 作者     :
 **************************************************************************************************************/
-bool __stdcall StepMotorZeroCounter(IN int type);
+CSC_FUNC_BOOL StepMotorZeroCounter(IN int type);
 
 /*************************************************************************************
 函数名   : GetStepMotorPosition
@@ -862,7 +891,7 @@ bool __stdcall StepMotorZeroCounter(IN int type);
 备注     :  motorCurPos获取的是从CSC-USB卡开始上电后步进电机某一轴运行的累计距离的总和
 --------------------------------------------------------------------------------------
 *************************************************************************************/
-bool __stdcall GetStepMotorPosition(IN int stepMotorType, OUT float& motorCurPos);
+CSC_FUNC_BOOL GetStepMotorPosition(IN int stepMotorType, OUT float& motorCurPos);
 
 /*************************************************************************************
 函数名:    GetStepMotorHomeStatus
@@ -876,7 +905,7 @@ bool __stdcall GetStepMotorPosition(IN int stepMotorType, OUT float& motorCurPos
 备注     : 无
 --------------------------------------------------------------------------------------
 *************************************************************************************/
-void __stdcall GetStepMotorHomeStatus(OUT bool& xhome, OUT bool& yhome, OUT bool& zhome, OUT bool& rhome);
+CSC_FUNC_VOID GetStepMotorHomeStatus(OUT bool& xhome, OUT bool& yhome, OUT bool& zhome, OUT bool& rhome);
 
 /*************************************************************************************
 函数名:    GetStepMotorLimitStatus
@@ -890,7 +919,7 @@ void __stdcall GetStepMotorHomeStatus(OUT bool& xhome, OUT bool& yhome, OUT bool
 备注     : 无
 --------------------------------------------------------------------------------------
 *************************************************************************************/
-void __stdcall GetStepMotorLimitStatus(OUT bool& xlimit, OUT bool& ylimit, OUT bool& zlimit, OUT bool& rlimit);
+CSC_FUNC_VOID GetStepMotorLimitStatus(OUT bool& xlimit, OUT bool& ylimit, OUT bool& zlimit, OUT bool& rlimit);
 
 /**************************************************************************************************************
 函数名:    GetStepMotorStatus
@@ -905,7 +934,7 @@ void __stdcall GetStepMotorLimitStatus(OUT bool& xlimit, OUT bool& ylimit, OUT b
 --------------------------------------------------------------------------------------------------------------
 作 者 :
 **************************************************************************************************************/
-void __stdcall GetStepMotorStatus(OUT bool& xMotor, OUT bool& yMotor, OUT bool& zMotor, OUT bool& rMotor);
+CSC_FUNC_VOID GetStepMotorStatus(OUT bool& xMotor, OUT bool& yMotor, OUT bool& zMotor, OUT bool& rMotor);
 
 /*************************************************************************************
 函数名   : ReturnHome_X
@@ -918,7 +947,7 @@ false 函数执行失败
 备注     : frequency的取值范围:1-1000000(HZ)
 --------------------------------------------------------------------------------------
 *************************************************************************************/
-bool __stdcall ReturnHome_X(IN unsigned long frequency);
+CSC_FUNC_BOOL ReturnHome_X(IN unsigned long frequency);
 
 /*************************************************************************************
 函数名   : StartStepMotor_X
@@ -934,7 +963,7 @@ bool __stdcall ReturnHome_X(IN unsigned long frequency);
 备注     :  frequency的取值范围:1-1000000(HZ)
 --------------------------------------------------------------------------------------
 *************************************************************************************/
-bool __stdcall StartStepMotor_X(IN float distance, IN unsigned long frequency,
+CSC_FUNC_BOOL StartStepMotor_X(IN float distance, IN unsigned long frequency,
     IN unsigned long startFrequency, IN unsigned long speedUpTime);
 
 
@@ -948,7 +977,7 @@ bool __stdcall StartStepMotor_X(IN float distance, IN unsigned long frequency,
 备注     :  无
 --------------------------------------------------------------------------------------
 *************************************************************************************/
-bool __stdcall StopStepMotor_X();
+CSC_FUNC_BOOL StopStepMotor_X();
 
 /*************************************************************************************
 函数名   : ReturnHome_Y
@@ -961,7 +990,7 @@ false 函数执行失败
 备注     : frequency的取值范围:1-1000000(HZ)
 --------------------------------------------------------------------------------------
 *************************************************************************************/
-bool __stdcall ReturnHome_Y(IN unsigned long frequency);
+CSC_FUNC_BOOL ReturnHome_Y(IN unsigned long frequency);
 
 
 /*************************************************************************************
@@ -978,7 +1007,7 @@ bool __stdcall ReturnHome_Y(IN unsigned long frequency);
 备注     :  frequency的取值范围:1-1000000(HZ)
 --------------------------------------------------------------------------------------
 *************************************************************************************/
-bool __stdcall StartStepMotor_Y(IN float distance, IN unsigned long frequency,
+CSC_FUNC_BOOL StartStepMotor_Y(IN float distance, IN unsigned long frequency,
     IN unsigned long startFrequency, IN unsigned long speedUpTime);
 
 /*************************************************************************************
@@ -991,7 +1020,7 @@ bool __stdcall StartStepMotor_Y(IN float distance, IN unsigned long frequency,
 备注     :  无
 --------------------------------------------------------------------------------------
 *************************************************************************************/
-bool __stdcall StopStepMotor_Y();
+CSC_FUNC_BOOL StopStepMotor_Y();
 
 /*************************************************************************************
 函数名   : ReturnHome_Z
@@ -1004,7 +1033,7 @@ bool __stdcall StopStepMotor_Y();
 备注     : frequency的取值范围:1-1000000(HZ)
 --------------------------------------------------------------------------------------
 *************************************************************************************/
-bool __stdcall ReturnHome_Z(IN unsigned long frequency);
+CSC_FUNC_BOOL ReturnHome_Z(IN unsigned long frequency);
 
 
 /*************************************************************************************
@@ -1021,7 +1050,7 @@ bool __stdcall ReturnHome_Z(IN unsigned long frequency);
 备注     :  frequency的取值范围:1-1000000(HZ)
 --------------------------------------------------------------------------------------
 *************************************************************************************/
-bool __stdcall StartStepMotor_Z(IN float distance, IN unsigned long frequency,
+CSC_FUNC_BOOL StartStepMotor_Z(IN float distance, IN unsigned long frequency,
     IN unsigned long startFrequency, IN unsigned long speedUpTime);
 
 /*************************************************************************************
@@ -1034,7 +1063,7 @@ bool __stdcall StartStepMotor_Z(IN float distance, IN unsigned long frequency,
 备注     :  无
 --------------------------------------------------------------------------------------
 *************************************************************************************/
-bool __stdcall StopStepMotor_Z();
+CSC_FUNC_BOOL StopStepMotor_Z();
 
 /*************************************************************************************
 函数名   : ReturnHome_R
@@ -1048,7 +1077,7 @@ bool __stdcall StopStepMotor_Z();
 备注     : frequency的取值范围:1-1000000(HZ)
 --------------------------------------------------------------------------------------
 *************************************************************************************/
-bool __stdcall ReturnHome_R(IN unsigned long frequency);
+CSC_FUNC_BOOL ReturnHome_R(IN unsigned long frequency);
 
 
 /*************************************************************************************
@@ -1065,7 +1094,7 @@ bool __stdcall ReturnHome_R(IN unsigned long frequency);
 备注     :  frequency的取值范围:1-1000000(HZ)
 --------------------------------------------------------------------------------------
 *************************************************************************************/
-bool __stdcall StartStepMotor_R(IN float angle, IN unsigned long frequency,
+CSC_FUNC_BOOL StartStepMotor_R(IN float angle, IN unsigned long frequency,
     IN unsigned long startFrequency, IN unsigned long speedUpTime);
 
 /*************************************************************************************
@@ -1078,7 +1107,7 @@ bool __stdcall StartStepMotor_R(IN float angle, IN unsigned long frequency,
 备注     :  无
 --------------------------------------------------------------------------------------
 *************************************************************************************/
-bool __stdcall StopStepMotor_R();
+CSC_FUNC_BOOL StopStepMotor_R();
 //////////////////////////////////////////////////////////////////////////////////////Control Command
 
 /////////////////////////////////////////////////////////////////////////////////////////List Command
@@ -1099,7 +1128,7 @@ bool __stdcall StopStepMotor_R();
 作者     :
 
 ****************************************************************************************/
-int __stdcall MoveStepMotorCommand_XY(IN double startPositionX, IN double startPositionY,
+CSC_FUNC_INT MoveStepMotorCommand_XY(IN double startPositionX, IN double startPositionY,
     IN double endPositionX, IN double endPositionY);
 
 /****************************************************************************************
@@ -1117,7 +1146,7 @@ int __stdcall MoveStepMotorCommand_XY(IN double startPositionX, IN double startP
 作者     :
 
 ****************************************************************************************/
-int  __stdcall  MoveStepMotorCommand_Z(IN double startPosition, IN double endPosition);
+CSC_FUNC_INT  MoveStepMotorCommand_Z(IN double startPosition, IN double endPosition);
 
 /****************************************************************************************
 函数名   : RotateStepMotorCommand_R
@@ -1132,7 +1161,7 @@ int  __stdcall  MoveStepMotorCommand_Z(IN double startPosition, IN double endPos
 -----------------------------------------------------------------------------------------
 作者     :
 ****************************************************************************************/
-int  __stdcall  RotateStepMotorCommand_R(IN float angle);
+CSC_FUNC_INT  RotateStepMotorCommand_R(IN float angle);
 /////////////////////////////////////////////////////////////////////////////////////////List Command
 //#######################################################################################  步进电机命令
 //#####################################################################################################
@@ -1152,7 +1181,7 @@ int  __stdcall  RotateStepMotorCommand_R(IN float angle);
 -----------------------------------------------------------------------------------------------------
 作者     :
 ****************************************************************************************************/
-int  __stdcall  DelayCommand(IN int delay);
+CSC_FUNC_INT  DelayCommand(IN int delay);
 
 //#############################################################################################延时命令
 //#####################################################################################################
@@ -1175,7 +1204,7 @@ int  __stdcall  DelayCommand(IN int delay);
 -----------------------------------------------------------------------------------------------------
 作者     :
 ****************************************************************************************************/
-int __stdcall MarkCommand_Point(IN double x, IN double y, IN int type, IN int tp);
+CSC_FUNC_INT MarkCommand_Point(IN double x, IN double y, IN int type, IN int tp);
 
 /****************************************************************************************************
 函数名   : MarkCommand_Vector
@@ -1192,7 +1221,7 @@ int __stdcall MarkCommand_Point(IN double x, IN double y, IN int type, IN int tp
 -----------------------------------------------------------------------------------------------------
 作者     :
 ****************************************************************************************************/
-int __stdcall MarkCommand_Vector(IN int length, IN double* sitsetX, IN double* sitsetY);
+CSC_FUNC_INT MarkCommand_Vector(IN int length, IN double* sitsetX, IN double* sitsetY);
 
 /****************************************************************************************************
 函数名   : MarkCommand_Bitmap
@@ -1210,7 +1239,7 @@ int __stdcall MarkCommand_Vector(IN int length, IN double* sitsetX, IN double* s
 -----------------------------------------------------------------------------------------------------
 作者     :
 ****************************************************************************************************/
-int  __stdcall  MarkCommand_Bitmap(IN int length, IN double* sitsetX, IN double* sitsetY, IN int* sitsetGray);
+CSC_FUNC_INT  MarkCommand_Bitmap(IN int length, IN double* sitsetX, IN double* sitsetY, IN int* sitsetGray);
 
 //#############################################################################################标刻命令
 //#####################################################################################################
@@ -1230,7 +1259,7 @@ int  __stdcall  MarkCommand_Bitmap(IN int length, IN double* sitsetX, IN double*
 -----------------------------------------------------------------------------------------------------
 作者     :
 ****************************************************************************************************/
-int __stdcall ChangePensCommand(IN unsigned char pen);
+CSC_FUNC_INT ChangePensCommand(IN unsigned char pen);
 //############################################################################################换笔命令
 //#####################################################################################################
 
@@ -1247,7 +1276,7 @@ int __stdcall ChangePensCommand(IN unsigned char pen);
 -----------------------------------------------------------------------------------------------------
 作者     :
 ****************************************************************************************************/
-int  __stdcall  EndCommand();
+CSC_FUNC_INT  EndCommand();
 
 //##########################################################################################标刻结束命令
 //#####################################################################################################
@@ -1270,7 +1299,7 @@ int  __stdcall  EndCommand();
 -----------------------------------------------------------------------------------------------------
 作者     :
 *****************************************************************************************************/
-int __stdcall Goto_XY(IN double x, IN double y);
+CSC_FUNC_INT Goto_XY(IN double x, IN double y);
 
 /****************************************************************************************************
 函数名   : Offset_Z
@@ -1285,7 +1314,7 @@ int __stdcall Goto_XY(IN double x, IN double y);
 -----------------------------------------------------------------------------------------------------
 作者     :
 ****************************************************************************************************/
-int  __stdcall Offset_Z(IN double offsetZ);
+CSC_FUNC_INT Offset_Z(IN double offsetZ);
 //////////////////////////////////////////////////////////////////////////////////////Control Command
 
 
@@ -1300,7 +1329,7 @@ int  __stdcall Offset_Z(IN double offsetZ);
 返回值    :  true  成功
              false 失败
 *****************************************************************************************************/
-bool __stdcall JumpCommand(IN double x, IN double y);
+CSC_FUNC_BOOL JumpCommand(IN double x, IN double y);
 
 
 /****************************************************************************************************
@@ -1316,7 +1345,7 @@ bool __stdcall JumpCommand(IN double x, IN double y);
 -----------------------------------------------------------------------------------------------------
 作者     :
 *****************************************************************************************************/
-int  __stdcall JumpCommand_Z(IN double offsetZ);
+CSC_FUNC_INT JumpCommand_Z(IN double offsetZ);
 
 /////////////////////////////////////////////////////////////////////////////////////////List Command
 //#############################################################################################跳转命令
@@ -1338,7 +1367,7 @@ int  __stdcall JumpCommand_Z(IN double offsetZ);
 -----------------------------------------------------------------------------------------------------
 作者      :
 ****************************************************************************************************/
-bool __stdcall EnableCorrect(IN int able);
+CSC_FUNC_BOOL EnableCorrect(IN int able);
 
 /****************************************************************************************************
 函数名    :  GetCorrectionData
@@ -1358,7 +1387,7 @@ bool __stdcall EnableCorrect(IN int able);
 -----------------------------------------------------------------------------------------------------
 作者      :
 ****************************************************************************************************/
-int __stdcall GetCorrectionData(OUT unsigned short& xCoordinate, OUT unsigned short& yCoordinate, OUT unsigned short& number);
+CSC_FUNC_INT GetCorrectionData(OUT unsigned short& xCoordinate, OUT unsigned short& yCoordinate, OUT unsigned short& number);
 
 //#########################################################################################获取采样坐标
 //#####################################################################################################
@@ -1378,9 +1407,12 @@ int __stdcall GetCorrectionData(OUT unsigned short& xCoordinate, OUT unsigned sh
 -----------------------------------------------------------------------------------------------------
 作者      :
 ****************************************************************************************************/
-bool __stdcall License(IN char* filePath);
+CSC_FUNC_BOOL License(IN char* filePath);
 
 //#########################################################################################动态轴授权
 //#####################################################################################################
+#ifdef __cplusplus
+} // extern "C"
+#endif // __cplusplus
 
 #endif // CSCINTERFACE_H

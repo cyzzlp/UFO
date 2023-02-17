@@ -105,6 +105,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <AdditionalIncludeDirectories>C:\Users\69017\Desktop\UFO\UFO\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>PI_DLL_EXPORTS;CSC_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\Users\69017\Desktop\UFO\UFO\depends;C:\Users\69017\Desktop\UFO\UFO\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -114,6 +115,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <AdditionalIncludeDirectories>C:\Users\69017\Desktop\UFO\UFO\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>PI_DLL_EXPORTS;CSC_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\Users\69017\Desktop\UFO\UFO\depends;C:\Users\69017\Desktop\UFO\UFO\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
