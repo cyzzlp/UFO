@@ -6,7 +6,7 @@ UFO::UFO(QWidget *parent)
     ui.setupUi(this);  
 
     //CSC_Mark::dynamicm::DynamicLoaderc dynamicLoaderc;
-   // OpenUSB_Board(0, NULL);
+   OpenUSB_Board(0, NULL);
 
     long j = PI_EnumerateUSB(szBuffer, 17, szFilter);
 
