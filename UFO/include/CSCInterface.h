@@ -1,6 +1,9 @@
 #ifndef CSCINTERFACE_H
 #define CSCINTERFACE_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifdef WIN32
 #undef CSC_FUNC_DECL
@@ -28,11 +31,6 @@
 #define CSC_FUNC_UNDIGNED_CHAR unsigned char CSC_FUNC_DECL
 #define CSC_FUNC_UNDIGNED_SHORT unsigned short CSC_FUNC_DECL
 
-
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 //#####################################################################################################
 //#############################################################################################»ù±¾º¯Êý
@@ -1411,5 +1409,4 @@ CSC_FUNC_BOOL License(IN char* filePath);
 #ifdef __cplusplus
 } // extern "C"
 #endif // __cplusplus
-
 #endif // CSCINTERFACE_H

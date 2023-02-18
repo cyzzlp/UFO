@@ -24,5 +24,5 @@ public:
     char serialNo[256]{};
 
 private:
-    Ui::UFOClass ui;
+    Ui::UFO ui;
 };

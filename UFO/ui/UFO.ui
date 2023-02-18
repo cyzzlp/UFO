@@ -1,28 +1,357 @@
-<UI version="4.0" >
- <class>UFOClass</class>
- <widget class="QMainWindow" name="UFOClass" >
-  <property name="objectName" >
-   <string notr="true">UFOClass</string>
-  </property>
-  <property name="geometry" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>UFO</class>
+ <widget class="QMainWindow" name="UFO">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>400</height>
+    <width>1117</width>
+    <height>914</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="cursor">
+   <cursorShape>ArrowCursor</cursorShape>
+  </property>
+  <property name="windowTitle">
    <string>UFO</string>
-  </property>  <widget class="QMenuBar" name="menuBar" />
-  <widget class="QToolBar" name="mainToolBar" />
-  <widget class="QWidget" name="centralWidget" />
-  <widget class="QStatusBar" name="statusBar" />
+  </property>
+  <property name="windowIcon">
+   <iconset resource="UFO.qrc">
+    <normaloff>:/new/icons/icons/ufo.png</normaloff>:/new/icons/icons/ufo.png</iconset>
+  </property>
+  <property name="toolTip">
+   <string/>
+  </property>
+  <property name="toolButtonStyle">
+   <enum>Qt::ToolButtonIconOnly</enum>
+  </property>
+  <widget class="QWidget" name="centralWidget"/>
+  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="contextMenuPolicy">
+    <enum>Qt::DefaultContextMenu</enum>
+   </property>
+   <property name="toolTip">
+    <string/>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actAddNewFile"/>
+   <addaction name="actOpenFile"/>
+   <addaction name="actSaveFile"/>
+   <addaction name="actQuit"/>
+   <addaction name="separator"/>
+   <addaction name="actMarkSet"/>
+   <addaction name="actConnectPI"/>
+   <addaction name="actConnectCCD"/>
+   <addaction name="actConnectShutter"/>
+   <addaction name="separator"/>
+   <addaction name="actImplementstart"/>
+   <addaction name="actImplementstop"/>
+   <addaction name="actImplementclose"/>
+   <addaction name="separator"/>
+   <addaction name="actShowDataInfo"/>
+   <addaction name="acDataVisual"/>
+   <addaction name="actYoursData"/>
+   <addaction name="separator"/>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1117</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>文件</string>
+    </property>
+    <addaction name="actAddNewFile"/>
+    <addaction name="actOpenFile"/>
+    <addaction name="actSaveFile"/>
+    <addaction name="actQuit"/>
+   </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>硬件</string>
+    </property>
+    <addaction name="actConnectShutter"/>
+    <addaction name="actConnectCCD"/>
+    <addaction name="actConnectPI"/>
+   </widget>
+   <widget class="QMenu" name="menu_3">
+    <property name="title">
+     <string>设置</string>
+    </property>
+    <addaction name="actPreGapInput"/>
+    <addaction name="actCorrectMethod"/>
+    <addaction name="actSetLaser"/>
+    <addaction name="actSetMarkArea"/>
+    <addaction name="actSetSystemPara"/>
+   </widget>
+   <widget class="QMenu" name="menu_4">
+    <property name="title">
+     <string>数据操作</string>
+    </property>
+    <widget class="QMenu" name="menu_6">
+     <property name="title">
+      <string>标刻数据</string>
+     </property>
+     <addaction name="actYoursData"/>
+     <addaction name="actShowDataInfo"/>
+    </widget>
+    <addaction name="menu_6"/>
+    <addaction name="acDataVisual"/>
+   </widget>
+   <widget class="QMenu" name="menu_5">
+    <property name="title">
+     <string>执行</string>
+    </property>
+    <addaction name="actOpenTheLaser"/>
+    <addaction name="actImplementclose"/>
+   </widget>
+   <addaction name="menu"/>
+   <addaction name="menu_2"/>
+   <addaction name="menu_3"/>
+   <addaction name="menu_4"/>
+   <addaction name="menu_5"/>
+  </widget>
+  <action name="actAddNewFile">
+   <property name="icon">
+    <iconset resource="UFO.qrc">
+     <normaloff>:/new/icons/icons/newlybuild.png</normaloff>:/new/icons/icons/newlybuild.png</iconset>
+   </property>
+   <property name="text">
+    <string>新建</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;新建&lt;/p&gt;&lt;p&gt;可以自定义标刻数据&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="actOpenFile">
+   <property name="icon">
+    <iconset resource="UFO.qrc">
+     <normaloff>:/new/icons/icons/open-door.png</normaloff>:/new/icons/icons/open-door.png</iconset>
+   </property>
+   <property name="text">
+    <string>打开</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;打开&lt;/p&gt;&lt;p&gt;导入标刻数据&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actSaveFile">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="UFO.qrc">
+     <normaloff>:/new/icons/icons/save-one.png</normaloff>:/new/icons/icons/save-one.png</iconset>
+   </property>
+   <property name="text">
+    <string>保存</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;保存&lt;/p&gt;&lt;p&gt;保存自定义标刻数据&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actQuit">
+   <property name="icon">
+    <iconset resource="UFO.qrc">
+     <normaloff>:/new/icons/icons/logout.png</normaloff>:/new/icons/icons/logout.png</iconset>
+   </property>
+   <property name="text">
+    <string>退出</string>
+   </property>
+   <property name="toolTip">
+    <string>退出</string>
+   </property>
+  </action>
+  <action name="actConnectShutter">
+   <property name="icon">
+    <iconset resource="UFO.qrc">
+     <normaloff>:/new/icons/icons/shutter.png</normaloff>:/new/icons/icons/shutter.png</iconset>
+   </property>
+   <property name="text">
+    <string>快门</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;快门&lt;/p&gt;&lt;p&gt;提供对快门的控制&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
+  <action name="actConnectCCD">
+   <property name="icon">
+    <iconset resource="UFO.qrc">
+     <normaloff>:/new/icons/icons/camera.png</normaloff>:/new/icons/icons/camera.png</iconset>
+   </property>
+   <property name="text">
+    <string>CCD</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;CCD&lt;/p&gt;&lt;p&gt;提供对CCD参数的设置&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
+  <action name="actConnectPI">
+   <property name="icon">
+    <iconset resource="UFO.qrc">
+     <normaloff>:/new/icons/icons/pi.png</normaloff>:/new/icons/icons/pi.png</iconset>
+   </property>
+   <property name="text">
+    <string>PI</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;PI&lt;/p&gt;&lt;p&gt;提供对PI位置的控制&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
+  <action name="actSetLaser">
+   <property name="text">
+    <string>激光器设置</string>
+   </property>
+   <property name="toolTip">
+    <string>激光器设置</string>
+   </property>
+  </action>
+  <action name="actSetMarkArea">
+   <property name="text">
+    <string>标刻区域设置</string>
+   </property>
+   <property name="toolTip">
+    <string>标刻区域设置</string>
+   </property>
+  </action>
+  <action name="actSetSystemPara">
+   <property name="text">
+    <string>系统参数设置</string>
+   </property>
+  </action>
+  <action name="actPreGapInput">
+   <property name="text">
+    <string>预设间隔设置</string>
+   </property>
+   <property name="toolTip">
+    <string>预设间隔设置</string>
+   </property>
+  </action>
+  <action name="actOpenTheLaser">
+   <property name="text">
+    <string>开激光</string>
+   </property>
+  </action>
+  <action name="actImplementclose">
+   <property name="icon">
+    <iconset resource="UFO.qrc">
+     <normaloff>:/new/icons/icons/power.png</normaloff>:/new/icons/icons/power.png</iconset>
+   </property>
+   <property name="text">
+    <string>标刻关闭</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;标刻关闭&lt;/p&gt;&lt;p&gt;系统关闭当前标刻&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
+  <action name="actCorrectMethod">
+   <property name="text">
+    <string>校正方法设置</string>
+   </property>
+  </action>
+  <action name="acDataVisual">
+   <property name="icon">
+    <iconset resource="UFO.qrc">
+     <normaloff>:/new/icons/icons/datavisual.png</normaloff>:/new/icons/icons/datavisual.png</iconset>
+   </property>
+   <property name="text">
+    <string>数据可视化</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;数据可视化&lt;/p&gt;&lt;p&gt;可视化当前导入的标刻数据&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
+  <action name="actYoursData">
+   <property name="icon">
+    <iconset resource="UFO.qrc">
+     <normaloff>:/new/icons/icons/edit.png</normaloff>:/new/icons/icons/edit.png</iconset>
+   </property>
+   <property name="text">
+    <string>自定义数据</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;自定义数据&lt;/p&gt;&lt;p&gt;手动输入标刻数据&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
+  <action name="actShowDataInfo">
+   <property name="icon">
+    <iconset resource="UFO.qrc">
+     <normaloff>:/new/icons/icons/analysis.png</normaloff>:/new/icons/icons/analysis.png</iconset>
+   </property>
+   <property name="text">
+    <string>数据信息</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;数据信息&lt;/p&gt;&lt;p&gt;分析当前标刻数据&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
+  <action name="actMarkSet">
+   <property name="icon">
+    <iconset resource="UFO.qrc">
+     <normaloff>:/new/icons/icons/mark.png</normaloff>:/new/icons/icons/mark.png</iconset>
+   </property>
+   <property name="text">
+    <string>振镜</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;振镜&lt;/p&gt;&lt;p&gt;提供对振镜位置的控制&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
+  <action name="actImplementstart">
+   <property name="icon">
+    <iconset resource="UFO.qrc">
+     <normaloff>:/new/icons/icons/run.png</normaloff>:/new/icons/icons/run.png</iconset>
+   </property>
+   <property name="text">
+    <string>标刻开始</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;标刻启动&lt;/p&gt;&lt;p&gt;系统启动当前标刻&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
+  <action name="actImplementstop">
+   <property name="icon">
+    <iconset resource="UFO.qrc">
+     <normaloff>:/new/icons/icons/pause.png</normaloff>:/new/icons/icons/pause.png</iconset>
+   </property>
+   <property name="text">
+    <string>标刻暂停</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;标刻暂停&lt;/p&gt;&lt;p&gt;系统暂停当前标刻&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
  </widget>
- <layoutDefault spacing="6" margin="11" />
- <pixmapfunction></pixmapfunction>
+ <layoutdefault spacing="6" margin="11"/>
  <resources>
-   <include location="UFO.qrc"/>
+  <include location="UFO.qrc"/>
  </resources>
  <connections/>
-</UI>
+</ui>

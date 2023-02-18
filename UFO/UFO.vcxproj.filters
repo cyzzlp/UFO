@@ -36,11 +36,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <QtRcc Include="ui\UFO.qrc">
-      <Filter>Resource Files</Filter>
-    </QtRcc>
-  </ItemGroup>
-  <ItemGroup>
     <QtUic Include="ui\UFO.ui">
       <Filter>Form Files</Filter>
     </QtUic>
@@ -78,10 +73,51 @@
     <None Include="depends\PI_GCS2_DLL.dll" />
     <None Include="depends\XmlParser_MD_VC140_v3_2_IDS.dll" />
     <None Include="FpgaFirmware.rbf" />
+    <None Include="ui\UFO.ui.autosave" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\CSCInterface.lib" />
     <Library Include="lib\ids_peak_comfort_c.lib" />
     <Library Include="lib\PI_GCS2_DLL.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="logo\400.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="ui\icons\power.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="ui\icons\logout.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="ui\icons\open-door.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="ui\icons\pause.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="ui\icons\newlybuild.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="ui\icons\save-one.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="ui\icons\camera.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="ui\icons\pi.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="ui\icons\mark.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="ui\icons\shutter.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="ui\UFO.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
   </ItemGroup>
 </Project>

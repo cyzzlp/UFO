@@ -1,4 +1,20 @@
 <RCC>
-    <qresource prefix="UFO">
+    <qresource prefix="/new/icons">
+        <file>icons/camera.png</file>
+        <file>icons/logout.png</file>
+        <file>icons/mark.png</file>
+        <file>icons/newlybuild.png</file>
+        <file>icons/open-door.png</file>
+        <file>icons/pause.png</file>
+        <file>icons/pi.png</file>
+        <file>icons/power.png</file>
+        <file>icons/save-one.png</file>
+        <file>icons/shutter.png</file>
+        <file>icons/run.png</file>
+        <file>icons/analysis.png</file>
+        <file>icons/datavisual.png</file>
+        <file>icons/edit.png</file>
+        <file>icons/setting.png</file>
+        <file>icons/ufo.png</file>
     </qresource>
 </RCC>

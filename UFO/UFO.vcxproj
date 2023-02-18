@@ -18,9 +18,6 @@
     <ClCompile Include="src\UFO.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <QtRcc Include="ui\UFO.qrc" />
-  </ItemGroup>
-  <ItemGroup>
     <QtUic Include="ui\UFO.ui" />
   </ItemGroup>
   <ItemGroup>
@@ -44,11 +41,28 @@
     <None Include="depends\PI_GCS2_DLL.dll" />
     <None Include="depends\XmlParser_MD_VC140_v3_2_IDS.dll" />
     <None Include="FpgaFirmware.rbf" />
+    <None Include="ui\UFO.ui.autosave" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\CSCInterface.lib" />
     <Library Include="lib\ids_peak_comfort_c.lib" />
     <Library Include="lib\PI_GCS2_DLL.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="logo\400.ico" />
+    <Image Include="ui\icons\camera.png" />
+    <Image Include="ui\icons\logout.png" />
+    <Image Include="ui\icons\mark.png" />
+    <Image Include="ui\icons\newlybuild.png" />
+    <Image Include="ui\icons\open-door.png" />
+    <Image Include="ui\icons\pause.png" />
+    <Image Include="ui\icons\pi.png" />
+    <Image Include="ui\icons\power.png" />
+    <Image Include="ui\icons\save-one.png" />
+    <Image Include="ui\icons\shutter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="ui\UFO.qrc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{54B09D01-ADFC-48F4-846E-E5F241E20F08}</ProjectGuid>
@@ -71,12 +85,12 @@
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'" Label="QtSettings">
-    <QtInstall>5.12.12_msvc2017</QtInstall>
+    <QtInstall>5.14.1_msvc2017</QtInstall>
     <QtModules>core;gui;widgets</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|Win32'" Label="QtSettings">
-    <QtInstall>5.12.12_msvc2017</QtInstall>
+    <QtInstall>5.14.1_msvc2017</QtInstall>
     <QtModules>core;gui;widgets</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
