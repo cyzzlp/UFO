@@ -50,7 +50,10 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="logo\400.ico" />
+    <Image Include="ui\icons\analysis.png" />
     <Image Include="ui\icons\camera.png" />
+    <Image Include="ui\icons\datavisual.png" />
+    <Image Include="ui\icons\edit.png" />
     <Image Include="ui\icons\logout.png" />
     <Image Include="ui\icons\mark.png" />
     <Image Include="ui\icons\newlybuild.png" />
@@ -58,8 +61,11 @@
     <Image Include="ui\icons\pause.png" />
     <Image Include="ui\icons\pi.png" />
     <Image Include="ui\icons\power.png" />
+    <Image Include="ui\icons\run.png" />
     <Image Include="ui\icons\save-one.png" />
+    <Image Include="ui\icons\setting.png" />
     <Image Include="ui\icons\shutter.png" />
+    <Image Include="ui\icons\ufo.png" />
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="ui\UFO.qrc" />
@@ -120,20 +126,22 @@
     <ClCompile>
       <AdditionalIncludeDirectories>C:\Users\69017\Desktop\UFO\UFO\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>PI_DLL_EXPORTS;CSC_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <CallingConvention>Cdecl</CallingConvention>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\Users\69017\Desktop\UFO\UFO\depends;C:\Users\69017\Desktop\UFO\UFO\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>CSCInterface.lib;ids_peak_comfort_c.lib;PI_GCS2_DLL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ids_peak_comfort_c.lib;PI_GCS2_DLL.lib;CSCInterface.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <AdditionalIncludeDirectories>C:\Users\69017\Desktop\UFO\UFO\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>PI_DLL_EXPORTS;CSC_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <CallingConvention>Cdecl</CallingConvention>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\Users\69017\Desktop\UFO\UFO\depends;C:\Users\69017\Desktop\UFO\UFO\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>CSCInterface.lib;ids_peak_comfort_c.lib;PI_GCS2_DLL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ids_peak_comfort_c.lib;PI_GCS2_DLL.lib;CSCInterface.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'" Label="Configuration">

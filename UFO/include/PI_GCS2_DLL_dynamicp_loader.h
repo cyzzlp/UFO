@@ -8,7 +8,6 @@
 #include <dlfcn.h>
 #else
 #include <vector>
-#include <windows.h>
 #include <tchar.h>
 #endif
 

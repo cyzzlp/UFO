@@ -114,6 +114,24 @@
     <Image Include="ui\icons\shutter.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="ui\icons\analysis.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="ui\icons\datavisual.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="ui\icons\edit.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="ui\icons\run.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="ui\icons\setting.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="ui\icons\ufo.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="ui\UFO.qrc">

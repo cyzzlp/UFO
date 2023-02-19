@@ -16,6 +16,7 @@
 #define PI_GCS2_DLL_H
 
 #ifdef __cplusplus
+#include <Windows.h>
 extern "C" {
 #endif
 

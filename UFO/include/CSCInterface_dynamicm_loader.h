@@ -19,7 +19,7 @@
 #undef CSC_FUNC_DECL
 #define CSC_FUNC_DECL
 
-namespace CSC_Mark
+namespace CSC_MARK
 {
 	namespace dynamicm
 	{
@@ -84,7 +84,7 @@ namespace CSC_Mark
 			static bool isLoadedc();
 
 			static CSC_FUNC_INT OpenUSB_Board(int deviceIndex, void* handle);
-			static CSC_FUNC_BOOL LoadFPGA_FirmwareProgram(char* rbfFilePath);
+			static CSC_FUNC_INT LoadFPGA_FirmwareProgram(char* rbfFilePath);
 			static CSC_FUNC_BOOL SetLaserMode(int laserType, int standby, float frequency, float pulseWidth);
 			static CSC_FUNC_INT SetSystemParameters(double rangeX, double rangeY, double markStep, double jumpStep, bool exchangeXY, bool invertX, bool invertY, int startMarkMode);
 			static CSC_FUNC_INT SetCorrectParameters_0(double xCorrection, double yCorrection, double xShear, double yShear, double xLadder, double yLadder, double ratioX, double ratioY, double ratioZ);
@@ -346,6 +346,12 @@ namespace CSC_Mark
 				throw std::runtime_error("Failed to load DownloadMarkParameters");
 			}
 
+			m_SetMarkParameter = (lpSetMarkParameter)(load ? import_functionc(m_handle, "SetMarkParameter") : nullptr);
+			if (m_SetMarkParameter == nullptr && load)
+			{
+				throw std::runtime_error("Failed to load SetMarkParameter");
+			}
+
 			m_SetFirstMarkParameter = (lpSetFirstMarkParameter)(load ? import_functionc(m_handle, "SetFirstMarkParameter") : nullptr);
 			if (m_SetFirstMarkParameter == nullptr && load)
 			{
@@ -524,12 +530,14 @@ namespace CSC_Mark
 			}
 		}
 
-		inline CSC_FUNC_BOOL DynamicLoaderc::LoadFPGA_FirmwareProgram(char* rbfFilePath)
+		inline CSC_FUNC_INT DynamicLoaderc::LoadFPGA_FirmwareProgram(char* rbfFilePath)
 		{
 			auto& inst = instancec();
 			if (inst.m_LoadFPGA_FirmwareProgram)
 			{
-				return inst.m_LoadFPGA_FirmwareProgram(rbfFilePath);
+				int i = 0;
+				i = inst.m_LoadFPGA_FirmwareProgram(rbfFilePath);
+				return i;
 			}
 			else
 			{

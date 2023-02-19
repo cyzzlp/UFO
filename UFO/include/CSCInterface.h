@@ -2,6 +2,7 @@
 #define CSCINTERFACE_H
 
 #ifdef __cplusplus
+#include <Windows.h>
 extern "C" {
 #endif
 
@@ -9,12 +10,12 @@ extern "C" {
 #undef CSC_FUNC_DECL
 #ifdef CSC_DLL_EXPORTS
 #ifndef UNKNOWN_GCS_DLL
-#define CSC_FUNC_DECL __declspec(dllexport) __stdcall
+#define CSC_FUNC_DECL WINAPI
 #else
 #define PI_FUNC_DECL WINAPI
 #endif
 #else
-#define PI_FUNC_DECL __declspec(dllimport) __stdcall
+#define PI_FUNC_DECL __declspec(dllimport) WINAPI
 #endif
 #else
 #define PI_FUNC_DECL
@@ -1409,4 +1410,5 @@ CSC_FUNC_BOOL License(IN char* filePath);
 #ifdef __cplusplus
 } // extern "C"
 #endif // __cplusplus
+
 #endif // CSCINTERFACE_H
