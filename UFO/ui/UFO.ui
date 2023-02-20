@@ -31,29 +31,103 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>10</y>
-      <width>751</width>
+      <y>440</y>
+      <width>731</width>
       <height>421</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="ImageShow"/>
+    <layout class="QVBoxLayout" name="ccdLayout"/>
    </widget>
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>790</x>
+      <x>780</x>
       <y>10</y>
-      <width>1121</width>
+      <width>1131</width>
       <height>851</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_graph3D"/>
    </widget>
+   <widget class="QPushButton" name="CCDinfo">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>380</y>
+      <width>121</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>相机信息</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="CameraSet">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>380</y>
+      <width>111</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>相机设置</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="m_buttonStartStop">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>380</y>
+      <width>111</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>停止采集</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="AutoFocuspBtn">
+    <property name="geometry">
+     <rect>
+      <x>450</x>
+      <y>380</y>
+      <width>121</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>自动对焦</string>
+    </property>
+   </widget>
    <widget class="QWidget" name="verticalLayoutWidget_3">
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>490</y>
+      <y>130</y>
       <width>241</width>
       <height>221</height>
      </rect>

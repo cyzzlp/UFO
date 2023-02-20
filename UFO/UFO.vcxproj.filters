@@ -26,6 +26,15 @@
     <QtMoc Include="include\UFO.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="include\display.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="include\CCDSetUserface.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="include\acquisitionworker.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -34,9 +43,24 @@
     <ClCompile Include="src\UFO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\acquisitionworker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\backend.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\display.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CCDSetUserface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="ui\UFO.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\CCDSetUserface.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -59,6 +83,9 @@
     <ClInclude Include="include\CSCInterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\backend.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="depends\CSCInterface.dll" />
@@ -72,7 +99,6 @@
     <None Include="depends\NodeMapData_MD_VC140_v3_2_IDS.dll" />
     <None Include="depends\PI_GCS2_DLL.dll" />
     <None Include="depends\XmlParser_MD_VC140_v3_2_IDS.dll" />
-    <None Include="FpgaFirmware.rbf" />
     <None Include="ui\UFO.ui.autosave" />
   </ItemGroup>
   <ItemGroup>

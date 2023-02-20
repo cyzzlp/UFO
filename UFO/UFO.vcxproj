@@ -14,15 +14,24 @@
     <QtMoc Include="include\UFO.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\CCDSetUserface.cpp" />
+    <ClCompile Include="src\acquisitionworker.cpp" />
+    <ClCompile Include="src\backend.c" />
+    <ClCompile Include="src\display.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\UFO.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <QtUic Include="ui\CCDSetUserface.ui" />
     <QtUic Include="ui\UFO.ui" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="include\CCDSetUserface.h" />
+    <QtMoc Include="include\acquisitionworker.h" />
+    <ClInclude Include="include\backend.h" />
     <ClInclude Include="include\CSCInterface.h" />
     <ClInclude Include="include\CSCInterface_dynamicm_loader.h" />
+    <QtMoc Include="include\display.h" />
     <ClInclude Include="include\ids_peak_comfort_c.h" />
     <ClInclude Include="include\ids_peak_comfort_c_dynamic_loader.h" />
     <ClInclude Include="include\PI_GCS2_DLL_dynamicp_loader.h" />
@@ -40,7 +49,6 @@
     <None Include="depends\NodeMapData_MD_VC140_v3_2_IDS.dll" />
     <None Include="depends\PI_GCS2_DLL.dll" />
     <None Include="depends\XmlParser_MD_VC140_v3_2_IDS.dll" />
-    <None Include="FpgaFirmware.rbf" />
     <None Include="ui\UFO.ui.autosave" />
   </ItemGroup>
   <ItemGroup>
@@ -92,12 +100,12 @@
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'" Label="QtSettings">
     <QtInstall>5.14.1_msvc2017</QtInstall>
-    <QtModules>core;gui;widgets</QtModules>
+    <QtModules>core;gui;widgets;datavisualization</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|Win32'" Label="QtSettings">
     <QtInstall>5.14.1_msvc2017</QtInstall>
-    <QtModules>core;gui;widgets</QtModules>
+    <QtModules>core;gui;widgets;datavisualization</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
