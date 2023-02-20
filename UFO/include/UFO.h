@@ -17,6 +17,7 @@
 #include "CCDSetUserface.h"
 #include "backend.h"
 #include "display.h"
+#include "piRealpos.h"
 #include "ui_UFO.h"
 
 using namespace QtDataVisualization;
@@ -34,18 +35,22 @@ public:
     bool hasError();
 
 private:
-    // 设备连接状态 振镜 PI 工业相机 快门
+    // 振镜连接状态
     bool M_IsConnected{};
 
+    // PI连接状态
     bool P_IsConnected{};
 
+    // 工业相机连接状态
     bool C_IsConnected{};
 
+    // 快门连接状态
     bool S_IsConnected{};
 
-    // 实现动画效果
+    // 实现动画效果1
     int mIndex = 1;
 
+    // 实现动画效果2
     int pIndex = 1;
 
     // PI句柄
@@ -154,6 +159,15 @@ private:
     // 相机设置窗口
     CCDSetUserface* CCDSet{};
 
+    // PI实时位置线程
+    QThread PiThread;
+
+    // PI实时位置
+    piRealpos* realpos{};
+
+    // PI实时位置线程
+    QThread MarkThread;
+
 private:
     // 关闭窗口时间，可以询问是否退出
     void closeEvent(QCloseEvent* event);
@@ -239,6 +253,12 @@ private slots:
 
     // 根据错误的信息，决定是否提前退出程序
     void HandleErrorAndQuit(QString message);
+
+    // 实时更新PI位置
+    void RefreshPiPos(double u_PiPosition);
+
+    // 更新线程错误信息
+    void ResetWrongText(QString dataStatus);
 
 signals:
     // 发送错误信号提示

@@ -111,7 +111,7 @@ int UFO::connectSystemMark()
         return 0;
 
     // 振镜回零点
-    CSC_MARK::dynamicm::DynamicLoaderc::Goto_XY(0, 0);
+    Goto_XY(0, 0);
 
     // 振镜连接
     M_IsConnected = true;
@@ -532,13 +532,28 @@ void UFO::CreateStatuBar()
 // 创建信号槽
 void UFO::CreateAcquisitionWorkerThreadPI()
 {
-    
+    // 创建线程类
+    realpos = new piRealpos();
+    realpos->moveToThread(&PiThread);
+
+    // 线程开始时，开始获取位置
+    connect(&PiThread, SIGNAL(started()), realpos, SLOT(Start()), Qt::UniqueConnection);
+
+    // 接收PI位置，实时更新
+    connect(realpos, &piRealpos::PiRealPOS, this, &UFO::RefreshPiPos);
+
+    // 更新数据读取状态
+    connect(realpos, &piRealpos::DelieveWrongInfo, this, &UFO::ResetWrongText);
 }
 
 // 开始采集PI位置
 void UFO::StartAcquisitionPI()
 {
+    // while循环为True
+    realpos->start();
 
+    // 线程启动
+    PiThread.start();
 }
 
 // 创建信号槽
@@ -642,6 +657,28 @@ void UFO::CreateMarkWorkerThread()
 {
 
 }
+
+// 实时更新PI位置
+void UFO::RefreshPiPos(double u_PiPosition)
+{
+    // 将u_PiPosition转换为Qstring，十进制显示，4位精度
+    PiRealPos->setText("PI实时位置：" + QString::number(u_PiPosition, 10, 4));
+}
+
+// 更新线程错误信息
+void UFO::ResetWrongText(QString dataStatus)
+{
+    // 停止读取
+    realpos->stop();
+
+    // 线程停止
+    PiThread.quit();
+    PiThread.wait();
+
+    // 信息提示
+    QMessageBox::critical(this, "错误", dataStatus);
+}
+
 
 // 程序退出
 bool UFO::hasError()
