@@ -1,10 +1,8 @@
 #ifndef CSCINTERFACE_H
 #define CSCINTERFACE_H
 
-#ifdef __cplusplus
+
 #include <Windows.h>
-extern "C" {
-#endif
 
 #ifdef WIN32
 #undef CSC_FUNC_DECL
@@ -1407,8 +1405,5 @@ CSC_FUNC_BOOL License(IN char* filePath);
 
 //#########################################################################################∂ØÃ¨÷· ⁄»®
 //#####################################################################################################
-#ifdef __cplusplus
-} // extern "C"
-#endif // __cplusplus
 
 #endif // CSCINTERFACE_H

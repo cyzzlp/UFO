@@ -127,9 +127,9 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>130</y>
-      <width>241</width>
-      <height>221</height>
+      <y>60</y>
+      <width>431</width>
+      <height>291</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="direButton"/>

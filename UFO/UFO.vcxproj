@@ -14,20 +14,25 @@
     <QtMoc Include="include\UFO.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\piRealpos.cpp" />
     <ClCompile Include="src\CCDSetUserface.cpp" />
     <ClCompile Include="src\acquisitionworker.cpp" />
     <ClCompile Include="src\backend.c" />
+    <ClCompile Include="src\DireButton.cpp" />
     <ClCompile Include="src\display.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\UFO.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <QtUic Include="ui\DireButton.ui" />
     <QtUic Include="ui\CCDSetUserface.ui" />
     <QtUic Include="ui\UFO.ui" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="include\piRealpos.h" />
     <QtMoc Include="include\CCDSetUserface.h" />
     <QtMoc Include="include\acquisitionworker.h" />
+    <QtMoc Include="include\DireButton.h" />
     <ClInclude Include="include\backend.h" />
     <ClInclude Include="include\CSCInterface.h" />
     <ClInclude Include="include\CSCInterface_dynamicm_loader.h" />
@@ -38,6 +43,12 @@
     <ClInclude Include="include\PI_GCS2_DLL.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Debug\qmake\qtvars_Win32_Debug.props" />
+    <None Include="Debug\qmake\temp\.qmake.stash" />
+    <None Include="Debug\qmake\temp\54B09D01-ADFC-48F4-846E-E5F241E20F08.UFO.designtime.idx" />
+    <None Include="Debug\qmake\temp\moc_predefs.h.cbt" />
+    <None Include="Debug\qmake\temp\qtvars.pro" />
+    <None Include="Debug\qmake\temp\qtvars_Win32_Debug.props" />
     <None Include="depends\CSCInterface.dll" />
     <None Include="depends\FirmwareUpdate_MD_VC140_v3_2_IDS.dll" />
     <None Include="depends\GCBase_MD_VC140_v3_2_IDS.dll" />
@@ -77,6 +88,10 @@
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="ui\UFO.qrc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Debug\qmake\temp\props.txt" />
+    <Text Include="Debug\qmake\temp\qtvars.log" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{54B09D01-ADFC-48F4-846E-E5F241E20F08}</ProjectGuid>

@@ -155,6 +155,9 @@ private:
     CCDSetUserface* CCDSet{};
 
 private:
+    // 关闭窗口时间，可以询问是否退出
+    void closeEvent(QCloseEvent* event);
+
     // 连接振镜
     int connectSystemMark();
 

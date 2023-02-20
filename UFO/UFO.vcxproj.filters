@@ -35,6 +35,12 @@
     <QtMoc Include="include\acquisitionworker.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="include\DireButton.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="include\piRealpos.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -55,12 +61,21 @@
     <ClCompile Include="src\CCDSetUserface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\DireButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\piRealpos.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="ui\UFO.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="ui\CCDSetUserface.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\DireButton.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -100,6 +115,12 @@
     <None Include="depends\PI_GCS2_DLL.dll" />
     <None Include="depends\XmlParser_MD_VC140_v3_2_IDS.dll" />
     <None Include="ui\UFO.ui.autosave" />
+    <None Include="Debug\qmake\temp\.qmake.stash" />
+    <None Include="Debug\qmake\temp\54B09D01-ADFC-48F4-846E-E5F241E20F08.UFO.designtime.idx" />
+    <None Include="Debug\qmake\temp\moc_predefs.h.cbt" />
+    <None Include="Debug\qmake\temp\qtvars.pro" />
+    <None Include="Debug\qmake\temp\qtvars_Win32_Debug.props" />
+    <None Include="Debug\qmake\qtvars_Win32_Debug.props" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\CSCInterface.lib" />
@@ -163,5 +184,9 @@
     <QtRcc Include="ui\UFO.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Debug\qmake\temp\props.txt" />
+    <Text Include="Debug\qmake\temp\qtvars.log" />
   </ItemGroup>
 </Project>

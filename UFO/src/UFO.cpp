@@ -9,7 +9,7 @@ UFO::UFO(QWidget* parent)
     // 连接振镜
     int isConnect = connectSystemMark();
     if (!isConnect)
-        QMessageBox::critical(nullptr, "系统", "没有板卡不能标刻");
+        QMessageBox::critical(nullptr, "Mark", "没有板卡不能标刻");
 
     // 连接PI
     isConnect = connectSystemPi();
@@ -71,6 +71,19 @@ UFO::~UFO()
 
 }
 
+// 关闭窗口时间，可以询问是否退出
+void UFO::closeEvent(QCloseEvent* event)
+{
+    // 窗口关闭时询问是否退出
+    QMessageBox::StandardButton result = QMessageBox::question(this, "系统", "确定要退出本程序吗？",
+        QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel,
+        QMessageBox::Yes);
+
+    if (result == QMessageBox::Yes)
+        event->accept();
+    else
+        event->ignore();
+}
 
 // 连接振镜
 int UFO::connectSystemMark()
@@ -90,8 +103,8 @@ int UFO::connectSystemMark()
     char* filePath = const_cast<char*>(fpgaPath.c_str());
     
     // 连接板卡
-    returnValue = CSC_MARK::dynamicm::DynamicLoaderc::OpenUSB_Board(0, NULL);
-    returnValue = CSC_MARK::dynamicm::DynamicLoaderc::LoadFPGA_FirmwareProgram(filePath);
+    returnValue = OpenUSB_Board(0, NULL);
+    returnValue = LoadFPGA_FirmwareProgram(filePath);
 
     // 0 == false  其他 == true
     if (returnValue < 0)
