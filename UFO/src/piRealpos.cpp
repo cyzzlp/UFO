@@ -1,6 +1,6 @@
 #include "piRealpos.h"
 
-piRealpos::piRealpos(QObject* parent = nullptr)
+piRealpos::piRealpos(QObject* parent)
 	: QObject(parent)
 {
 

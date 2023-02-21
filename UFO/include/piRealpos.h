@@ -1,4 +1,5 @@
 #pragma once
+#pragma execution_character_set("utf-8")
 
 #include <QObject>
 #include <QThread>
@@ -9,7 +10,7 @@ class piRealpos  : public QObject
 	Q_OBJECT
 
 public:
-	piRealpos(QObject *parent = nullptr);
+	piRealpos(QObject *parent);
 	~piRealpos();
 
 private:

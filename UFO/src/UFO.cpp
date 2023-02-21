@@ -43,6 +43,9 @@ UFO::UFO(QWidget* parent)
     // 初始化界面控件
     initButton();
 
+    // 生成配置文件
+    InitSetting();
+
     // 如果设备连接失败
     if (!C_IsConnected)
         return;
@@ -533,7 +536,7 @@ void UFO::CreateStatuBar()
 void UFO::CreateAcquisitionWorkerThreadPI()
 {
     // 创建线程类
-    realpos = new piRealpos();
+    realpos = new piRealpos(nullptr);
     realpos->moveToThread(&PiThread);
 
     // 线程开始时，开始获取位置
@@ -679,6 +682,71 @@ void UFO::ResetWrongText(QString dataStatus)
     QMessageBox::critical(this, "错误", dataStatus);
 }
 
+// 生成ini文件
+void UFO::InitSetting()
+{
+    // 生成界面对应ini文件
+    
+    QString m_qstrFileName = QCoreApplication::applicationDirPath() + "/gapSetting.ini";
+    gapReadini = new QSettings("gapSetting.ini", QSettings::IniFormat);
+    correctReadini = new QSettings("correctSetting.ini", QSettings::IniFormat);
+    laserReadini = new QSettings("laserSetting.ini", QSettings::IniFormat);
+    areaReadini = new QSettings("areaSetting.ini", QSettings::IniFormat);
+    systemReadini = new QSettings("systemSetting.ini", QSettings::IniFormat);
+
+    // 设置默认值
+    gapReadini->setValue("xGap", 1);
+    gapReadini->setValue("yGap", 1);
+    gapReadini->setValue("dataType", 0);
+
+    correctReadini->setValue("fixWay", 0);
+    correctReadini->setValue("firstZero", 0);
+
+
+
+    // 保存及关闭配置文件
+    gapReadini->sync();
+    correctReadini->sync();
+    laserReadini->sync();
+    areaReadini->sync();
+    systemReadini->sync();
+    delete gapReadini;
+}
+
+// 显示数据间隔及类型设置窗口
+void UFO::on_actPreGapInput_triggered()
+{
+    // 构造当前窗口
+    gap = new dataSortgap();
+    gap->setWindowFlags(gap->windowFlags() | Qt::WindowStaysOnTopHint);
+    gap->setWindowModality(Qt::ApplicationModal);
+    gap->setFixedSize(gap->width(), gap->height());
+    gap->show();
+}
+
+// 显示数据间隔及类型设置窗口
+void UFO::on_actCorrectMethod_triggered()
+{
+
+}
+
+// 显示数据间隔及类型设置窗口
+void UFO::on_actSetLaser_triggered()
+{
+
+}
+
+// 显示数据间隔及类型设置窗口
+void UFO::on_actSetMarkArea_triggered()
+{
+
+}
+
+// 显示数据间隔及类型设置窗口
+void UFO::on_MarkParaSetting_clicked()
+{
+
+}
 
 // 程序退出
 bool UFO::hasError()

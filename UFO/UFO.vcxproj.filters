@@ -41,6 +41,27 @@
     <QtMoc Include="include\piRealpos.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="include\dataSortgap.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="include\MarkCorrType.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="include\laserSet.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="include\MarkAreaSet1.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="include\MarkAreaSet2.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="include\MarkParaSet.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="include\MarkImplement.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -67,6 +88,27 @@
     <ClCompile Include="src\piRealpos.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\dataSortgap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MarkCorrType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\laserSet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MarkAreaSet1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MarkAreaSet2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MarkParaSet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MarkImplement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="ui\UFO.ui">
@@ -76,6 +118,27 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="ui\DireButton.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\dataSortgap.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\MarkCorrType.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\laserSet.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\MarkAreaSet1.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\MarkAreaSet2.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\MarkParaSet.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\MarkImplement.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

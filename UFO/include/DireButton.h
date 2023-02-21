@@ -12,5 +12,5 @@ public:
 	~DireButton();
 
 private:
-	Ui::DireButtonClass ui;
+	Ui::DireButton ui;
 };

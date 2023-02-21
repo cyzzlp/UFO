@@ -10,6 +10,7 @@
 #include <QHBoxLayout>
 #include <QThread>
 #include <QtDataVisualization>
+#include <QSettings>
 #include "PI_GCS2_DLL_dynamicp_loader.h"
 #include "CSCInterface_dynamicm_loader.h"
 #include "ids_peak_comfort_c.h"
@@ -18,6 +19,7 @@
 #include "backend.h"
 #include "display.h"
 #include "piRealpos.h"
+#include "dataSortgap.h"
 #include "ui_UFO.h"
 
 using namespace QtDataVisualization;
@@ -106,7 +108,6 @@ private:
     // 实现绘图
     QScatterDataItem* ptrToDataArray = nullptr;
 
-
 private:
     // 实现数据读取等待提示
     QTimer* DATA_TIMER{};
@@ -168,9 +169,30 @@ private:
     // PI实时位置线程
     QThread MarkThread;
 
+    // 预设间隔窗口
+    dataSortgap* gap{};
+
+    // 预设间隔ini文件
+    QSettings* gapReadini{};
+
+    // 校正放法ini文件
+    QSettings* correctReadini{};
+
+    // 激光器ini文件
+    QSettings* laserReadini{};
+
+    // 标刻区域ini文件
+    QSettings* areaReadini{};
+
+    // 系统参数ini文件
+    QSettings* systemReadini{};
+
 private:
     // 关闭窗口时间，可以询问是否退出
     void closeEvent(QCloseEvent* event);
+
+    // 生成ini文件
+    void InitSetting();
 
     // 连接振镜
     int connectSystemMark();
@@ -259,6 +281,22 @@ private slots:
 
     // 更新线程错误信息
     void ResetWrongText(QString dataStatus);
+
+    // 显示数据间隔及类型设置窗口
+    void on_actPreGapInput_triggered();
+
+    // 执行显示校正方法设置界面
+    void on_actCorrectMethod_triggered();
+
+    // 执行显示激光设置界面
+    void on_actSetLaser_triggered();
+
+    // 执行显示标刻区域设置界面
+    void on_actSetMarkArea_triggered();
+
+    // 执行系统参数设置
+    void on_MarkParaSetting_clicked();
+    
 
 signals:
     // 发送错误信号提示
