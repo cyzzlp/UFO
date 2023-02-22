@@ -16,5 +16,7 @@
         <file>icons/edit.png</file>
         <file>icons/setting.png</file>
         <file>icons/ufo.png</file>
+        <file>icons/refresh.png</file>
+        <file>icons/windows.png</file>
     </qresource>
 </RCC>

@@ -173,6 +173,7 @@
    <addaction name="acDataVisual"/>
    <addaction name="actYoursData"/>
    <addaction name="separator"/>
+   <addaction name="actSystemInfo"/>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -180,7 +181,7 @@
      <x>0</x>
      <y>0</y>
      <width>1923</width>
-     <height>22</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -209,10 +210,11 @@
     <addaction name="actSetLaser"/>
     <addaction name="actSetMarkArea"/>
     <addaction name="actSetSystemPara"/>
+    <addaction name="actDefaultPara"/>
    </widget>
    <widget class="QMenu" name="menu_4">
     <property name="title">
-     <string>数据操作</string>
+     <string>操作</string>
     </property>
     <widget class="QMenu" name="menu_6">
      <property name="title">
@@ -223,6 +225,7 @@
     </widget>
     <addaction name="menu_6"/>
     <addaction name="acDataVisual"/>
+    <addaction name="actSystemInfo"/>
    </widget>
    <widget class="QMenu" name="menu_5">
     <property name="title">
@@ -454,6 +457,30 @@
    </property>
    <property name="toolTip">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;标刻暂停&lt;/p&gt;&lt;p&gt;系统暂停当前标刻&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
+  <action name="actDefaultPara">
+   <property name="icon">
+    <iconset resource="UFO.qrc">
+     <normaloff>:/new/icons/icons/refresh.png</normaloff>:/new/icons/icons/refresh.png</iconset>
+   </property>
+   <property name="text">
+    <string>默认参数设置</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;默认参数设置&lt;/p&gt;&lt;p&gt;系统恢复值默认参数&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
+  <action name="actSystemInfo">
+   <property name="icon">
+    <iconset resource="UFO.qrc">
+     <normaloff>:/new/icons/icons/windows.png</normaloff>:/new/icons/icons/windows.png</iconset>
+   </property>
+   <property name="text">
+    <string>系统信息</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;系统信息&lt;/p&gt;&lt;p&gt;显示各项数据及参数具体情况&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
  </widget>

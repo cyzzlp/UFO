@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SystemInfo</class>
+ <widget class="QDialog" name="SystemInfo">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>478</width>
+    <height>309</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>SystemInfo</string>
+  </property>
+  <widget class="QTableWidget" name="systemTabelInfo">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>421</width>
+     <height>271</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="alternatingRowColors">
+    <bool>false</bool>
+   </property>
+   <property name="rowCount">
+    <number>6</number>
+   </property>
+   <property name="columnCount">
+    <number>3</number>
+   </property>
+   <attribute name="horizontalHeaderDefaultSectionSize">
+    <number>100</number>
+   </attribute>
+   <row/>
+   <row/>
+   <row/>
+   <row/>
+   <row/>
+   <row/>
+   <column>
+    <property name="text">
+     <string>列1</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>列2</string>
+    </property>
+   </column>
+   <column/>
+   <item row="0" column="0">
+    <property name="text">
+     <string>0行，0列</string>
+    </property>
+   </item>
+   <item row="0" column="1">
+    <property name="text">
+     <string>0行，1列</string>
+    </property>
+   </item>
+   <item row="1" column="0">
+    <property name="text">
+     <string>1行，0列</string>
+    </property>
+   </item>
+   <item row="2" column="0">
+    <property name="text">
+     <string>2行，0列</string>
+    </property>
+   </item>
+   <item row="5" column="0">
+    <property name="text">
+     <string>5行，0列</string>
+    </property>
+   </item>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>

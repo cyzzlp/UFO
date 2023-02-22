@@ -6,9 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>243</width>
-    <height>196</height>
+    <width>330</width>
+    <height>209</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>330</width>
+    <height>209</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>330</width>
+    <height>209</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>MarkCorrType</string>
@@ -29,9 +41,9 @@ QGroupBox::title {
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>20</y>
-     <width>215</width>
-     <height>47</height>
+     <y>10</y>
+     <width>291</width>
+     <height>61</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -93,8 +105,8 @@ QGroupBox::title {
   <widget class="QPushButton" name="getCorrWay">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>160</y>
+     <x>80</x>
+     <y>170</y>
      <width>70</width>
      <height>26</height>
     </rect>
@@ -106,8 +118,8 @@ QGroupBox::title {
   <widget class="QPushButton" name="cancelCorrWay">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>160</y>
+     <x>170</x>
+     <y>170</y>
      <width>70</width>
      <height>26</height>
     </rect>
@@ -120,9 +132,9 @@ QGroupBox::title {
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>90</y>
-     <width>211</width>
-     <height>51</height>
+     <y>100</y>
+     <width>291</width>
+     <height>61</height>
     </rect>
    </property>
    <property name="font">

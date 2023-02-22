@@ -6,9 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>431</width>
-    <height>356</height>
+    <width>558</width>
+    <height>412</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>558</width>
+    <height>412</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>558</width>
+    <height>412</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>laserSet</string>
@@ -30,9 +42,9 @@ QGroupBox::title {
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>70</y>
-     <width>401</width>
-     <height>111</height>
+     <y>80</y>
+     <width>531</width>
+     <height>131</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -79,8 +91,8 @@ standby、frequency和pulsewidth只有在FIBER-I模式下可设置</string>
     <rect>
      <x>11</x>
      <y>11</y>
-     <width>401</width>
-     <height>51</height>
+     <width>531</width>
+     <height>61</height>
     </rect>
    </property>
    <property name="font">
@@ -149,9 +161,9 @@ standby、frequency和pulsewidth只有在FIBER-I模式下可设置</string>
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>190</y>
-     <width>401</width>
-     <height>111</height>
+     <y>220</y>
+     <width>531</width>
+     <height>131</height>
     </rect>
    </property>
    <property name="font">
@@ -360,8 +372,8 @@ standby、frequency和pulsewidth只有在FIBER-I模式下可设置</string>
   <widget class="QPushButton" name="GetLaserSetting">
    <property name="geometry">
     <rect>
-     <x>100</x>
-     <y>320</y>
+     <x>170</x>
+     <y>370</y>
      <width>85</width>
      <height>30</height>
     </rect>
@@ -384,8 +396,8 @@ standby、frequency和pulsewidth只有在FIBER-I模式下可设置</string>
   <widget class="QPushButton" name="CancelLaserSetting">
    <property name="geometry">
     <rect>
-     <x>240</x>
-     <y>320</y>
+     <x>290</x>
+     <y>370</y>
      <width>85</width>
      <height>30</height>
     </rect>

@@ -14,6 +14,8 @@
     <QtMoc Include="include\UFO.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\MarkData.cpp" />
+    <ClCompile Include="src\DataSortThread.cpp" />
     <ClCompile Include="src\MarkParaSet.cpp" />
     <ClCompile Include="src\MarkAreaSet2.cpp" />
     <ClCompile Include="src\MarkAreaSet1.cpp" />
@@ -29,6 +31,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\UFO.cpp" />
     <ClCompile Include="src\MarkImplement.cpp" />
+    <ClCompile Include="src\SystemInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="ui\MarkImplement.ui" />
@@ -40,9 +43,12 @@
     <QtUic Include="ui\dataSortgap.ui" />
     <QtUic Include="ui\DireButton.ui" />
     <QtUic Include="ui\CCDSetUserface.ui" />
+    <QtUic Include="ui\SystemInfo.ui" />
     <QtUic Include="ui\UFO.ui" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="include\DataSortThread.h" />
+    <QtMoc Include="include\SystemInfo.h" />
     <QtMoc Include="include\MarkImplement.h" />
     <QtMoc Include="include\dataSortgap.h" />
     <QtMoc Include="include\piRealpos.h" />
@@ -60,6 +66,7 @@
     <QtMoc Include="include\MarkAreaSet1.h" />
     <QtMoc Include="include\MarkAreaSet2.h" />
     <QtMoc Include="include\MarkParaSet.h" />
+    <QtMoc Include="include\MarkData.h" />
     <ClInclude Include="include\PI_GCS2_DLL_dynamicp_loader.h" />
     <ClInclude Include="include\PI_GCS2_DLL.h" />
   </ItemGroup>

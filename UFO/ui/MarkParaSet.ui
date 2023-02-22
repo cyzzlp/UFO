@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>255</width>
-    <height>590</height>
+    <width>278</width>
+    <height>574</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,9 +18,21 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>251</width>
+     <width>271</width>
      <height>521</height>
     </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>271</width>
+     <height>521</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>271</width>
+     <height>521</height>
+    </size>
    </property>
    <property name="styleSheet">
     <string notr="true">QGroupBox {
@@ -267,7 +279,7 @@
       </property>
       <property name="minimumSize">
        <size>
-        <width>25</width>
+        <width>30</width>
         <height>0</height>
        </size>
       </property>
@@ -660,7 +672,7 @@
       </property>
       <property name="minimumSize">
        <size>
-        <width>25</width>
+        <width>30</width>
         <height>0</height>
        </size>
       </property>
@@ -817,7 +829,7 @@
       </property>
       <property name="minimumSize">
        <size>
-        <width>25</width>
+        <width>30</width>
         <height>0</height>
        </size>
       </property>
@@ -1001,8 +1013,8 @@
   <widget class="QPushButton" name="GetMarkParaSetting">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>540</y>
+     <x>40</x>
+     <y>530</y>
      <width>85</width>
      <height>30</height>
     </rect>
@@ -1032,8 +1044,8 @@
   <widget class="QPushButton" name="CancelMarkParaSetting">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>540</y>
+     <x>150</x>
+     <y>530</y>
      <width>85</width>
      <height>30</height>
     </rect>

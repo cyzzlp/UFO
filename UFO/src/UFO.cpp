@@ -685,71 +685,269 @@ void UFO::ResetWrongText(QString dataStatus)
 // 生成ini文件
 void UFO::InitSetting()
 {
-    // 生成界面对应ini文件
-    
-    QString m_qstrFileName = QCoreApplication::applicationDirPath() + "/gapSetting.ini";
-    gapReadini = new QSettings("gapSetting.ini", QSettings::IniFormat);
-    correctReadini = new QSettings("correctSetting.ini", QSettings::IniFormat);
-    laserReadini = new QSettings("laserSetting.ini", QSettings::IniFormat);
-    areaReadini = new QSettings("areaSetting.ini", QSettings::IniFormat);
-    systemReadini = new QSettings("systemSetting.ini", QSettings::IniFormat);
+    // 读取当前程序可执行程序绝对路径
+    m_FileName = QCoreApplication::applicationDirPath();
+
+    // 文件绝对路径
+    QString m_FileName1 = m_FileName + "/gapSetting.ini";
+    QString m_FileName2 = m_FileName + "/correctWayRead.ini";
+    QString m_FileName3 = m_FileName + "/correctSetting.ini";
+    QString m_FileName4 = m_FileName + "/laserSetting.ini";
+    QString m_FileName5 = m_FileName + "/systemSetting.ini";
+    QString m_FileName6 = m_FileName + "/systemInfo.ini";
+    gapReadini = new QSettings(m_FileName1, QSettings::IniFormat);
+    correctWayReadini = new QSettings(m_FileName2, QSettings::IniFormat);
+    correctReadini = new QSettings(m_FileName3, QSettings::IniFormat);
+    laserReadini = new QSettings(m_FileName4, QSettings::IniFormat);
+    systemReadini = new QSettings(m_FileName5, QSettings::IniFormat);
+    systemInfoini = new QSettings(m_FileName6, QSettings::IniFormat);
 
     // 设置默认值
     gapReadini->setValue("xGap", 1);
     gapReadini->setValue("yGap", 1);
-    gapReadini->setValue("dataType", 0);
+    gapReadini->setValue("dataType", false);
 
-    correctReadini->setValue("fixWay", 0);
-    correctReadini->setValue("firstZero", 0);
+    correctWayReadini->setValue("fixWay", false);
+    correctWayReadini->setValue("firstZero", false);
 
+    correctReadini->setValue("xRange", 110);
+    correctReadini->setValue("yRange", 110);
+    correctReadini->setValue("ExchangeXY", false);
+    correctReadini->setValue("InvertX", false);
+    correctReadini->setValue("InvertY", false);
+    correctReadini->setValue("XCorrection", 1);
+    correctReadini->setValue("YCorrection", 1);
+    correctReadini->setValue("ZCorrection", 1);
+    correctReadini->setValue("CorrectionShowPath", "please choose a file Path!");
+    correctReadini->setValue("Xcorrections", 0);
+    correctReadini->setValue("Ycorrections", 0);
+    correctReadini->setValue("Xshear", 0);
+    correctReadini->setValue("Yshear", 0);
+    correctReadini->setValue("Xladder", 0);
+    correctReadini->setValue("Yladder", 0);
+    correctReadini->setValue("Startmarkmode", true);
+    correctReadini->setValue("CorrectFile", 110);
 
+    laserReadini->setValue("LaserType", 1);
+    laserReadini->setValue("Standby", 0);
+    laserReadini->setValue("StandbyFrequency", 20);
+    laserReadini->setValue("StandbyPulseWidth", 10);
+
+    systemReadini->setValue("markCounts", 1);
+    systemReadini->setValue("markSpeed", 10);
+    systemReadini->setValue("jumpSpeed", 3000);
+    systemReadini->setValue("jumpDelay", 200);
+    systemReadini->setValue("laserOnDelay", 100);
+    systemReadini->setValue("laserOffDelay", 200);
+    systemReadini->setValue("polygonDelay", 50);
+    systemReadini->setValue("current", 50);
+    systemReadini->setValue("laserFrequency", 10);
+    systemReadini->setValue("pulseWidth", 8);
+    systemReadini->setValue("firstPulseWidth", 10);
+    systemReadini->setValue("polygonKillerTime", 25);
+    systemReadini->setValue("firstPulseKillerLength", 100);
+    systemReadini->setValue("incrementStep", 10);
+    systemReadini->setValue("dotSpace", 0.1);
+    systemReadini->setValue("isBitmap", false);
+
+    systemInfoini->setValue("设备连接情况","Item");
+    systemInfoini->setValue("振镜", M_IsConnected);
+    systemInfoini->setValue("PI", P_IsConnected);
+    systemInfoini->setValue("相机", C_IsConnected);
+    systemInfoini->setValue("快门", S_IsConnected);
+    systemInfoini->setValue("标刻文本信息", "Item");
+    systemInfoini->setValue("文本路径", aFileName);
+    systemInfoini->setValue("数据量（行）", DataCounts);
+
+    // 获取数据类型
+    DataType = gapReadini->value("dataType").toBool();
+
+    if (!DataType)
+    {
+        systemInfoini->setValue("数据类型", "XYZ");
+    }
+
+    if (DataType)
+    {
+        systemInfoini->setValue("数据类型", "XY");
+    }
+
+    systemInfoini->setValue("线程信息", "Item");
 
     // 保存及关闭配置文件
     gapReadini->sync();
+    correctWayReadini->sync();
     correctReadini->sync();
     laserReadini->sync();
-    areaReadini->sync();
     systemReadini->sync();
+    systemInfoini->sync();
+
+    // 删除句柄
     delete gapReadini;
+    delete correctWayReadini;
+    delete correctReadini;
+    delete laserReadini;
+    delete systemReadini;
 }
 
 // 显示数据间隔及类型设置窗口
 void UFO::on_actPreGapInput_triggered()
 {
     // 构造当前窗口
-    gap = new dataSortgap();
-    gap->setWindowFlags(gap->windowFlags() | Qt::WindowStaysOnTopHint);
-    gap->setWindowModality(Qt::ApplicationModal);
+    gap = new dataSortgap(this);
     gap->setFixedSize(gap->width(), gap->height());
+    gap->setWindowModality(Qt::ApplicationModal);
     gap->show();
 }
 
-// 显示数据间隔及类型设置窗口
+// 校正方法设置窗口
 void UFO::on_actCorrectMethod_triggered()
 {
-
+    // 构造当前窗口
+    corrWay = new MarkCorrType(this);
+    corrWay->setWindowModality(Qt::ApplicationModal);
+    corrWay->setFixedSize(corrWay->width(), corrWay->height());
+    corrWay->show();
 }
 
-// 显示数据间隔及类型设置窗口
+// 激光器窗口
 void UFO::on_actSetLaser_triggered()
 {
-
+    // 构造当前窗口
+    laserset = new laserSet(this);
+    laserset->setWindowModality(Qt::ApplicationModal);
+    laserset->setFixedSize(laserset->width(), laserset->height());
+    laserset->show();
 }
 
-// 显示数据间隔及类型设置窗口
+// 校正方法设置窗口
 void UFO::on_actSetMarkArea_triggered()
 {
+    // 读取文件
+    QString m_FileName2 = m_FileName + "/correctWayRead.ini";
+    correctWayReadini = new QSettings(m_FileName2, QSettings::IniFormat);
 
+    // 读取设置参数
+    bool correctWay = correctWayReadini->value("fixWay").toBool();
+    if (!correctWay)
+    {
+        markSet2 = new MarkAreaSet2(this);
+        markSet2->setWindowModality(Qt::ApplicationModal);
+        markSet2->setFixedSize(markSet2->width(), markSet2->height());
+        markSet2->show();
+    }
+    else
+    {
+        markSet1 = new MarkAreaSet1(this);
+        markSet1->setWindowModality(Qt::ApplicationModal);
+        markSet1->setFixedSize(markSet1->width(), markSet1->height());
+        markSet1->show();
+    }
 }
 
-// 显示数据间隔及类型设置窗口
-void UFO::on_MarkParaSetting_clicked()
+// 标刻参数窗口
+void UFO::on_actSetSystemPara_triggered()
 {
-
+    // 构造当前窗口
+    paraSet = new MarkParaSet(this);
+    paraSet->setWindowModality(Qt::ApplicationModal);
+    paraSet->setFixedSize(paraSet->width(), paraSet->height());
+    paraSet->show();
 }
 
-// 程序退出
+// 恢复系统默认参数设置
+void UFO::on_actDefaultPara_triggered()
+{
+    // 恢复系统参数设置
+    InitSetting();
+}
+
+// 读取标刻文件
+void UFO::on_actOpenFile_triggered()
+{
+    // 获取加工文本路径
+    QString str_Filepath = QDir::currentPath();
+
+    // 对话框标题
+    QString dlgTitle = "文件";
+
+    //文件过滤器
+    QString filter = "文本文件(*.txt);;图片文件(*.jpg *.gif *.png);;所有文件(*.*)"; 
+    aFileName = QFileDialog::getOpenFileName(this, dlgTitle, str_Filepath, filter);
+
+    // 关闭定时器
+    stopAnimation1();
+
+    // 作为判断线程启动的标志
+    if (!aFileName.isEmpty())
+    {
+        systemInfoini->setValue("文本路径", aFileName);
+
+        // 设置文件预设间隔
+        gap = new dataSortgap(this);
+        gap->setWindowModality(Qt::ApplicationModal);
+        gap->setFixedSize(gap->width(), gap->height());
+        gap->show();
+
+        // 创建数据读取线程
+        dataRead = new DataSortThread(this);
+
+        // 更新数据读取状态
+        connect(dataRead, &DataSortThread::setTextToLabel, this, &UFO::ResetText);
+
+        // 更新线程错误信息
+        connect(dataRead, &DataSortThread::DelieveWrongInfo, this, &UFO::ResetWrongText);
+
+        // 显示标刻数据量
+        connect(dataRead, &DataSortThread::MarkDataNum, this, &UFO::ResetDataText);
+
+        // 启动线程
+        connect(gap, &dataSortgap::isPushed, this, [=]()
+            {
+                // 执行读取
+                dataRead->start();
+            });
+    }
+}
+
+// 更新数据读取状态
+void UFO::ResetText(QString dataStatus)
+{
+    DataReadState->setText("读取状态：" + dataStatus);
+
+    if (dataStatus == "完成")
+    {
+        dataRead->quit();
+        dataRead->wait();
+        delete dataRead;
+    }
+}
+
+// 更新数据量状态
+void UFO::ResetDataText(int dataNum)
+{
+    QString Num = QString::number(dataNum);
+    MarkDataNum->setText("标刻数据总量：" + Num);
+}
+
+// 系统信息显示
+void UFO::on_actSystemInfo_triggered()
+{
+    // 构造当前窗口
+    sysInfo = new SystemInfo(this);
+    sysInfo->setWindowModality(Qt::ApplicationModal);
+    sysInfo->setFixedSize(sysInfo->width(), sysInfo->height());
+    sysInfo->show();
+}
+
+// 错误存在，程序退出
 bool UFO::hasError()
 {
     return m_hasError;
+}
+
+// 退出程序
+void UFO::on_actQuit_triggered()
+{
+    this->close();
 }

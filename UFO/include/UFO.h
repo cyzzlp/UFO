@@ -5,8 +5,10 @@
 
 #include <QtWidgets/QMainWindow>
 #include <QMessageBox>
+#include <QFileDialog>
 #include <QTimer>
 #include <QLabel>
+#include <QString>
 #include <QHBoxLayout>
 #include <QThread>
 #include <QtDataVisualization>
@@ -20,6 +22,13 @@
 #include "display.h"
 #include "piRealpos.h"
 #include "dataSortgap.h"
+#include "MarkCorrType.h"
+#include "MarkAreaSet1.h"
+#include "MarkAreaSet2.h"
+#include "MarkParaSet.h"
+#include "laserSet.h"
+#include "SystemInfo.h"
+#include "DataSortThread.h"
 #include "ui_UFO.h"
 
 using namespace QtDataVisualization;
@@ -37,6 +46,15 @@ public:
     bool hasError();
 
 private:
+    // 标刻文件地址
+    QString aFileName{};
+
+    // 标刻文本数据量
+    int DataCounts{};
+
+    // 标刻文本数据类型
+    bool DataType{};
+
     // 振镜连接状态
     bool M_IsConnected{};
 
@@ -108,6 +126,9 @@ private:
     // 实现绘图
     QScatterDataItem* ptrToDataArray = nullptr;
 
+    // ini文件路径
+    QString m_FileName{};
+
 private:
     // 实现数据读取等待提示
     QTimer* DATA_TIMER{};
@@ -172,20 +193,44 @@ private:
     // 预设间隔窗口
     dataSortgap* gap{};
 
+    // 校正方法窗口
+    MarkCorrType* corrWay{};
+
+    // 校正1窗口
+    MarkAreaSet1* markSet1{};
+
+    // 校正2窗口
+    MarkAreaSet2* markSet2{};
+
+    // 激光器窗口
+    laserSet* laserset{};
+
+    // 标刻参数窗口
+    MarkParaSet* paraSet{};
+
     // 预设间隔ini文件
     QSettings* gapReadini{};
 
-    // 校正放法ini文件
+    // 校正方法ini文件
+    QSettings* correctWayReadini{};
+    
+    // 校正设置ini文件
     QSettings* correctReadini{};
 
     // 激光器ini文件
     QSettings* laserReadini{};
 
-    // 标刻区域ini文件
-    QSettings* areaReadini{};
-
     // 系统参数ini文件
     QSettings* systemReadini{};
+
+    // 系统信息ini文件
+    QSettings* systemInfoini{};
+
+    // 系统信息显示
+    SystemInfo* sysInfo{};
+
+    // 数据读取线程
+    DataSortThread* dataRead;
 
 private:
     // 关闭窗口时间，可以询问是否退出
@@ -295,9 +340,26 @@ private slots:
     void on_actSetMarkArea_triggered();
 
     // 执行系统参数设置
-    void on_MarkParaSetting_clicked();
-    
+    void on_actSetSystemPara_triggered();
 
+    // 恢复系统默认参数设置
+    void on_actDefaultPara_triggered();
+
+    // 读取标刻文件
+    void on_actOpenFile_triggered();
+
+    // 退出程序
+    void on_actQuit_triggered();
+
+    // 系统信息显示
+    void on_actSystemInfo_triggered();
+
+    // 更新数据读取状态
+    void ResetText(QString dataStatus);
+
+    // 更新数据量状态
+    void ResetDataText(int dataNum);
+    
 signals:
     // 发送错误信号提示
     void libraryError(QString message, int status);

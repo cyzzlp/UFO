@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>494</width>
-    <height>528</height>
+    <width>533</width>
+    <height>584</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -15,6 +15,18 @@
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>533</width>
+    <height>584</height>
+   </size>
+  </property>
+  <property name="sizeIncrement">
+   <size>
+    <width>533</width>
+    <height>584</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>MarkAreaSet2</string>
@@ -35,9 +47,9 @@ QGroupBox::title {
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>98</y>
-     <width>471</width>
-     <height>46</height>
+     <y>100</y>
+     <width>511</width>
+     <height>61</height>
     </rect>
    </property>
    <property name="font">
@@ -50,7 +62,7 @@ QGroupBox::title {
    </property>
    <layout class="QGridLayout" name="gridLayout_2">
     <item row="0" column="0">
-     <widget class="QCheckBox" name="exchangeXY_2">
+     <widget class="QCheckBox" name="exchangeXY">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -68,7 +80,7 @@ QGroupBox::title {
      </widget>
     </item>
     <item row="0" column="1">
-     <widget class="QCheckBox" name="invertX_2">
+     <widget class="QCheckBox" name="invertX">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -86,7 +98,7 @@ QGroupBox::title {
      </widget>
     </item>
     <item row="0" column="2">
-     <widget class="QCheckBox" name="invertY_2">
+     <widget class="QCheckBox" name="invertY">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -110,8 +122,8 @@ QGroupBox::title {
     <rect>
      <x>10</x>
      <y>178</y>
-     <width>468</width>
-     <height>77</height>
+     <width>511</width>
+     <height>101</height>
     </rect>
    </property>
    <property name="font">
@@ -142,7 +154,7 @@ QGroupBox::title {
      </widget>
     </item>
     <item row="0" column="1">
-     <widget class="QDoubleSpinBox" name="xCorrectionSpBox_2">
+     <widget class="QDoubleSpinBox" name="xCorrectionSpBox">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -166,7 +178,7 @@ QGroupBox::title {
      </widget>
     </item>
     <item row="0" column="2">
-     <widget class="QPushButton" name="clxpBtn_2">
+     <widget class="QPushButton" name="clxpBtn">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -202,7 +214,7 @@ QGroupBox::title {
      </widget>
     </item>
     <item row="0" column="4">
-     <widget class="QDoubleSpinBox" name="yCorrectionSpBox_2">
+     <widget class="QDoubleSpinBox" name="yCorrectionSpBox">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -226,7 +238,7 @@ QGroupBox::title {
      </widget>
     </item>
     <item row="0" column="5">
-     <widget class="QPushButton" name="clypBtn_2">
+     <widget class="QPushButton" name="clypBtn">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -262,7 +274,7 @@ QGroupBox::title {
      </widget>
     </item>
     <item row="1" column="1">
-     <widget class="QDoubleSpinBox" name="zCorrectionSpBox_2">
+     <widget class="QDoubleSpinBox" name="zCorrectionSpBox">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -291,9 +303,9 @@ QGroupBox::title {
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>408</y>
-     <width>471</width>
-     <height>68</height>
+     <y>430</y>
+     <width>511</width>
+     <height>81</height>
     </rect>
    </property>
    <property name="font">
@@ -324,7 +336,7 @@ QGroupBox::title {
      </widget>
     </item>
     <item row="1" column="0">
-     <widget class="QRadioButton" name="startmarkmode_2">
+     <widget class="QRadioButton" name="startmarkmode">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -342,7 +354,7 @@ QGroupBox::title {
      </widget>
     </item>
     <item row="1" column="1">
-     <widget class="QComboBox" name="correctFile_2">
+     <widget class="QComboBox" name="correctFile">
       <property name="enabled">
        <bool>true</bool>
       </property>
@@ -402,9 +414,9 @@ QGroupBox::title {
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>278</y>
-     <width>471</width>
-     <height>121</height>
+     <y>290</y>
+     <width>511</width>
+     <height>131</height>
     </rect>
    </property>
    <property name="font">
@@ -435,7 +447,7 @@ QGroupBox::title {
      </widget>
     </item>
     <item row="0" column="1">
-     <widget class="QDoubleSpinBox" name="xcorrections_2">
+     <widget class="QDoubleSpinBox" name="xcorrections">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -480,7 +492,7 @@ QGroupBox::title {
      </widget>
     </item>
     <item row="0" column="3">
-     <widget class="QDoubleSpinBox" name="ycorrections_2">
+     <widget class="QDoubleSpinBox" name="ycorrections">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -525,7 +537,7 @@ QGroupBox::title {
      </widget>
     </item>
     <item row="1" column="1">
-     <widget class="QDoubleSpinBox" name="xshear_2">
+     <widget class="QDoubleSpinBox" name="xshear">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -570,7 +582,7 @@ QGroupBox::title {
      </widget>
     </item>
     <item row="1" column="3">
-     <widget class="QDoubleSpinBox" name="yshear_2">
+     <widget class="QDoubleSpinBox" name="yshear">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -615,7 +627,7 @@ QGroupBox::title {
      </widget>
     </item>
     <item row="2" column="1">
-     <widget class="QDoubleSpinBox" name="xladder_2">
+     <widget class="QDoubleSpinBox" name="xladder">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -660,7 +672,7 @@ QGroupBox::title {
      </widget>
     </item>
     <item row="2" column="3">
-     <widget class="QDoubleSpinBox" name="yladder_2">
+     <widget class="QDoubleSpinBox" name="yladder">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -693,8 +705,8 @@ QGroupBox::title {
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>471</width>
-     <height>71</height>
+     <width>511</width>
+     <height>81</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -731,7 +743,7 @@ QGroupBox::title {
      </widget>
     </item>
     <item row="0" column="1">
-     <widget class="QDoubleSpinBox" name="xrange_2">
+     <widget class="QDoubleSpinBox" name="xrange">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -740,13 +752,13 @@ QGroupBox::title {
       </property>
       <property name="minimumSize">
        <size>
-        <width>70</width>
+        <width>85</width>
         <height>20</height>
        </size>
       </property>
       <property name="maximumSize">
        <size>
-        <width>70</width>
+        <width>85</width>
         <height>20</height>
        </size>
       </property>
@@ -759,7 +771,7 @@ QGroupBox::title {
        <enum>QAbstractSpinBox::NoButtons</enum>
       </property>
       <property name="suffix">
-       <string>   mm</string>
+       <string> mm</string>
       </property>
       <property name="maximum">
        <double>1000.000000000000000</double>
@@ -788,7 +800,7 @@ QGroupBox::title {
      </widget>
     </item>
     <item row="0" column="3">
-     <widget class="QDoubleSpinBox" name="yrange_2">
+     <widget class="QDoubleSpinBox" name="yrange">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -797,13 +809,13 @@ QGroupBox::title {
       </property>
       <property name="minimumSize">
        <size>
-        <width>70</width>
+        <width>85</width>
         <height>20</height>
        </size>
       </property>
       <property name="maximumSize">
        <size>
-        <width>70</width>
+        <width>85</width>
         <height>20</height>
        </size>
       </property>
@@ -816,7 +828,7 @@ QGroupBox::title {
        <enum>QAbstractSpinBox::NoButtons</enum>
       </property>
       <property name="suffix">
-       <string>   mm</string>
+       <string> mm</string>
       </property>
       <property name="maximum">
        <double>1000.000000000000000</double>
@@ -828,11 +840,11 @@ QGroupBox::title {
     </item>
    </layout>
   </widget>
-  <widget class="QPushButton" name="GetMarkAreaSetting1_2">
+  <widget class="QPushButton" name="GetMarkAreaSetting2">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>490</y>
+     <x>160</x>
+     <y>540</y>
      <width>85</width>
      <height>30</height>
     </rect>
@@ -846,11 +858,11 @@ QGroupBox::title {
     <string>确定</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="CancelMarkAreaSetting1_2">
+  <widget class="QPushButton" name="CancelMarkAreaSetting2">
    <property name="geometry">
     <rect>
-     <x>270</x>
-     <y>490</y>
+     <x>280</x>
+     <y>540</y>
      <width>85</width>
      <height>30</height>
     </rect>
