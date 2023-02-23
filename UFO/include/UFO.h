@@ -15,6 +15,7 @@
 #include <QSettings>
 #include "PI_GCS2_DLL_dynamicp_loader.h"
 #include "CSCInterface_dynamicm_loader.h"
+#include "CH375DLL_dynamics_loader.h"
 #include "ids_peak_comfort_c.h"
 #include "acquisitionworker.h"
 #include "CCDSetUserface.h"
@@ -32,6 +33,7 @@
 #include "DataVisual.h"
 #include "MarkData.h"
 #include "piControl.h"
+#include "shutterControl.h"
 #include "ui_UFO.h"
 
 using namespace QtDataVisualization;
@@ -114,6 +116,9 @@ private:
 
     // CCD采集开始
     bool m_acquisitionRunning{};
+
+    // 快门句柄
+    ULONG index{};
 
     // 记录错误
     bool m_hasError{};
@@ -247,6 +252,9 @@ private:
     // PI控制界面
     piControl* piSet{};
 
+    // 快门控制
+    shutterControl* shutter{};
+
 private:
     // 关闭窗口时间，可以询问是否退出
     void closeEvent(QCloseEvent* event);
@@ -259,6 +267,9 @@ private:
 
     // 连接PI
     bool connectSystemPi();
+
+    // 连接快门
+    int connectSystemShutter();
 
     // 反馈PI连接信息
     void feedBackDevice();
@@ -375,6 +386,9 @@ private slots:
     // 显示PI设置界面
     void on_actConnectPI_triggered();
 
+    // 显示快门设置界面
+    void on_actConnectShutter_triggered();
+    
     // 更新数据读取状态
     void ResetText(QString dataStatus);
 

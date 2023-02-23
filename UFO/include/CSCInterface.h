@@ -8,15 +8,15 @@
 #undef CSC_FUNC_DECL
 #ifdef CSC_DLL_EXPORTS
 #ifndef UNKNOWN_GCS_DLL
+#define CSC_FUNC_DECL __declspec(dllexport) WINAPI
+#else
 #define CSC_FUNC_DECL WINAPI
-#else
-#define PI_FUNC_DECL WINAPI
 #endif
 #else
-#define PI_FUNC_DECL __declspec(dllimport) WINAPI
+#define CSC_FUNC_DECL __declspec(dllimport) WINAPI
 #endif
 #else
-#define PI_FUNC_DECL
+#define CSC_FUNC_DECL
 #endif
 
 #define IN

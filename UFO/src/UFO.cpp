@@ -16,6 +16,11 @@ UFO::UFO(QWidget* parent)
     if (!isConnect)
         QMessageBox::critical(nullptr, "PI", szErrorMesage);
 
+    // 连接快门
+     isConnect = connectSystemShutter();
+     if (!isConnect)
+         QMessageBox::critical(nullptr, "Shutter", "CH375快门连接失败");
+       
     // 记录连接信息
     feedBackDevice();
 
@@ -209,6 +214,30 @@ bool UFO::connectSystemPi()
     }
 
     return true;
+}
+
+// 连接快门
+int UFO::connectSystemShutter()
+{
+    unsigned long ioLength = 1;
+    unsigned long* p_ioLength = &ioLength;
+    int a = 0x0a;
+
+    // 连接快门
+    HANDLE Shutter = CH375OpenDevice(index);
+    if (Shutter == INVALID_HANDLE_VALUE)
+    {
+        S_IsConnected = true;
+    }
+
+    // 设置延时
+    CH375SetTimeout(index, 2000, 2000);
+
+    // 向快门写入数据
+    int iBuffer = a & 0x0a;
+    CH375WriteData(index, &iBuffer, p_ioLength);
+
+    return 1;
 }
 
 // 实现动画效果
@@ -685,6 +714,9 @@ void UFO::ResetWrongText(QString dataStatus)
 // 生成ini文件
 void UFO::InitSetting()
 {
+    // unsigned long 转 int
+    int INDEX = (int)index;
+
     // 读取当前程序可执行程序绝对路径
     m_FileName = QCoreApplication::applicationDirPath();
 
@@ -755,6 +787,7 @@ void UFO::InitSetting()
     systemInfoini->setValue("PI", P_IsConnected);
     systemInfoini->setValue("相机", C_IsConnected);
     systemInfoini->setValue("快门", S_IsConnected);
+    systemInfoini->setValue("快门句柄", INDEX);
     systemInfoini->setValue("PI设备句柄", ID);
     systemInfoini->setValue("PI连接轴", szAxes[0]);
     systemInfoini->setValue("标刻文本信息", "Item");
@@ -864,6 +897,15 @@ void UFO::on_actConnectPI_triggered()
     piSet->setWindowModality(Qt::ApplicationModal);
     piSet->setFixedSize(piSet->width(), piSet->height());
     piSet->show();
+}
+
+// 显示快门设置界面
+void UFO::on_actConnectShutter_triggered()
+{
+    shutter = new shutterControl(this);
+    shutter->setWindowModality(Qt::ApplicationModal);
+    shutter->setFixedSize(shutter->width(), shutter->height());
+    shutter->show();
 }
 
 // 恢复系统默认参数设置

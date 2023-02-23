@@ -13,17 +13,26 @@ piControl::piControl(QWidget *parent)
 
     // PI信息
     P_IsConnect = piInfo->value("PI").toBool();
-    ID = piInfo->value("PI").toInt();
+    ID = piInfo->value("PI设备句柄").toInt();
     szAxes[0] = piInfo->value("PI连接轴").toChar().unicode();
 
     // 如果PI已连接
     if (!P_IsConnect)
     {
-        ui.ConnectPi->setCheckable(false);
-        ui.inplementMove->setCheckable(false);
-        ui.AddPiStep->setCheckable(false);
-        ui.CutPiStep->setCheckable(false);
-    }      
+        ui.ConnectPi->setEnabled(true);
+        ui.inplementMove->setEnabled(false);
+        ui.AddPiStep->setEnabled(false);
+        ui.CutPiStep->setEnabled(false);
+        ui.presentSetZero->setEnabled(false);
+    }   
+    else
+    {
+        ui.ConnectPi->setEnabled(false);
+        ui.inplementMove->setEnabled(true);
+        ui.AddPiStep->setEnabled(true);
+        ui.CutPiStep->setEnabled(true);
+        ui.presentSetZero->setEnabled(true);
+    }
 }
 
 piControl::~piControl()

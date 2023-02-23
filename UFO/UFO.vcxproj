@@ -34,6 +34,7 @@
     <ClCompile Include="src\SystemInfo.cpp" />
     <ClCompile Include="src\DataVisual.cpp" />
     <ClCompile Include="src\piControl.cpp" />
+    <ClCompile Include="src\shutterControl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="ui\DataVisual.ui" />
@@ -47,10 +48,12 @@
     <QtUic Include="ui\DireButton.ui" />
     <QtUic Include="ui\CCDSetUserface.ui" />
     <QtUic Include="ui\piControl.ui" />
+    <QtUic Include="ui\shutterControl.ui" />
     <QtUic Include="ui\SystemInfo.ui" />
     <QtUic Include="ui\UFO.ui" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="include\shutterControl.h" />
     <QtMoc Include="include\piControl.h" />
     <QtMoc Include="include\DataVisual.h" />
     <QtMoc Include="include\DataSortThread.h" />
@@ -62,6 +65,8 @@
     <QtMoc Include="include\acquisitionworker.h" />
     <QtMoc Include="include\DireButton.h" />
     <ClInclude Include="include\backend.h" />
+    <ClInclude Include="include\CH375DLL.h" />
+    <ClInclude Include="include\CH375DLL_dynamics_loader.h" />
     <ClInclude Include="include\CSCInterface.h" />
     <ClInclude Include="include\CSCInterface_dynamicm_loader.h" />
     <QtMoc Include="include\display.h" />
@@ -83,6 +88,7 @@
     <None Include="Debug\qmake\temp\moc_predefs.h.cbt" />
     <None Include="Debug\qmake\temp\qtvars.pro" />
     <None Include="Debug\qmake\temp\qtvars_Win32_Debug.props" />
+    <None Include="depends\CH375DLL.DLL" />
     <None Include="depends\CSCInterface.dll" />
     <None Include="depends\FirmwareUpdate_MD_VC140_v3_2_IDS.dll" />
     <None Include="depends\GCBase_MD_VC140_v3_2_IDS.dll" />
@@ -97,6 +103,7 @@
     <None Include="ui\UFO.ui.autosave" />
   </ItemGroup>
   <ItemGroup>
+    <Library Include="lib\CH375DLL.lib" />
     <Library Include="lib\CSCInterface.lib" />
     <Library Include="lib\ids_peak_comfort_c.lib" />
     <Library Include="lib\PI_GCS2_DLL.lib" />
@@ -114,11 +121,13 @@
     <Image Include="ui\icons\pause.png" />
     <Image Include="ui\icons\pi.png" />
     <Image Include="ui\icons\power.png" />
+    <Image Include="ui\icons\refresh.png" />
     <Image Include="ui\icons\run.png" />
     <Image Include="ui\icons\save-one.png" />
     <Image Include="ui\icons\setting.png" />
     <Image Include="ui\icons\shutter.png" />
     <Image Include="ui\icons\ufo.png" />
+    <Image Include="ui\icons\windows.png" />
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="ui\UFO.qrc" />
@@ -182,23 +191,23 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <AdditionalIncludeDirectories>C:\Users\69017\Desktop\UFO\UFO\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>PI_DLL_EXPORTS;CSC_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PI_DLL_EXPORTS;CSC_DLL_EXPORTS;SHUT_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <CallingConvention>Cdecl</CallingConvention>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\Users\69017\Desktop\UFO\UFO\depends;C:\Users\69017\Desktop\UFO\UFO\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ids_peak_comfort_c.lib;PI_GCS2_DLL.lib;CSCInterface.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ids_peak_comfort_c.lib;PI_GCS2_DLL.lib;CSCInterface.lib;CH375DLL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <AdditionalIncludeDirectories>C:\Users\69017\Desktop\UFO\UFO\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>PI_DLL_EXPORTS;CSC_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PI_DLL_EXPORTS;CSC_DLL_EXPORTS;SHUT_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <CallingConvention>Cdecl</CallingConvention>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\Users\69017\Desktop\UFO\UFO\depends;C:\Users\69017\Desktop\UFO\UFO\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ids_peak_comfort_c.lib;PI_GCS2_DLL.lib;CSCInterface.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ids_peak_comfort_c.lib;PI_GCS2_DLL.lib;CSCInterface.lib;CH375DLL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'" Label="Configuration">
