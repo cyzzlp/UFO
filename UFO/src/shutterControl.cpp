@@ -36,6 +36,12 @@ shutterControl::~shutterControl()
 
 }
 
+//关闭窗口事件
+void shutterControl::closeEvent(QCloseEvent* event)
+{
+	delete this;
+
+}
 // 连接快门
 void shutterControl::on_connectShutter_clicked()
 {

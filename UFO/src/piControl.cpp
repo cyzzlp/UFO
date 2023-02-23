@@ -40,6 +40,13 @@ piControl::~piControl()
 
 }
 
+//关闭窗口事件
+void piControl::closeEvent(QCloseEvent* event)
+{
+    delete this;
+}
+
+
 // 连接PI
 void piControl::on_ConnectPi_clicked()
 {

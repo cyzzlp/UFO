@@ -35,9 +35,11 @@
     <ClCompile Include="src\DataVisual.cpp" />
     <ClCompile Include="src\piControl.cpp" />
     <ClCompile Include="src\shutterControl.cpp" />
+    <ClCompile Include="src\MarkControl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="ui\DataVisual.ui" />
+    <QtUic Include="ui\MarkControl.ui" />
     <QtUic Include="ui\MarkImplement.ui" />
     <QtUic Include="ui\MarkParaSet.ui" />
     <QtUic Include="ui\MarkAreaSet2.ui" />
@@ -53,6 +55,7 @@
     <QtUic Include="ui\UFO.ui" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="include\MarkControl.h" />
     <QtMoc Include="include\shutterControl.h" />
     <QtMoc Include="include\piControl.h" />
     <QtMoc Include="include\DataVisual.h" />
@@ -174,6 +177,7 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="$(QtMsBuild)\Qt.props" />
+    <Import Project="OpenCV.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)' == 'Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -197,6 +201,7 @@
     <Link>
       <AdditionalLibraryDirectories>C:\Users\69017\Desktop\UFO\UFO\depends;C:\Users\69017\Desktop\UFO\UFO\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>ids_peak_comfort_c.lib;PI_GCS2_DLL.lib;CSCInterface.lib;CH375DLL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -208,6 +213,7 @@
     <Link>
       <AdditionalLibraryDirectories>C:\Users\69017\Desktop\UFO\UFO\depends;C:\Users\69017\Desktop\UFO\UFO\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>ids_peak_comfort_c.lib;PI_GCS2_DLL.lib;CSCInterface.lib;CH375DLL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'" Label="Configuration">

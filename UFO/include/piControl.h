@@ -13,7 +13,6 @@ public:
 	piControl(QWidget *parent = nullptr);
 	~piControl();
 
-
 private:
 	// 记录仪器句柄
 	int ID{};
@@ -55,6 +54,9 @@ private:
 	QSettings* piInfo{};
 
 private slots:
+	//关闭窗口事件
+	void closeEvent(QCloseEvent* event);
+
 	// 连接PI
 	void on_ConnectPi_clicked();
 

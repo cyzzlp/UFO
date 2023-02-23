@@ -227,7 +227,8 @@ int UFO::connectSystemShutter()
     HANDLE Shutter = CH375OpenDevice(index);
     if (Shutter == INVALID_HANDLE_VALUE)
     {
-        S_IsConnected = true;
+        S_IsConnected = false;
+        return 0;
     }
 
     // 设置延时
@@ -906,6 +907,15 @@ void UFO::on_actConnectShutter_triggered()
     shutter->setWindowModality(Qt::ApplicationModal);
     shutter->setFixedSize(shutter->width(), shutter->height());
     shutter->show();
+}
+
+// 显示振镜设置界面
+void UFO::on_actMarkSet_triggered()
+{
+    markSet = new MarkControl(this);
+    markSet->setWindowModality(Qt::ApplicationModal);
+    markSet->setFixedSize(markSet->width(), markSet->height());
+    markSet->show();
 }
 
 // 恢复系统默认参数设置

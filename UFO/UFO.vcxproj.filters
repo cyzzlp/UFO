@@ -80,6 +80,9 @@
     <QtMoc Include="include\shutterControl.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="include\MarkControl.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -145,6 +148,9 @@
     <ClCompile Include="src\shutterControl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\MarkControl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="ui\UFO.ui">
@@ -187,6 +193,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="ui\shutterControl.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\MarkControl.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

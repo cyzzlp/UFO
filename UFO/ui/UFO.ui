@@ -181,7 +181,7 @@
      <x>0</x>
      <y>0</y>
      <width>1923</width>
-     <height>23</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -197,6 +197,7 @@
     <property name="title">
      <string>硬件</string>
     </property>
+    <addaction name="actMarkSet"/>
     <addaction name="actConnectShutter"/>
     <addaction name="actConnectCCD"/>
     <addaction name="actConnectPI"/>

@@ -29,6 +29,9 @@ private:
 	QSettings* shutter{};
 
 private slots:
+	//关闭窗口事件
+	void closeEvent(QCloseEvent* event);
+
 	// 连接快门
 	void on_connectShutter_clicked();
 

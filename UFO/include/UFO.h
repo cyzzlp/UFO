@@ -34,6 +34,7 @@
 #include "MarkData.h"
 #include "piControl.h"
 #include "shutterControl.h"
+#include "MarkControl.h"
 #include "ui_UFO.h"
 
 using namespace QtDataVisualization;
@@ -255,6 +256,9 @@ private:
     // 快门控制
     shutterControl* shutter{};
 
+    // 振镜控制
+    MarkControl* markSet{};
+
 private:
     // 关闭窗口时间，可以询问是否退出
     void closeEvent(QCloseEvent* event);
@@ -388,6 +392,9 @@ private slots:
 
     // 显示快门设置界面
     void on_actConnectShutter_triggered();
+
+    // 显示振镜设置界面
+    void on_actMarkSet_triggered();
     
     // 更新数据读取状态
     void ResetText(QString dataStatus);
