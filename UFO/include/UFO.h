@@ -29,6 +29,9 @@
 #include "laserSet.h"
 #include "SystemInfo.h"
 #include "DataSortThread.h"
+#include "DataVisual.h"
+#include "MarkData.h"
+#include "piControl.h"
 #include "ui_UFO.h"
 
 using namespace QtDataVisualization;
@@ -51,6 +54,12 @@ private:
 
     // 标刻文本数据量
     int DataCounts{};
+
+    // 数据行数
+    int dataRows{};
+
+    // 数据列数
+    int dataColums{};
 
     // 标刻文本数据类型
     bool DataType{};
@@ -232,6 +241,12 @@ private:
     // 数据读取线程
     DataSortThread* dataRead;
 
+    // 数据可视化
+    DataVisual* dataVis{};
+
+    // PI控制界面
+    piControl* piSet{};
+
 private:
     // 关闭窗口时间，可以询问是否退出
     void closeEvent(QCloseEvent* event);
@@ -353,6 +368,12 @@ private slots:
 
     // 系统信息显示
     void on_actSystemInfo_triggered();
+
+    // 执行显示数据可视化界面
+    void on_acDataVisual_triggered();
+
+    // 显示PI设置界面
+    void on_actConnectPI_triggered();
 
     // 更新数据读取状态
     void ResetText(QString dataStatus);

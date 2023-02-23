@@ -32,8 +32,11 @@
     <ClCompile Include="src\UFO.cpp" />
     <ClCompile Include="src\MarkImplement.cpp" />
     <ClCompile Include="src\SystemInfo.cpp" />
+    <ClCompile Include="src\DataVisual.cpp" />
+    <ClCompile Include="src\piControl.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <QtUic Include="ui\DataVisual.ui" />
     <QtUic Include="ui\MarkImplement.ui" />
     <QtUic Include="ui\MarkParaSet.ui" />
     <QtUic Include="ui\MarkAreaSet2.ui" />
@@ -43,10 +46,13 @@
     <QtUic Include="ui\dataSortgap.ui" />
     <QtUic Include="ui\DireButton.ui" />
     <QtUic Include="ui\CCDSetUserface.ui" />
+    <QtUic Include="ui\piControl.ui" />
     <QtUic Include="ui\SystemInfo.ui" />
     <QtUic Include="ui\UFO.ui" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="include\piControl.h" />
+    <QtMoc Include="include\DataVisual.h" />
     <QtMoc Include="include\DataSortThread.h" />
     <QtMoc Include="include\SystemInfo.h" />
     <QtMoc Include="include\MarkImplement.h" />

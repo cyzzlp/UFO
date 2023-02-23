@@ -78,6 +78,10 @@ void DataSortThread::run()
     afile.close();
 
     // 记录文本行列数
+    MarkData::MarkTextRows = returnValue;
+    MarkData::MarkTextColumns = IsErrorTextColumns;
+
+    // 记录文本行列数
     filePath->setValue("数据量（行）", returnValue);
     filePath->sync();
 

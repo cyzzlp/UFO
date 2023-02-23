@@ -755,6 +755,8 @@ void UFO::InitSetting()
     systemInfoini->setValue("PI", P_IsConnected);
     systemInfoini->setValue("相机", C_IsConnected);
     systemInfoini->setValue("快门", S_IsConnected);
+    systemInfoini->setValue("PI设备句柄", ID);
+    systemInfoini->setValue("PI连接轴", szAxes[0]);
     systemInfoini->setValue("标刻文本信息", "Item");
     systemInfoini->setValue("文本路径", aFileName);
     systemInfoini->setValue("数据量（行）", DataCounts);
@@ -855,6 +857,15 @@ void UFO::on_actSetSystemPara_triggered()
     paraSet->show();
 }
 
+// 显示PI设置界面
+void UFO::on_actConnectPI_triggered()
+{
+    piSet = new piControl(this);
+    piSet->setWindowModality(Qt::ApplicationModal);
+    piSet->setFixedSize(piSet->width(), piSet->height());
+    piSet->show();
+}
+
 // 恢复系统默认参数设置
 void UFO::on_actDefaultPara_triggered()
 {
@@ -907,6 +918,24 @@ void UFO::on_actOpenFile_triggered()
                 // 执行读取
                 dataRead->start();
             });
+    }
+}
+
+// 执行显示数据可视化界面
+void UFO::on_acDataVisual_triggered()
+{
+    dataVis = new DataVisual(this);
+
+    if (DataReadState->text() == "读取状态：完成")
+    {
+        dataVis->setWindowModality(Qt::ApplicationModal);
+        dataVis->setFixedSize(dataVis->width(), dataVis->height());
+        dataVis->show();
+        dataVis->DrawData(MarkData::returnMarkData);
+    }
+    else
+    {
+        QMessageBox::warning(this, "警告", "数据未读取或读取中，无法可视化数据！");
     }
 }
 

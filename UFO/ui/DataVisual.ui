@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DataVisualClass</class>
+ <widget class="QDialog" name="DataVisualClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1032</width>
+    <height>598</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>DataVisual</string>
+  </property>
+  <widget class="QWidget" name="verticalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>20</y>
+     <width>711</width>
+     <height>561</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_graph3D"/>
+  </widget>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>266</width>
+     <height>561</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>控制参数</string>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QLabel" name="label">
+      <property name="maximumSize">
+       <size>
+        <width>90</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="text">
+       <string>预设视角</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QSlider" name="sliderPoint">
+      <property name="minimum">
+       <number>1</number>
+      </property>
+      <property name="maximum">
+       <number>100</number>
+      </property>
+      <property name="value">
+       <number>40</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="label_4">
+      <property name="maximumSize">
+       <size>
+        <width>90</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>坐标点缩放</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QSlider" name="sliderV">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QSlider" name="sliderH">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_3">
+      <property name="maximumSize">
+       <size>
+        <width>90</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>垂直旋转</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_9">
+      <property name="maximumSize">
+       <size>
+        <width>90</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>图像缩放</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="0">
+     <widget class="QCheckBox" name="checkBoxBackground">
+      <property name="text">
+       <string>显示背景</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QComboBox" name="comboCamera">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <item>
+       <property name="text">
+        <string>FrontLow</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Front</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>FrontHigh</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Left</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QSlider" name="sliderZoom">
+      <property name="maximum">
+       <number>500</number>
+      </property>
+      <property name="value">
+       <number>100</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="1">
+     <widget class="QComboBox" name="comboPointType">
+      <item>
+       <property name="text">
+        <string>Scatter</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Bar</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>BevelCube</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Cube</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Cone</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Pyramid</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_2">
+      <property name="maximumSize">
+       <size>
+        <width>90</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>水平旋转</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0">
+     <widget class="QLabel" name="label_6">
+      <property name="maximumSize">
+       <size>
+        <width>90</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>样式</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="1">
+     <widget class="QCheckBox" name="checkBoxGrid">
+      <property name="text">
+       <string>显示背景网格</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="0">
+     <widget class="QCheckBox" name="checkBoxAxisBackground">
+      <property name="text">
+       <string>坐标轴标签背景可见</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>
