@@ -3,8 +3,11 @@
 #include <QDialog>
 #include <QLabel>
 #include <QCloseEvent>
+#include <QSettings>
+#include <QMessageBox>
 #include <opencv2/opencv.hpp>
 #include <opencv2\imgproc\types_c.h>
+#include "CSCInterface_dynamicm_loader.h"
 #include "ui_MarkControl.h"
 
 using namespace cv;
@@ -27,6 +30,12 @@ private:
 	// 图片放大缩小系数
 	double ImageData = 5.05;
 
+	// 振镜连接状态
+	bool M_IsConnect{};
+
+	// 读取配置文件
+	QSettings* isConnect{};
+
 private:
 	//关闭窗口事件
 	void closeEvent(QCloseEvent* event);
@@ -37,6 +46,24 @@ private:
 	// 实现快捷键操作
 	void wheelEvent(QWheelEvent* event);
 
+private slots:
+	// 连接振镜
+	void on_connectMark_clicked();
+
+	// 向上微调
+	void on_Jumptoup_clicked();
+
+	// 向下微调
+	void on_Jumptodown_clicked();
+
+	// 向左微调
+	void on_Jumptoleft_clicked();
+
+	// 向右微调
+	void on_Jumptoright_clicked();
+
+	// 跳转至
+	void on_Jumpto_clicked();
 
 private:
 	Ui::MarkControl ui;

@@ -275,9 +275,6 @@ private:
     // 连接快门
     int connectSystemShutter();
 
-    // 反馈PI连接信息
-    void feedBackDevice();
-
     // 实现动画效果
     void CreateTimer();
 
@@ -395,7 +392,10 @@ private slots:
 
     // 显示振镜设置界面
     void on_actMarkSet_triggered();
-    
+
+    // 显示相机设置界面
+    void on_actConnectCCD_triggered();
+
     // 更新数据读取状态
     void ResetText(QString dataStatus);
 

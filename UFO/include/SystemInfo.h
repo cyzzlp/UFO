@@ -1,7 +1,9 @@
 #pragma once
+#pragma execution_character_set("utf-8")
 
 #include <QDialog>
 #include <QLabel>
+#include <QSettings>
 #include "ui_SystemInfo.h"
 
 class SystemInfo : public QDialog
@@ -19,12 +21,24 @@ private:
 	//状态栏上用于显示单元格的行号、列号
 	QLabel* labCellIndex{};
 
+	// 读取列表信息
+	QSettings* TableInfo{};
+
 private:
+	//关闭窗口事件
+	void closeEvent(QCloseEvent* event);
+
 	// 设置列表表头
 	void SetTableHeader();
 
-	// 设置行数,设置的行数为数据区的行数，不含表头
-	void SetTablesSize();
+	// 设置列表参数
+	void SetTables();
+
+	// 添加一行
+	void appendOneRow(QString DataKey, QString DataValue);
+
+	// 添加一行
+	void appendOneRows(QString DataKey);
 
 private:
 	Ui::SystemInfo ui;

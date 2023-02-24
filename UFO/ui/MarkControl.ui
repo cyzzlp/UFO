@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>671</width>
-    <height>348</height>
+    <width>685</width>
+    <height>421</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,9 +30,9 @@ QGroupBox::title {
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>10</y>
+     <y>110</y>
      <width>371</width>
-     <height>211</height>
+     <height>181</height>
     </rect>
    </property>
    <property name="title">
@@ -40,7 +40,7 @@ QGroupBox::title {
    </property>
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="1">
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="Jumptoup">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -59,7 +59,7 @@ QGroupBox::title {
      </widget>
     </item>
     <item row="1" column="0">
-     <widget class="QPushButton" name="pushButton_2">
+     <widget class="QPushButton" name="Jumptoleft">
       <property name="minimumSize">
        <size>
         <width>115</width>
@@ -72,7 +72,7 @@ QGroupBox::title {
      </widget>
     </item>
     <item row="1" column="2">
-     <widget class="QPushButton" name="pushButton_3">
+     <widget class="QPushButton" name="Jumptoright">
       <property name="minimumSize">
        <size>
         <width>115</width>
@@ -91,7 +91,7 @@ QGroupBox::title {
      </widget>
     </item>
     <item row="2" column="1">
-     <widget class="QPushButton" name="pushButton_4">
+     <widget class="QPushButton" name="Jumptodown">
       <property name="minimumSize">
        <size>
         <width>115</width>
@@ -109,9 +109,9 @@ QGroupBox::title {
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>230</y>
+     <y>310</y>
      <width>371</width>
-     <height>101</height>
+     <height>91</height>
     </rect>
    </property>
    <property name="title">
@@ -132,7 +132,7 @@ QGroupBox::title {
      </widget>
     </item>
     <item>
-     <widget class="QDoubleSpinBox" name="doubleSpinBox_4">
+     <widget class="QDoubleSpinBox" name="xJump">
       <property name="minimumSize">
        <size>
         <width>90</width>
@@ -161,7 +161,7 @@ QGroupBox::title {
      </widget>
     </item>
     <item>
-     <widget class="QDoubleSpinBox" name="doubleSpinBox_3">
+     <widget class="QDoubleSpinBox" name="yJump">
       <property name="minimumSize">
        <size>
         <width>90</width>
@@ -177,7 +177,7 @@ QGroupBox::title {
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="pushButton_5">
+     <widget class="QPushButton" name="Jumpto">
       <property name="minimumSize">
        <size>
         <width>115</width>
@@ -202,8 +202,8 @@ QGroupBox::title {
     <rect>
      <x>420</x>
      <y>10</y>
-     <width>231</width>
-     <height>111</height>
+     <width>241</width>
+     <height>151</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -215,7 +215,7 @@ QGroupBox::title {
    <property name="title">
     <string>振镜当前位置</string>
    </property>
-   <layout class="QGridLayout" name="gridLayout_3">
+   <layout class="QGridLayout" name="gridLayout_2">
     <item row="0" column="0">
      <widget class="QLabel" name="label">
       <property name="sizePolicy">
@@ -230,7 +230,7 @@ QGroupBox::title {
      </widget>
     </item>
     <item row="0" column="1">
-     <widget class="QDoubleSpinBox" name="doubleSpinBox">
+     <widget class="QDoubleSpinBox" name="xPos">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -265,7 +265,42 @@ QGroupBox::title {
      </widget>
     </item>
     <item row="1" column="1">
-     <widget class="QDoubleSpinBox" name="doubleSpinBox_2">
+     <widget class="QDoubleSpinBox" name="yPos">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>115</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>115</width>
+        <height>30</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_5">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>步长</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QDoubleSpinBox" name="markStep">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -292,14 +327,48 @@ QGroupBox::title {
    <property name="geometry">
     <rect>
      <x>420</x>
-     <y>140</y>
-     <width>231</width>
-     <height>191</height>
+     <y>180</y>
+     <width>241</width>
+     <height>221</height>
     </rect>
    </property>
    <property name="text">
     <string>TextLabel</string>
    </property>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_4">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>10</y>
+     <width>371</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>振镜连接</string>
+   </property>
+   <layout class="QGridLayout" name="gridLayout_3">
+    <item row="0" column="0">
+     <widget class="QPushButton" name="connectMark">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>115</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>连接振镜</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

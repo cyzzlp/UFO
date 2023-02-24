@@ -7,4 +7,6 @@ MarkImplement::MarkImplement(QWidget *parent)
 }
 
 MarkImplement::~MarkImplement()
-{}
+{
+
+}

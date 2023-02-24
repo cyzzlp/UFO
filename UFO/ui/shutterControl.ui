@@ -6,63 +6,97 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>342</width>
-    <height>153</height>
+    <width>309</width>
+    <height>147</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>shutterControl</string>
   </property>
-  <widget class="QPushButton" name="openShutter">
+  <property name="styleSheet">
+   <string notr="true">QGroupBox {
+    border-width: 1px;
+	border-style: solid;
+	margin-top:10px
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;
+    left:20px;
+}
+</string>
+  </property>
+  <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>90</y>
-     <width>121</width>
-     <height>41</height>
+     <y>10</y>
+     <width>271</width>
+     <height>121</height>
     </rect>
    </property>
-   <property name="text">
-    <string>快门打开</string>
+   <property name="title">
+    <string>快门控制</string>
    </property>
-  </widget>
-  <widget class="QPushButton" name="closeShutter">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>90</y>
-     <width>121</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="minimumSize">
-    <size>
-     <width>121</width>
-     <height>41</height>
-    </size>
-   </property>
-   <property name="maximumSize">
-    <size>
-     <width>121</width>
-     <height>41</height>
-    </size>
-   </property>
-   <property name="text">
-    <string>快门关闭</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="conectShutter">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>20</y>
-     <width>121</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>连接快门</string>
-   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QPushButton" name="conectShutter">
+      <property name="minimumSize">
+       <size>
+        <width>120</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>120</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>连接快门</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QPushButton" name="openShutter">
+      <property name="minimumSize">
+       <size>
+        <width>120</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>120</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>快门打开</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QPushButton" name="closeShutter">
+      <property name="minimumSize">
+       <size>
+        <width>120</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>120</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>快门关闭</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

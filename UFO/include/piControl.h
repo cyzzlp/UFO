@@ -60,6 +60,22 @@ private slots:
 	// 连接PI
 	void on_ConnectPi_clicked();
 
+	// PI移动至
+	void on_inplementMove_clicked();
+
+	// PI增加
+	void on_AddPiStep_clicked();
+
+	// PI减少
+	void on_CutPiStep_clicked();
+
+	// 当前至设为z = 0
+	void on_presentSetZero_clicked();
+
+signals:
+	// 发送PI位置
+	void piPos(double zPos);
+
 private:
 	Ui::piControl ui;
 };

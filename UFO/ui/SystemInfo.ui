@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>478</width>
-    <height>309</height>
+    <width>374</width>
+    <height>542</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,75 +19,66 @@
   <property name="windowTitle">
    <string>SystemInfo</string>
   </property>
-  <widget class="QTableWidget" name="systemTabelInfo">
+  <property name="styleSheet">
+   <string notr="true">QGroupBox {
+    border-width: 1px;
+	border-style: solid;
+	margin-top:10px
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;
+    left:20px;
+}
+
+</string>
+  </property>
+  <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>20</y>
-     <width>421</width>
-     <height>271</height>
+     <y>10</y>
+     <width>341</width>
+     <height>521</height>
     </rect>
    </property>
-   <property name="sizePolicy">
-    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-     <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
-    </sizepolicy>
+   <property name="title">
+    <string>系统信息</string>
    </property>
-   <property name="alternatingRowColors">
-    <bool>false</bool>
-   </property>
-   <property name="rowCount">
-    <number>6</number>
-   </property>
-   <property name="columnCount">
-    <number>3</number>
-   </property>
-   <attribute name="horizontalHeaderDefaultSectionSize">
-    <number>100</number>
-   </attribute>
-   <row/>
-   <row/>
-   <row/>
-   <row/>
-   <row/>
-   <row/>
-   <column>
-    <property name="text">
-     <string>列1</string>
+   <widget class="QTableWidget" name="systemTabelInfo">
+    <property name="geometry">
+     <rect>
+      <x>12</x>
+      <y>25</y>
+      <width>321</width>
+      <height>481</height>
+     </rect>
     </property>
-   </column>
-   <column>
-    <property name="text">
-     <string>列2</string>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
     </property>
-   </column>
-   <column/>
-   <item row="0" column="0">
-    <property name="text">
-     <string>0行，0列</string>
+    <property name="alternatingRowColors">
+     <bool>false</bool>
     </property>
-   </item>
-   <item row="0" column="1">
-    <property name="text">
-     <string>0行，1列</string>
+    <property name="gridStyle">
+     <enum>Qt::SolidLine</enum>
     </property>
-   </item>
-   <item row="1" column="0">
-    <property name="text">
-     <string>1行，0列</string>
+    <property name="sortingEnabled">
+     <bool>false</bool>
     </property>
-   </item>
-   <item row="2" column="0">
-    <property name="text">
-     <string>2行，0列</string>
+    <property name="rowCount">
+     <number>0</number>
     </property>
-   </item>
-   <item row="5" column="0">
-    <property name="text">
-     <string>5行，0列</string>
+    <property name="columnCount">
+     <number>0</number>
     </property>
-   </item>
+    <attribute name="horizontalHeaderDefaultSectionSize">
+     <number>150</number>
+    </attribute>
+   </widget>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

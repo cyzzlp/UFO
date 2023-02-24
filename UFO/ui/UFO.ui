@@ -49,42 +49,6 @@
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_graph3D"/>
    </widget>
-   <widget class="QPushButton" name="CCDinfo">
-    <property name="geometry">
-     <rect>
-      <x>300</x>
-      <y>380</y>
-      <width>121</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>11</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>相机信息</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="CameraSet">
-    <property name="geometry">
-     <rect>
-      <x>160</x>
-      <y>380</y>
-      <width>111</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>11</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>相机设置</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="m_buttonStartStop">
     <property name="geometry">
      <rect>
@@ -103,24 +67,6 @@
     </property>
     <property name="text">
      <string>停止采集</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="AutoFocuspBtn">
-    <property name="geometry">
-     <rect>
-      <x>450</x>
-      <y>380</y>
-      <width>121</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>11</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>自动对焦</string>
     </property>
    </widget>
    <widget class="QWidget" name="verticalLayoutWidget_3">
@@ -174,6 +120,7 @@
    <addaction name="actYoursData"/>
    <addaction name="separator"/>
    <addaction name="actSystemInfo"/>
+   <addaction name="actSystemThread"/>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -181,7 +128,7 @@
      <x>0</x>
      <y>0</y>
      <width>1923</width>
-     <height>26</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -227,6 +174,7 @@
     <addaction name="menu_6"/>
     <addaction name="acDataVisual"/>
     <addaction name="actSystemInfo"/>
+    <addaction name="actSystemThread"/>
    </widget>
    <widget class="QMenu" name="menu_5">
     <property name="title">
@@ -482,6 +430,18 @@
    </property>
    <property name="toolTip">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;系统信息&lt;/p&gt;&lt;p&gt;显示各项数据及参数具体情况&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
+  <action name="actSystemThread">
+   <property name="icon">
+    <iconset resource="UFO.qrc">
+     <normaloff>:/new/icons/icons/switch.png</normaloff>:/new/icons/icons/switch.png</iconset>
+   </property>
+   <property name="text">
+    <string>线程控制</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;线程控制&lt;/p&gt;&lt;p&gt;可以控制启动线程&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
  </widget>

@@ -18,5 +18,6 @@
         <file>icons/ufo.png</file>
         <file>icons/refresh.png</file>
         <file>icons/windows.png</file>
+        <file>icons/switch.png</file>
     </qresource>
 </RCC>

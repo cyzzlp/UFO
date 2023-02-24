@@ -40,18 +40,25 @@ shutterControl::~shutterControl()
 void shutterControl::closeEvent(QCloseEvent* event)
 {
 	delete this;
-
 }
+
 // 连接快门
 void shutterControl::on_connectShutter_clicked()
 {
 	// 连接设备
 	HANDLE CH375Open = CH375OpenDevice(index);
 	if (CH375Open == INVALID_HANDLE_VALUE)
+	{
 		QMessageBox::warning(this, "快门", "CH375快门连接失败");
+		return;
+	}
 
 	// 设置延时
 	CH375SetTimeout(index, 2000, 2000);
+
+	ui.conectShutter->setEnabled(false);
+	ui.openShutter->setEnabled(true);
+	ui.closeShutter->setEnabled(true);
 }
 
 // 快门打开

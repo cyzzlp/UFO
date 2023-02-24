@@ -36,6 +36,7 @@
     <ClCompile Include="src\piControl.cpp" />
     <ClCompile Include="src\shutterControl.cpp" />
     <ClCompile Include="src\MarkControl.cpp" />
+    <ClCompile Include="src\ThreadControl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="ui\DataVisual.ui" />
@@ -52,9 +53,11 @@
     <QtUic Include="ui\piControl.ui" />
     <QtUic Include="ui\shutterControl.ui" />
     <QtUic Include="ui\SystemInfo.ui" />
+    <QtUic Include="ui\ThreadControl.ui" />
     <QtUic Include="ui\UFO.ui" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="include\ThreadControl.h" />
     <QtMoc Include="include\MarkControl.h" />
     <QtMoc Include="include\shutterControl.h" />
     <QtMoc Include="include\piControl.h" />
@@ -103,6 +106,7 @@
     <None Include="depends\NodeMapData_MD_VC140_v3_2_IDS.dll" />
     <None Include="depends\PI_GCS2_DLL.dll" />
     <None Include="depends\XmlParser_MD_VC140_v3_2_IDS.dll" />
+    <None Include="OpenCV.props" />
     <None Include="ui\UFO.ui.autosave" />
   </ItemGroup>
   <ItemGroup>

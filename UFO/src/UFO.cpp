@@ -9,20 +9,17 @@ UFO::UFO(QWidget* parent)
     // 连接振镜
     int isConnect = connectSystemMark();
     if (!isConnect)
-        QMessageBox::critical(nullptr, "Mark", "没有板卡不能标刻");
+        QMessageBox::warning(nullptr, "振镜", "没有板卡不能标刻，请检查振镜连接");
 
     // 连接PI
     isConnect = connectSystemPi();
     if (!isConnect)
-        QMessageBox::critical(nullptr, "PI", szErrorMesage);
+        QMessageBox::warning(nullptr, "PI", szErrorMesage);
 
     // 连接快门
      isConnect = connectSystemShutter();
      if (!isConnect)
-         QMessageBox::critical(nullptr, "Shutter", "CH375快门连接失败");
-       
-    // 记录连接信息
-    feedBackDevice();
+         QMessageBox::warning(nullptr, "快门", "CH375快门连接失败，请检查快门连接");
 
     ui.setupUi(this);
 
@@ -204,14 +201,17 @@ bool UFO::connectSystemPi()
     }
 
     // PI是否连接
-    P_IsConnected = PI_IsConnected(ID);
-    if (!P_IsConnected)
+    returnValue = PI_IsConnected(ID);
+    if (!returnValue)
     {
         iError = PI_GetError(ID);
         PI_TranslateError(iError, szErrorMesage, 1024);
         PI_CloseConnection(ID);
         return false;
     }
+
+    // 保存PI连接状态
+    P_IsConnected = true;
 
     return true;
 }
@@ -238,6 +238,9 @@ int UFO::connectSystemShutter()
     int iBuffer = a & 0x0a;
     CH375WriteData(index, &iBuffer, p_ioLength);
 
+    // 保存快门连接状态
+    S_IsConnected = true;
+
     return 1;
 }
 
@@ -259,12 +262,6 @@ void UFO::CreateTimer()
     connect(PI_AXIS_TIMER, &QTimer::timeout, this, &UFO::updateText2);
 }
 
-// 设备连接信息
-void UFO::feedBackDevice()
-{
-
-}
-
 // 处理错误信息
 void UFO::HandleLibraryError(QString message, int status)
 {
@@ -274,7 +271,7 @@ void UFO::HandleLibraryError(QString message, int status)
 
     message.prepend("Error: ");
 
-    QMessageBox::warning(nullptr, "Error", message, QMessageBox::Ok);
+    QMessageBox::warning(this, "Error", message, QMessageBox::Ok);
 }
 
 // 发送错误信号
@@ -465,17 +462,9 @@ void UFO::OnAboutQtLinkActivated(const QString& link)
 // 初始化界面控件
 void UFO::initButton()
 {
-    if (!M_IsConnected)
-    {
-    }
-
-    if (!P_IsConnected)
-    {
-    }
-
     if (!C_IsConnected)
     {
-
+        ui.m_buttonStartStop->setEnabled(false);
     }
 }
 
@@ -566,7 +555,7 @@ void UFO::CreateStatuBar()
 void UFO::CreateAcquisitionWorkerThreadPI()
 {
     // 创建线程类
-    realpos = new piRealpos(nullptr);
+    realpos = new piRealpos(this);
     realpos->moveToThread(&PiThread);
 
     // 线程开始时，开始获取位置
@@ -656,7 +645,7 @@ void UFO::HandleErrorAndQuit(QString message)
     message += "\n(Error!)";
     message += "\nExiting application";
 
-    QMessageBox::critical(nullptr, "Error", message, QMessageBox::Ok);
+    QMessageBox::critical(this, "Error", message, QMessageBox::Ok);
     qApp->quit();
 }
 
@@ -783,15 +772,15 @@ void UFO::InitSetting()
     systemReadini->setValue("dotSpace", 0.1);
     systemReadini->setValue("isBitmap", false);
 
-    systemInfoini->setValue("设备连接情况","Item");
+    systemInfoini->setValue("设备连接情况","");
     systemInfoini->setValue("振镜", M_IsConnected);
     systemInfoini->setValue("PI", P_IsConnected);
+    systemInfoini->setValue("PI设备句柄", ID);
+    systemInfoini->setValue("PI连接轴", szAxes[0]);
     systemInfoini->setValue("相机", C_IsConnected);
     systemInfoini->setValue("快门", S_IsConnected);
     systemInfoini->setValue("快门句柄", INDEX);
-    systemInfoini->setValue("PI设备句柄", ID);
-    systemInfoini->setValue("PI连接轴", szAxes[0]);
-    systemInfoini->setValue("标刻文本信息", "Item");
+    systemInfoini->setValue("标刻文本信息", "");
     systemInfoini->setValue("文本路径", aFileName);
     systemInfoini->setValue("数据量（行）", DataCounts);
 
@@ -808,7 +797,7 @@ void UFO::InitSetting()
         systemInfoini->setValue("数据类型", "XY");
     }
 
-    systemInfoini->setValue("线程信息", "Item");
+    systemInfoini->setValue("线程信息", "");
 
     // 保存及关闭配置文件
     gapReadini->sync();
@@ -916,6 +905,15 @@ void UFO::on_actMarkSet_triggered()
     markSet->setWindowModality(Qt::ApplicationModal);
     markSet->setFixedSize(markSet->width(), markSet->height());
     markSet->show();
+}
+
+// 显示相机设置界面
+void UFO::on_actConnectCCD_triggered()
+{
+    CCDSet = new CCDSetUserface(this);
+    CCDSet->setWindowModality(Qt::ApplicationModal);
+    CCDSet->setFixedSize(CCDSet->width(), CCDSet->height());
+    CCDSet->show();
 }
 
 // 恢复系统默认参数设置

@@ -46,7 +46,6 @@ void piControl::closeEvent(QCloseEvent* event)
     delete this;
 }
 
-
 // 连接PI
 void piControl::on_ConnectPi_clicked()
 {
@@ -59,6 +58,7 @@ void piControl::on_ConnectPi_clicked()
     {
         iError = PI_GetError(ID);
         PI_TranslateError(iError, szErrorMesage, 1024);
+        QMessageBox::critical(this, "PI", szErrorMesage);
         PI_CloseConnection(ID);
         return;
     }
@@ -69,6 +69,7 @@ void piControl::on_ConnectPi_clicked()
     {
         iError = PI_GetError(ID);
         PI_TranslateError(iError, szErrorMesage, 1024);
+        QMessageBox::critical(this, "PI", szErrorMesage);
         PI_CloseConnection(ID);
         return;
     }
@@ -83,9 +84,13 @@ void piControl::on_ConnectPi_clicked()
     {
         iError = PI_GetError(ID);
         PI_TranslateError(iError, szErrorMesage, 1024);
+        QMessageBox::critical(this, "PI", szErrorMesage);
         PI_CloseConnection(ID);
         return;
     }
+
+    // 回零
+    dPos[0] = 0.0;
 
     // 换层(移动z轴位置)
     returnValue = PI_MOV(ID, szAxes, dPos);
@@ -93,7 +98,7 @@ void piControl::on_ConnectPi_clicked()
     {
         iError = PI_GetError(ID);
         PI_TranslateError(iError, szErrorMesage, 1024);
-        QMessageBox::critical(nullptr, "PI", szErrorMesage);
+        QMessageBox::critical(this, "PI", szErrorMesage);
         PI_CloseConnection(ID);
         return;
     }
@@ -108,7 +113,7 @@ void piControl::on_ConnectPi_clicked()
             iError = PI_GetError(ID);
             PI_TranslateError(iError, szErrorMesage, 1024);
             PI_CloseConnection(ID);
-            QMessageBox::critical(nullptr, "PI", szErrorMesage);
+            QMessageBox::critical(this, "PI", szErrorMesage);
             return;
         }
 
@@ -117,7 +122,7 @@ void piControl::on_ConnectPi_clicked()
         {
             iError = PI_GetError(ID);
             PI_TranslateError(iError, szErrorMesage, 1024);
-            QMessageBox::critical(nullptr, "PI", szErrorMesage);
+            QMessageBox::critical(this, "PI", szErrorMesage);
             PI_CloseConnection(ID);
             return;
         }
@@ -133,6 +138,188 @@ void piControl::on_ConnectPi_clicked()
         return;
     }
 
+    // 按键恢复
+    ui.ConnectPi->setEnabled(false);
+    ui.inplementMove->setEnabled(true);
+    ui.AddPiStep->setEnabled(true);
+    ui.CutPiStep->setEnabled(true);
+    ui.presentSetZero->setEnabled(true);
+
     // 显示当前位置
     ui.aimPos->setValue(0);
+}
+
+// PI移动至
+void piControl::on_inplementMove_clicked()
+{
+    // 获取移动值
+    double zPos = ui.PiPosto->value();
+
+    // 移动至
+    dPos[0] = zPos;
+
+    // 换层(移动z轴位置)
+    returnValue = PI_MOV(ID, szAxes, dPos);
+    if (!returnValue)
+    {
+        iError = PI_GetError(ID);
+        PI_TranslateError(iError, szErrorMesage, 1024);
+        QMessageBox::critical(this, "PI", szErrorMesage);
+        PI_CloseConnection(ID);
+        return;
+    }
+    // 选择等待轴
+    bIsMoving[0] = TRUE;
+    while (bIsMoving[0] == TRUE)
+    {
+        returnValue = PI_qPOS(ID, szAxes, dPos);
+        // 获得连接轴的位置
+        if (!returnValue)
+        {
+            iError = PI_GetError(ID);
+            PI_TranslateError(iError, szErrorMesage, 1024);
+            PI_CloseConnection(ID);
+            QMessageBox::critical(this, "PI", szErrorMesage);
+            return;
+        }
+
+        returnValue = PI_IsMoving(ID, NULL, bIsMoving);
+        if (!returnValue)
+        {
+            iError = PI_GetError(ID);
+            PI_TranslateError(iError, szErrorMesage, 1024);
+            QMessageBox::critical(this, "PI", szErrorMesage);
+            PI_CloseConnection(ID);
+            return;
+        }
+    }
+
+    // 更新控件值
+    ui.aimPos->setValue(zPos);
+}
+
+// PI增加
+void piControl::on_AddPiStep_clicked()
+{
+    // 读取移动步长
+    double zStep = ui.PiMoveStep->value();
+
+    // PI移动后位置
+    double zPos = ui.aimPos->value() + zStep;
+
+    // 防止超程
+    if (zPos > 250)
+        zPos = 250;
+    if (zPos < 0)
+        zPos = 0;
+
+    // 移动至
+    dPos[0] = zPos;
+
+    // 换层(移动z轴位置)
+    returnValue = PI_MOV(ID, szAxes, dPos);
+    if (!returnValue)
+    {
+        iError = PI_GetError(ID);
+        PI_TranslateError(iError, szErrorMesage, 1024);
+        QMessageBox::critical(this, "PI", szErrorMesage);
+        PI_CloseConnection(ID);
+        return;
+    }
+    // 选择等待轴
+    bIsMoving[0] = TRUE;
+    while (bIsMoving[0] == TRUE)
+    {
+        returnValue = PI_qPOS(ID, szAxes, dPos);
+        // 获得连接轴的位置
+        if (!returnValue)
+        {
+            iError = PI_GetError(ID);
+            PI_TranslateError(iError, szErrorMesage, 1024);
+            PI_CloseConnection(ID);
+            QMessageBox::critical(this, "PI", szErrorMesage);
+            return;
+        }
+
+        returnValue = PI_IsMoving(ID, NULL, bIsMoving);
+        if (!returnValue)
+        {
+            iError = PI_GetError(ID);
+            PI_TranslateError(iError, szErrorMesage, 1024);
+            QMessageBox::critical(this, "PI", szErrorMesage);
+            PI_CloseConnection(ID);
+            return;
+        }
+    }
+
+    // 更新控件值
+    ui.aimPos->setValue(zPos);
+}
+
+// PI减少
+void piControl::on_CutPiStep_clicked()
+{
+    // 读取移动步长
+    double zStep = ui.PiMoveStep->value();
+
+    // PI移动后位置
+    double zPos = ui.aimPos->value() - zStep;
+
+    // 防止超程
+    if (zPos > 250)
+        zPos = 250;
+    if (zPos < 0)
+        zPos = 0;
+
+    // 移动至
+    dPos[0] = zPos;
+
+    // 换层(移动z轴位置)
+    returnValue = PI_MOV(ID, szAxes, dPos);
+    if (!returnValue)
+    {
+        iError = PI_GetError(ID);
+        PI_TranslateError(iError, szErrorMesage, 1024);
+        QMessageBox::critical(this, "PI", szErrorMesage);
+        PI_CloseConnection(ID);
+        return;
+    }
+    // 选择等待轴
+    bIsMoving[0] = TRUE;
+    while (bIsMoving[0] == TRUE)
+    {
+        returnValue = PI_qPOS(ID, szAxes, dPos);
+        // 获得连接轴的位置
+        if (!returnValue)
+        {
+            iError = PI_GetError(ID);
+            PI_TranslateError(iError, szErrorMesage, 1024);
+            PI_CloseConnection(ID);
+            QMessageBox::critical(this, "PI", szErrorMesage);
+            return;
+        }
+
+        returnValue = PI_IsMoving(ID, NULL, bIsMoving);
+        if (!returnValue)
+        {
+            iError = PI_GetError(ID);
+            PI_TranslateError(iError, szErrorMesage, 1024);
+            QMessageBox::critical(this, "PI", szErrorMesage);
+            PI_CloseConnection(ID);
+            return;
+        }
+    }
+
+    // 更新控件值
+    ui.aimPos->setValue(zPos);
+}
+
+// 当前至设为z = 0
+void piControl::on_presentSetZero_clicked()
+{
+    // 获取PI当前位置
+    double zPos = ui.aimPos->value();
+
+    // 发送信号
+    emit piPos(zPos);
 }
