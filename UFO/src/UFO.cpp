@@ -210,6 +210,11 @@ bool UFO::connectSystemPi()
         return false;
     }
 
+    // 保存连接相机句柄
+    MarkData::ID = ID;
+    MarkData::szAxes[0] = szAxes[0];
+    MarkData::szAxes[1] = szAxes[1];
+
     // 保存PI连接状态
     P_IsConnected = true;
 
@@ -571,9 +576,6 @@ void UFO::CreateAcquisitionWorkerThreadPI()
 // 开始采集PI位置
 void UFO::StartAcquisitionPI()
 {
-    // while循环为True
-    realpos->start();
-
     // 线程启动
     PiThread.start();
 }

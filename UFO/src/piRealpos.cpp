@@ -3,7 +3,12 @@
 piRealpos::piRealpos(QObject* parent)
 	: QObject(parent)
 {
+    // 获取相机句柄
+    ID = MarkData::ID;
+    szAxes[0] = MarkData::szAxes[0];
 
+    // while置为真
+    P_IsConnected = true;
 }
 
 piRealpos::~piRealpos()
@@ -47,14 +52,8 @@ void piRealpos::Start()
         emit PiRealPOS(p_RealPos);
 
         // 500ms延时
-        QThread::msleep(500);
+        QThread::msleep(250);
     }
-}
-
-// 线程重新启动
-void piRealpos::start()
-{
-    P_IsConnected = true;
 }
 
 // 线程停止

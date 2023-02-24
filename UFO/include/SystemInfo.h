@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QLabel>
 #include <QSettings>
+#include "MarkData.h"
 #include "ui_SystemInfo.h"
 
 class SystemInfo : public QDialog

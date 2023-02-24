@@ -82,7 +82,7 @@ void SystemInfo::SetTables()
 	QString DataValue4 = TableInfo->value("相机").toString();
 	QString DataValue5 = TableInfo->value("快门").toString();
 	QString DataValue6 = TableInfo->value("PI设备句柄").toString();
-	QString DataValue7 = TableInfo->value("PI连接轴").toString();
+	QString DataValue7 = MarkData::szAxes[0];
 	QString DataValue8 = TableInfo->value("快门句柄").toString();
 	QString DataValue10 = TableInfo->value("文本路径").toString();
 	QString DataValue11 = TableInfo->value("数据量（行）").toString();

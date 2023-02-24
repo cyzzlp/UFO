@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QThread>
+#include "MarkData.h"
 #include "PI_GCS2_DLL_dynamicp_loader.h"
 
 class piRealpos  : public QObject
@@ -40,7 +41,6 @@ private:
 
 public slots:
     void Start();
-    void start();
     void stop();
 
 signals:
