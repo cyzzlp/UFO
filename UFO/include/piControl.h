@@ -2,7 +2,7 @@
 #pragma execution_character_set("utf-8")
 
 #include <QDialog>
-#include "PI_GCS2_DLL_dynamicp_loader.h"
+#include "PI_GCS2_DLL.h"
 #include "ui_piControl.h"
 
 class piControl : public QDialog

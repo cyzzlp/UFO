@@ -13,7 +13,7 @@
 #include <QThread>
 #include <QtDataVisualization>
 #include <QSettings>
-#include "PI_GCS2_DLL_dynamicp_loader.h"
+#include "PI_GCS2_DLL.h"
 #include "CSCInterface_dynamicm_loader.h"
 #include "CH375DLL_dynamics_loader.h"
 #include "ids_peak_comfort_c.h"
@@ -36,6 +36,7 @@
 #include "shutterControl.h"
 #include "MarkControl.h"
 #include "GlobalInfo.h"
+#include "markThread.h"
 #include "ui_UFO.h"
 
 using namespace QtDataVisualization;
@@ -78,7 +79,7 @@ private:
     int ID{};
 
     // 记录连接轴
-    char szAxes[2]{};
+    char szAxesed[2]{};
 
     // 用于 USB 设备描述的 szBuffer 缓冲区
     char szBuffer[17]{};
@@ -254,6 +255,12 @@ private:
     // 振镜控制
     MarkControl* markSet{};
 
+    // 实现标刻功能
+    markThread* MarkThreads{};
+
+    // 执行标刻线程
+    QThread MarktoThread{};
+
 private:
     // 关闭窗口时间，可以询问是否退出
     void closeEvent(QCloseEvent* event);
@@ -403,8 +410,8 @@ private slots:
     // 标刻次数CheckBox状态改变
     void on_InfMarkCount_stateChanged(int arg1);
 
-    // 标刻次数SpinBox状态改变
-    void on_MarkCounts_valueChanged(int arg1);
+    // 显示振镜位置
+    void showPosition(double x_Pos, double y_Pos);
     
 signals:
     // 发送错误信号提示

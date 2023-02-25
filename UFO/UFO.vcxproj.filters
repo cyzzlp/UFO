@@ -230,9 +230,6 @@
     <ClInclude Include="include\PI_GCS2_DLL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\PI_GCS2_DLL_dynamicp_loader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\ids_peak_comfort_c_dynamic_loader.h">
       <Filter>Header Files</Filter>
     </ClInclude>

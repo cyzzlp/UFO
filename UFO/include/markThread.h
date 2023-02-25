@@ -5,8 +5,8 @@
 #include <QMessageBox>
 #include "MarkData.h"
 #include "GlobalInfo.h"
-#include "PI_GCS2_DLL_dynamicp_loader.h"
 #include "CSCInterface_dynamicm_loader.h"
+#include "PI_GCS2_DLL.h"
 
 class markThread  : public QObject
 {

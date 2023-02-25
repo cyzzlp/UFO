@@ -303,3 +303,9 @@ void markThread::Start()
 		delete[]yMarkData;
 	}
 }
+
+// Ïß³ÌÍ£Ö¹
+void markThread::Stop()
+{
+
+}

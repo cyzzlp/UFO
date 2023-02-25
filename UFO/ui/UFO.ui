@@ -72,8 +72,8 @@
    <widget class="QCheckBox" name="InfMarkCount">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>320</y>
+      <x>20</x>
+      <y>340</y>
       <width>111</width>
       <height>31</height>
      </rect>
@@ -91,45 +91,6 @@
     </property>
     <property name="checked">
      <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QSpinBox" name="MarkCounts">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>320</y>
-      <width>91</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>11</pointsize>
-     </font>
-    </property>
-    <property name="maximum">
-     <number>65536</number>
-    </property>
-    <property name="value">
-     <number>1</number>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>320</y>
-      <width>72</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>11</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>标刻次数</string>
     </property>
    </widget>
   </widget>
@@ -180,7 +141,7 @@
      <x>0</x>
      <y>0</y>
      <width>1923</width>
-     <height>26</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">

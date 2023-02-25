@@ -88,7 +88,6 @@
     <QtMoc Include="include\MarkAreaSet2.h" />
     <QtMoc Include="include\MarkParaSet.h" />
     <QtMoc Include="include\MarkData.h" />
-    <ClInclude Include="include\PI_GCS2_DLL_dynamicp_loader.h" />
     <ClInclude Include="include\PI_GCS2_DLL.h" />
   </ItemGroup>
   <ItemGroup>

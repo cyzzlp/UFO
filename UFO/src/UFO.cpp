@@ -170,7 +170,7 @@ bool UFO::connectSystemPi()
     }
 
     // 获取所有已配置轴的标识符
-    BOOL returnValue = PI_qSAI(ID, szAxes, 16);
+    BOOL returnValue = PI_qSAI(ID, szAxesed, 16);
     if (!returnValue)
     {
         iError = PI_GetError(ID);
@@ -184,7 +184,7 @@ bool UFO::connectSystemPi()
     bFlags[0] = TRUE;
 
     // 调用伺服模式命令
-    returnValue = PI_SVO(ID, szAxes, bFlags);
+    returnValue = PI_SVO(ID, szAxesed, bFlags);
     if (!returnValue)
     {
         iError = PI_GetError(ID);
@@ -197,7 +197,7 @@ bool UFO::connectSystemPi()
     dPos[0] = 0.0;
 
     // 换层(移动z轴位置)
-    returnValue = PI_MOV(ID, szAxes, dPos);
+    returnValue = PI_MOV(ID, szAxesed, dPos);
     if (!returnValue)
     {
         iError = PI_GetError(ID);
@@ -209,7 +209,7 @@ bool UFO::connectSystemPi()
     bIsMoving[0] = TRUE;
     while (bIsMoving[0] == TRUE)
     {
-        returnValue = PI_qPOS(ID, szAxes, dPos);
+        returnValue = PI_qPOS(ID, szAxesed, dPos);
         // 获得连接轴的位置
         if (!returnValue)
         {
@@ -241,8 +241,8 @@ bool UFO::connectSystemPi()
 
     // 保存连接相机句柄
     GlobalInfo::ID = ID;
-    GlobalInfo::szAxes[0] = szAxes[0];
-    GlobalInfo::szAxes[1] = szAxes[1];
+    GlobalInfo::szAxes[0] = szAxesed[0];
+    GlobalInfo::szAxes[1] = szAxesed[1];
 
     // 保存PI连接状态
     GlobalInfo::p_Connect = true;
@@ -556,7 +556,7 @@ void UFO::CreateStatuBar()
         DeviceConnectState->setText("设备连接成功");
 
         // 显示PI连接轴
-        QString szAxes = QString(szAxes[0]);
+        QString szAxes = szAxes[0];
 
         ConnectAxis->setText("PI连接轴：" + szAxes);
     }
@@ -710,7 +710,12 @@ void UFO::StopAcquisition()
 // 创建数据标刻线程
 void UFO::CreateMarkWorkerThread()
 {
+    MarkThreads = new markThread(this);
+    MarkThreads->moveToThread(&MarktoThread);
 
+    // 线程开始时，开始标刻
+    connect(&MarktoThread, SIGNAL(started()), MarkThreads, SLOT(Start()), Qt::UniqueConnection);
+    connect(MarkThreads, &markThread::MarkRealPos, this, &UFO::showPosition);
 }
 
 // 实时更新PI位置
@@ -1013,9 +1018,21 @@ void UFO::ResetDataText(int dataNum)
     MarkDataNum->setText("标刻数据总量：" + Num);
 }
 
+// 显示振镜位置
+void UFO::showPosition(double x_Pos, double y_Pos)
+{
+    QString xPos = QString::number(x_Pos);
+    QString yPos = QString::number(y_Pos);
+
+    x_Position->setText("振镜x位置：" + xPos);
+    y_Position->setText("振镜y位置：" + yPos);
+}
+
 // 系统信息显示
 void UFO::on_actSystemInfo_triggered()
 {
+    on_actDefaultPara_triggered();
+
     // 构造当前窗口
     sysInfo = new SystemInfo(this);
     sysInfo->setWindowModality(Qt::ApplicationModal);
@@ -1026,6 +1043,8 @@ void UFO::on_actSystemInfo_triggered()
 // 启动标刻
 void UFO::on_actImplementstart_triggered()
 {
+    // 启动线程
+    MarktoThread.start();
     mthread = true;
 }
 
@@ -1038,28 +1057,8 @@ bool UFO::hasError()
 // 标刻次数CheckBox状态改变
 void UFO::on_InfMarkCount_stateChanged(int arg1)
 {
-    if (arg1)
-    {
-        ui.MarkCounts->setValue(0);
-    }
-
-    GlobalInfo::MarkCount = ui.MarkCounts->value();
-}
-
-// 标刻次数SpinBox状态改变
-void UFO::on_MarkCounts_valueChanged(int arg1)
-{
-    if (ui.MarkCounts->value() != 0)
-    {
-        ui.InfMarkCount->setChecked(0);
-    }
-
-    if (ui.MarkCounts->value() == 0)
-    {
-        ui.InfMarkCount->setChecked(1);
-    }
-
-    GlobalInfo::MarkCount = ui.MarkCounts->value();
+    if (ui.InfMarkCount->isChecked())
+        GlobalInfo::MarkCount = 0;
 }
 
 // 退出程序
