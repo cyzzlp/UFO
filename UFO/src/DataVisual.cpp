@@ -1,4 +1,5 @@
 #include "DataVisual.h"
+#include "GlobalInfo.h"
 
 DataVisual::DataVisual(QWidget* parent)
 	: QDialog(parent)
@@ -58,8 +59,8 @@ void DataVisual::InitGraph3D()
 void DataVisual::DrawData(QVector<QVector<double>> PointArr)
 {
     int cutnum = 0;
-    int itemCount = MarkData::MarkTextRows;
-    int itemCountColums = MarkData::MarkTextColumns;
+    int itemCount = GlobalInfo::MarkTextRows;
+    int itemCountColums = GlobalInfo::MarkTextColumns;
     if (itemCount > 50000)
     {
         cutnum = itemCount / 50000;

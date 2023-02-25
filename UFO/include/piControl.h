@@ -1,7 +1,7 @@
 #pragma once
+#pragma execution_character_set("utf-8")
 
 #include <QDialog>
-#include <QSettings>
 #include "PI_GCS2_DLL_dynamicp_loader.h"
 #include "ui_piControl.h"
 
@@ -48,10 +48,6 @@ private:
 
 	// PI连接
 	bool P_IsConnect{};
-
-private:
-	// 读取PI信息
-	QSettings* piInfo{};
 
 private slots:
 	//关闭窗口事件

@@ -1,9 +1,9 @@
 #pragma once
+#pragma execution_character_set("utf-8")
 
 #include <QDialog>
 #include <QLabel>
 #include <QCloseEvent>
-#include <QSettings>
 #include <QMessageBox>
 #include <opencv2/opencv.hpp>
 #include <opencv2\imgproc\types_c.h>
@@ -32,9 +32,6 @@ private:
 
 	// 振镜连接状态
 	bool M_IsConnect{};
-
-	// 读取配置文件
-	QSettings* isConnect{};
 
 private:
 	//关闭窗口事件

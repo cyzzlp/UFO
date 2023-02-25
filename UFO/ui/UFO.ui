@@ -69,16 +69,68 @@
      <string>停止采集</string>
     </property>
    </widget>
-   <widget class="QWidget" name="verticalLayoutWidget_3">
+   <widget class="QCheckBox" name="InfMarkCount">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>320</y>
+      <width>111</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>循环标刻</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+    <property name="checked">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="MarkCounts">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>320</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="maximum">
+     <number>65536</number>
+    </property>
+    <property name="value">
+     <number>1</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>60</y>
-      <width>431</width>
-      <height>291</height>
+      <y>320</y>
+      <width>72</width>
+      <height>31</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="direButton"/>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>标刻次数</string>
+    </property>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
@@ -128,7 +180,7 @@
      <x>0</x>
      <y>0</y>
      <width>1923</width>
-     <height>23</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -181,6 +233,8 @@
      <string>执行</string>
     </property>
     <addaction name="actOpenTheLaser"/>
+    <addaction name="actImplementstart"/>
+    <addaction name="actImplementstop"/>
     <addaction name="actImplementclose"/>
    </widget>
    <addaction name="menu"/>

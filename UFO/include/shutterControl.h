@@ -1,7 +1,6 @@
 #pragma once
 
 #include <QDialog>
-#include <QSettings>
 #include <QMessageBox>
 #include "CH375DLL_dynamics_loader.h"
 #include "ui_shutterControl.h"
@@ -18,15 +17,8 @@ private:
 	// 快门句柄
 	ULONG index{};
 
-	// 快门句柄
-	int indexs{};
-
 	// 快门连接
 	bool S_IsConnect{};
-
-private:
-	// 读取快门信息
-	QSettings* shutter{};
 
 private slots:
 	//关闭窗口事件

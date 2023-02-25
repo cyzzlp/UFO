@@ -1,20 +1,14 @@
 #include "shutterControl.h"
+#include "GlobalInfo.h"
 
 shutterControl::shutterControl(QWidget *parent)
 	: QDialog(parent)
 {
 	ui.setupUi(this);
 
-	// 读取快门信息
-	QString m_FileName = QCoreApplication::applicationDirPath() + "/systemInfo.ini";
-	shutter = new QSettings(m_FileName, QSettings::IniFormat);
-
 	// 快门信息
-	S_IsConnect = shutter->value("快门").toBool();
-	indexs = shutter->value("快门句柄").toInt();
-
-	// 转换
-	index = (ULONG)indexs;
+	S_IsConnect = GlobalInfo::s_Connect;
+	index = GlobalInfo::index;
 
 	// 如果PI已连接
 	if (!S_IsConnect)

@@ -49,7 +49,7 @@ UFO::UFO(QWidget* parent)
     InitSetting();
 
     // 如果设备连接失败
-    if (!C_IsConnected)
+    if (!isConnect)
         return;
 
     // 实时获取PI位置
@@ -66,14 +66,43 @@ UFO::UFO(QWidget* parent)
 
     // 启动图像采集
     StartAcquisition();
-
-    // 创建数据标刻线程
-    CreateMarkWorkerThread();
 }
 
 UFO::~UFO()
 {
+    if (GlobalInfo::pthread)
+    {
+        realpos->stop();
+        PiThread.quit();
+        PiThread.wait();
+    }
 
+    if (GlobalInfo::mthread)
+    {
+        //mthread->Stop();
+        //MarktoThread.quit();
+        //MarktoThread.wait();
+    }
+
+    // CCD图像采集线程退出
+    if (GlobalInfo::cthread)
+    {
+        m_acquisitionWorker->Stop();
+        m_acquisitionThread.quit();
+        m_acquisitionThread.wait();
+    }
+
+    // 振镜断开
+    if (GlobalInfo::m_Connect)
+        CloseUSB_Board();
+
+    // PI断开
+    if (GlobalInfo::p_Connect)
+        PI_CloseConnection(GlobalInfo::ID);
+
+    // 相机断开
+    if(GlobalInfo::c_Connect)
+        backend_exit();
 }
 
 // 关闭窗口时间，可以询问是否退出
@@ -119,7 +148,7 @@ int UFO::connectSystemMark()
     Goto_XY(0, 0);
 
     // 振镜连接
-    M_IsConnected = true;
+    GlobalInfo::m_Connect = true;
 
     return 1;
 }
@@ -211,12 +240,12 @@ bool UFO::connectSystemPi()
     }
 
     // 保存连接相机句柄
-    MarkData::ID = ID;
-    MarkData::szAxes[0] = szAxes[0];
-    MarkData::szAxes[1] = szAxes[1];
+    GlobalInfo::ID = ID;
+    GlobalInfo::szAxes[0] = szAxes[0];
+    GlobalInfo::szAxes[1] = szAxes[1];
 
     // 保存PI连接状态
-    P_IsConnected = true;
+    GlobalInfo::p_Connect = true;
 
     return true;
 }
@@ -232,7 +261,7 @@ int UFO::connectSystemShutter()
     HANDLE Shutter = CH375OpenDevice(index);
     if (Shutter == INVALID_HANDLE_VALUE)
     {
-        S_IsConnected = false;
+        GlobalInfo::s_Connect = false;
         return 0;
     }
 
@@ -244,7 +273,7 @@ int UFO::connectSystemShutter()
     CH375WriteData(index, &iBuffer, p_ioLength);
 
     // 保存快门连接状态
-    S_IsConnected = true;
+    GlobalInfo::s_Connect = true;
 
     return 1;
 }
@@ -383,7 +412,7 @@ void UFO::OpenCCDLibrary()
     }
 
     // CCD连接状态
-    C_IsConnected = true;
+    GlobalInfo::c_Connect = true;
 }
 
 // 创建实时显示标刻点位置的窗口
@@ -467,7 +496,7 @@ void UFO::OnAboutQtLinkActivated(const QString& link)
 // 初始化界面控件
 void UFO::initButton()
 {
-    if (!C_IsConnected)
+    if (!GlobalInfo::c_Connect)
     {
         ui.m_buttonStartStop->setEnabled(false);
     }
@@ -519,7 +548,7 @@ void UFO::CreateStatuBar()
     x_Position->setText("振镜x位置：0.00");
     y_Position->setText("振镜y位置：0.00");
 
-    if (P_IsConnected)
+    if (GlobalInfo::p_Connect)
     {
         // 停止设备连接状态文本更新
         stopAnimation2();
@@ -578,6 +607,7 @@ void UFO::StartAcquisitionPI()
 {
     // 线程启动
     PiThread.start();
+    pthread = true;
 }
 
 // 创建信号槽
@@ -659,6 +689,7 @@ void UFO::StartAcquisition()
 
     m_acquisitionThread.start();
     m_acquisitionRunning = true;
+    cthread = true;
 }
 
 // 停止采集
@@ -718,13 +749,12 @@ void UFO::InitSetting()
     QString m_FileName3 = m_FileName + "/correctSetting.ini";
     QString m_FileName4 = m_FileName + "/laserSetting.ini";
     QString m_FileName5 = m_FileName + "/systemSetting.ini";
-    QString m_FileName6 = m_FileName + "/systemInfo.ini";
+
     gapReadini = new QSettings(m_FileName1, QSettings::IniFormat);
     correctWayReadini = new QSettings(m_FileName2, QSettings::IniFormat);
     correctReadini = new QSettings(m_FileName3, QSettings::IniFormat);
     laserReadini = new QSettings(m_FileName4, QSettings::IniFormat);
     systemReadini = new QSettings(m_FileName5, QSettings::IniFormat);
-    systemInfoini = new QSettings(m_FileName6, QSettings::IniFormat);
 
     // 设置默认值
     gapReadini->setValue("xGap", 1);
@@ -774,40 +804,12 @@ void UFO::InitSetting()
     systemReadini->setValue("dotSpace", 0.1);
     systemReadini->setValue("isBitmap", false);
 
-    systemInfoini->setValue("设备连接情况","");
-    systemInfoini->setValue("振镜", M_IsConnected);
-    systemInfoini->setValue("PI", P_IsConnected);
-    systemInfoini->setValue("PI设备句柄", ID);
-    systemInfoini->setValue("PI连接轴", szAxes[0]);
-    systemInfoini->setValue("相机", C_IsConnected);
-    systemInfoini->setValue("快门", S_IsConnected);
-    systemInfoini->setValue("快门句柄", INDEX);
-    systemInfoini->setValue("标刻文本信息", "");
-    systemInfoini->setValue("文本路径", aFileName);
-    systemInfoini->setValue("数据量（行）", DataCounts);
-
-    // 获取数据类型
-    DataType = gapReadini->value("dataType").toBool();
-
-    if (!DataType)
-    {
-        systemInfoini->setValue("数据类型", "XYZ");
-    }
-
-    if (DataType)
-    {
-        systemInfoini->setValue("数据类型", "XY");
-    }
-
-    systemInfoini->setValue("线程信息", "");
-
     // 保存及关闭配置文件
     gapReadini->sync();
     correctWayReadini->sync();
     correctReadini->sync();
     laserReadini->sync();
     systemReadini->sync();
-    systemInfoini->sync();
 
     // 删除句柄
     delete gapReadini;
@@ -944,7 +946,7 @@ void UFO::on_actOpenFile_triggered()
     // 作为判断线程启动的标志
     if (!aFileName.isEmpty())
     {
-        systemInfoini->setValue("文本路径", aFileName);
+        GlobalInfo::aFileName = aFileName;
 
         // 设置文件预设间隔
         gap = new dataSortgap(this);
@@ -1021,10 +1023,43 @@ void UFO::on_actSystemInfo_triggered()
     sysInfo->show();
 }
 
+// 启动标刻
+void UFO::on_actImplementstart_triggered()
+{
+    mthread = true;
+}
+
 // 错误存在，程序退出
 bool UFO::hasError()
 {
     return m_hasError;
+}
+
+// 标刻次数CheckBox状态改变
+void UFO::on_InfMarkCount_stateChanged(int arg1)
+{
+    if (arg1)
+    {
+        ui.MarkCounts->setValue(0);
+    }
+
+    GlobalInfo::MarkCount = ui.MarkCounts->value();
+}
+
+// 标刻次数SpinBox状态改变
+void UFO::on_MarkCounts_valueChanged(int arg1)
+{
+    if (ui.MarkCounts->value() != 0)
+    {
+        ui.InfMarkCount->setChecked(0);
+    }
+
+    if (ui.MarkCounts->value() == 0)
+    {
+        ui.InfMarkCount->setChecked(1);
+    }
+
+    GlobalInfo::MarkCount = ui.MarkCounts->value();
 }
 
 // 退出程序

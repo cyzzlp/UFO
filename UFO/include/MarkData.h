@@ -14,18 +14,6 @@ public:
     // 标刻数据点标签
     static QVector<QVector<int>> MarkTextDataType;
 
-    // 数据行数
-    static int MarkTextRows;
-
-    // 数据列数
-    static int MarkTextColumns;
-
-    // PI句柄
-    static int ID;
-
-    // 记录连接轴
-    static char szAxes[2];
-
 public:
 	MarkData(QObject *parent);
 	~MarkData();

@@ -4,11 +4,10 @@ piRealpos::piRealpos(QObject* parent)
 	: QObject(parent)
 {
     // 获取相机句柄
-    ID = MarkData::ID;
-    szAxes[0] = MarkData::szAxes[0];
+    ID = GlobalInfo::ID;
+    szAxes[0] = GlobalInfo::szAxes[0];
 
-    // while置为真
-    P_IsConnected = true;
+    P_IsConnected = false;
 }
 
 piRealpos::~piRealpos()
@@ -21,6 +20,8 @@ void piRealpos::Start()
 {
 	// 选择等待轴
     BOOL bIsMoving[3] = { 0 };
+
+    P_IsConnected = true;
 
     // 持续读取，所以放在While内
     while (P_IsConnected)
@@ -54,6 +55,9 @@ void piRealpos::Start()
         // 500ms延时
         QThread::msleep(250);
     }
+
+    // 线程停止
+    GlobalInfo::pthread = false;
 }
 
 // 线程停止

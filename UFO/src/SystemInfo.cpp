@@ -1,4 +1,5 @@
 #include "SystemInfo.h"
+#include "GlobalInfo.h"
 
 SystemInfo::SystemInfo(QWidget *parent)
 	: QDialog(parent)
@@ -58,17 +59,12 @@ void SystemInfo::SetTableHeader()
 // 设置列表参数
 void SystemInfo::SetTables()
 {
-	// 读取系统信息
-	QString FileName = QCoreApplication::applicationDirPath() + "/systemInfo.ini";
-	TableInfo = new QSettings(FileName, QSettings::IniFormat);
-
-	// 读取当前系统信息
 	QString DataKey1 = "设备连接情况：";
 	QString DataKey2 = "振镜";
 	QString DataKey3 = "PI";
 	QString DataKey4 = "相机";
 	QString DataKey5 = "快门";
-	QString DataKey6 = "PI设备句柄";
+	QString DataKey6 = "PI连接句柄";
 	QString DataKey7 = "PI连接轴";
 	QString DataKey8 = "快门句柄";
 	QString DataKey9 = "标刻文本信息：";
@@ -76,32 +72,117 @@ void SystemInfo::SetTables()
 	QString DataKey11 = "数据量（行）";
 	QString DataKey12 = "数据类型";
 	QString DataKey13 = "线程信息：";
+	QString DataKey14 = "振镜标刻";
+	QString DataKey15 = "PI实时位置";
+	QString DataKey16 = "CCD图像采集";
 
-	QString DataValue2 = TableInfo->value("振镜").toString();
-	QString DataValue3 = TableInfo->value("PI").toString();
-	QString DataValue4 = TableInfo->value("相机").toString();
-	QString DataValue5 = TableInfo->value("快门").toString();
-	QString DataValue6 = TableInfo->value("PI设备句柄").toString();
-	QString DataValue7 = MarkData::szAxes[0];
-	QString DataValue8 = TableInfo->value("快门句柄").toString();
-	QString DataValue10 = TableInfo->value("文本路径").toString();
-	QString DataValue11 = TableInfo->value("数据量（行）").toString();
-	QString DataValue12 = TableInfo->value("数据类型").toString();
-
-	// 设置参数
+	// 设置表格
 	appendOneRows(DataKey1);
-	appendOneRow(DataKey2, DataValue2);
-	appendOneRow(DataKey3, DataValue3);
-	appendOneRow(DataKey4, DataValue4);
-	appendOneRow(DataKey5, DataValue5);
+
+	if (GlobalInfo::m_Connect)
+	{
+		QString DataValue2 = "已连接";
+		appendOneRow(DataKey2, DataValue2);
+	}
+	else
+	{
+		QString DataValue2 = "未连接";
+		appendOneRow(DataKey2, DataValue2);
+	}
+
+	if (GlobalInfo::p_Connect)
+	{
+		QString DataValue3 = "已连接";
+		appendOneRow(DataKey3, DataValue3);
+	}
+	else
+	{
+		QString DataValue3 = "未连接";
+		appendOneRow(DataKey3, DataValue3);
+	}
+
+	if (GlobalInfo::c_Connect)
+	{
+		QString DataValue4 = "已连接";
+		appendOneRow(DataKey4, DataValue4);
+	}
+	else
+	{
+		QString DataValue4 = "未连接";
+		appendOneRow(DataKey4, DataValue4);
+	}
+
+	if (GlobalInfo::s_Connect)
+	{
+		QString DataValue5 = "已连接";
+		appendOneRow(DataKey5, DataValue5);
+	}
+	else
+	{
+		QString DataValue5 = "未连接";
+		appendOneRow(DataKey5, DataValue5);
+	}
+
+	QString DataValue6 = QString::number(GlobalInfo::ID);
+	QString DataValue7 = QString::number(GlobalInfo::szAxes[1]);
+	QString DataValue8 = QString::number(GlobalInfo::index);
+	QString DataValue10 = GlobalInfo::aFileName;
+	QString DataValue11 = QString::number(GlobalInfo::MarkTextRows);
+
 	appendOneRow(DataKey6, DataValue6);
 	appendOneRow(DataKey7, DataValue7);
 	appendOneRow(DataKey8, DataValue8);
 	appendOneRows(DataKey9);
 	appendOneRow(DataKey10, DataValue10);
 	appendOneRow(DataKey11, DataValue11);
-	appendOneRow(DataKey12, DataValue12);
+
+	if (!GlobalInfo::DataType)
+	{
+		QString DataValue12 = "XYZ";
+		appendOneRow(DataKey12, DataValue12);
+	}
+	else
+	{
+		QString DataValue12 = "XY";
+		appendOneRow(DataKey12, DataValue12);
+	}
+
 	appendOneRows(DataKey13);
+
+	if (GlobalInfo::mthread)
+	{
+		QString DataValue14 = "正在运行中";
+		appendOneRow(DataKey14, DataValue14);
+	}
+	else
+	{
+		QString DataValue14 = "未运行";
+		appendOneRow(DataKey14, DataValue14);
+	}
+
+	if (GlobalInfo::pthread)
+	{
+		QString DataValue15 = "正在运行中";
+		appendOneRow(DataKey15, DataValue15);
+
+	}
+	else
+	{
+		QString DataValue15 = "未运行";
+		appendOneRow(DataKey15, DataValue15);
+
+	}
+
+	if (GlobalInfo::cthread)
+	{
+		QString DataValue16 = "正在运行中";
+		appendOneRow(DataKey16, DataValue16);
+	}
+	else
+	{
+		QString DataValue16 = "未运行";
+		appendOneRow(DataKey16, DataValue16);
+	}
 
 	// 设置交替行背景颜色
 	ui.systemTabelInfo->setAlternatingRowColors(true);

@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QThread>
 #include "MarkData.h"
+#include "GlobalInfo.h"
 #include "PI_GCS2_DLL_dynamicp_loader.h"
 
 class piRealpos  : public QObject
@@ -44,8 +45,6 @@ public slots:
     void stop();
 
 signals:
-    void started();
-    void stopped();
     void PiRealPOS(double u_PiPosition);
     void DelieveWrongInfo(QString WrongText);
 };

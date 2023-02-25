@@ -1,5 +1,6 @@
 #include <QMessageBox>
 #include <QTimer>
+#include "GlobalInfo.h"
 #include "piControl.h"
 
 piControl::piControl(QWidget *parent)
@@ -7,14 +8,10 @@ piControl::piControl(QWidget *parent)
 {
 	ui.setupUi(this);
 
-    // 读取PI信息
-    QString m_FileName = QCoreApplication::applicationDirPath() + "/systemInfo.ini";
-    piInfo = new QSettings(m_FileName, QSettings::IniFormat);
-
     // PI信息
-    P_IsConnect = piInfo->value("PI").toBool();
-    ID = piInfo->value("PI设备句柄").toInt();
-    szAxes[0] = piInfo->value("PI连接轴").toChar().unicode();
+    P_IsConnect = GlobalInfo::p_Connect;
+    ID = GlobalInfo::ID;
+    szAxes[0] = GlobalInfo::szAxes[0];
 
     // 如果PI已连接
     if (!P_IsConnect)

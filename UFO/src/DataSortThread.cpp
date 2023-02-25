@@ -1,21 +1,20 @@
 #include "DataSortThread.h"
 #include "MarkData.h"
+#include "GlobalInfo.h"
 
 DataSortThread::DataSortThread(QObject *parent = nullptr)
 	: QThread(parent)
 {
 		// 获取配置文件地址（绝对地址）
 	QString m_FileName = QCoreApplication::applicationDirPath() + "/gapSetting.ini";
-    QString m_FileName1 = QCoreApplication::applicationDirPath() + "/systemInfo.ini";
 	gap = new QSettings(m_FileName, QSettings::IniFormat);
-    filePath = new QSettings(m_FileName1, QSettings::IniFormat);
 
 	// 读取预设间隔
 	xGap = gap->value("xGap").toDouble();
 	yGap = gap->value("yGap").toDouble();
 	DataType = gap->value("dataType").toBool();
 
-    FileName = filePath->value("文本路径").toString();
+    FileName = GlobalInfo::aFileName;
 
     // 默认为XY数据
     IsErrorTextColumns = 2;
@@ -78,12 +77,8 @@ void DataSortThread::run()
     afile.close();
 
     // 记录文本行列数
-    MarkData::MarkTextRows = returnValue;
-    MarkData::MarkTextColumns = IsErrorTextColumns;
-
-    // 记录文本行列数
-    filePath->setValue("数据量（行）", returnValue);
-    filePath->sync();
+    GlobalInfo::MarkTextRows = returnValue;
+    GlobalInfo::MarkTextColumns = IsErrorTextColumns;
 
     emit setTextToLabel("分类中");
 

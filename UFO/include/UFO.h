@@ -35,6 +35,7 @@
 #include "piControl.h"
 #include "shutterControl.h"
 #include "MarkControl.h"
+#include "GlobalInfo.h"
 #include "ui_UFO.h"
 
 using namespace QtDataVisualization;
@@ -66,18 +67,6 @@ private:
 
     // 标刻文本数据类型
     bool DataType{};
-
-    // 振镜连接状态
-    bool M_IsConnected{};
-
-    // PI连接状态
-    bool P_IsConnected{};
-
-    // 工业相机连接状态
-    bool C_IsConnected{};
-
-    // 快门连接状态
-    bool S_IsConnected{};
 
     // 实现动画效果1
     int mIndex = 1;
@@ -111,6 +100,15 @@ private:
 
     // PI轴等待
     BOOL bIsMoving[3]{};
+
+    // PI线程
+    bool pthread{};
+
+    // Mark线程
+    bool mthread{};
+
+    // CCD线程
+    bool cthread{};
 
     // CCD错误信息
     bool m_blockErrorMessages{};
@@ -237,9 +235,6 @@ private:
 
     // 系统参数ini文件
     QSettings* systemReadini{};
-
-    // 系统信息ini文件
-    QSettings* systemInfoini{};
 
     // 系统信息显示
     SystemInfo* sysInfo{};
@@ -396,11 +391,20 @@ private slots:
     // 显示相机设置界面
     void on_actConnectCCD_triggered();
 
+    // 启动标刻
+    void on_actImplementstart_triggered();
+
     // 更新数据读取状态
     void ResetText(QString dataStatus);
 
     // 更新数据量状态
     void ResetDataText(int dataNum);
+
+    // 标刻次数CheckBox状态改变
+    void on_InfMarkCount_stateChanged(int arg1);
+
+    // 标刻次数SpinBox状态改变
+    void on_MarkCounts_valueChanged(int arg1);
     
 signals:
     // 发送错误信号提示

@@ -1,4 +1,5 @@
   #include "MarkControl.h"
+#include "GlobalInfo.h"
 
 MarkControl::MarkControl(QWidget *parent)
 	: QDialog(parent)
@@ -8,7 +9,6 @@ MarkControl::MarkControl(QWidget *parent)
     // 读取文件地址
     QString m_FileName = QCoreApplication::applicationDirPath();
     QString m_FileName1 = m_FileName + "/626902.jpeg";
-    QString m_FileName2 = m_FileName + "/systemInfo.ini";
     
     // 转数据格式
     String imgSrc = m_FileName1.toStdString();
@@ -26,11 +26,8 @@ MarkControl::MarkControl(QWidget *parent)
     // 实现缩放
     pixmapScale(qImg, ImageData);
 
-    // 读取连接信息
-    isConnect = new QSettings(m_FileName, QSettings::IniFormat);
-
     // 读取振镜连接信息
-    M_IsConnect = isConnect->value("振镜").toBool();
+    M_IsConnect = GlobalInfo::m_Connect;
 
     if (!M_IsConnect)
     {

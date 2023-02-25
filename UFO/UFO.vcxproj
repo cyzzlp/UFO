@@ -14,6 +14,7 @@
     <QtMoc Include="include\UFO.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\GlobalInfo.cpp" />
     <ClCompile Include="src\MarkData.cpp" />
     <ClCompile Include="src\DataSortThread.cpp" />
     <ClCompile Include="src\MarkParaSet.cpp" />
@@ -22,6 +23,7 @@
     <ClCompile Include="src\laserSet.cpp" />
     <ClCompile Include="src\MarkCorrType.cpp" />
     <ClCompile Include="src\dataSortgap.cpp" />
+    <ClCompile Include="src\markThread.cpp" />
     <ClCompile Include="src\piRealpos.cpp" />
     <ClCompile Include="src\CCDSetUserface.cpp" />
     <ClCompile Include="src\acquisitionworker.cpp" />
@@ -57,6 +59,7 @@
     <QtUic Include="ui\UFO.ui" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="include\markThread.h" />
     <QtMoc Include="include\ThreadControl.h" />
     <QtMoc Include="include\MarkControl.h" />
     <QtMoc Include="include\shutterControl.h" />
@@ -76,6 +79,7 @@
     <ClInclude Include="include\CSCInterface.h" />
     <ClInclude Include="include\CSCInterface_dynamicm_loader.h" />
     <QtMoc Include="include\display.h" />
+    <QtMoc Include="include\GlobalInfo.h" />
     <ClInclude Include="include\ids_peak_comfort_c.h" />
     <ClInclude Include="include\ids_peak_comfort_c_dynamic_loader.h" />
     <QtMoc Include="include\MarkCorrType.h" />

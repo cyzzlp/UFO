@@ -86,6 +86,12 @@
     <QtMoc Include="include\ThreadControl.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="include\GlobalInfo.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="include\markThread.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -155,6 +161,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\ThreadControl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GlobalInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\markThread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

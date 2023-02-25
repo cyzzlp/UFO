@@ -3,7 +3,6 @@
 
 #include <QDialog>
 #include <QLabel>
-#include <QSettings>
 #include "MarkData.h"
 #include "ui_SystemInfo.h"
 
@@ -14,16 +13,6 @@ class SystemInfo : public QDialog
 public:
 	SystemInfo(QWidget *parent = nullptr);
 	~SystemInfo();
-
-private:
-	//  各字段在表格中的列号
-	enum FieldColNum { colx = 0, coly };
-
-	//状态栏上用于显示单元格的行号、列号
-	QLabel* labCellIndex{};
-
-	// 读取列表信息
-	QSettings* TableInfo{};
 
 private:
 	//关闭窗口事件
