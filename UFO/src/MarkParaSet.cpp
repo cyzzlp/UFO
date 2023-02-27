@@ -5,11 +5,26 @@ MarkParaSet::MarkParaSet(QWidget *parent)
 {
 	ui.setupUi(this);
 
+	// 创建笔号ComBox
+	QList<int> pen_index;
+	for (int i = 0; i <= 255; i++)
+	{
+		pen_index.insert(i, i);
+	}
+
+	ui.indexPara->clear();
+	foreach(int i, pen_index)
+	{
+		QString Str = QString::number(i);
+		ui.indexPara->addItem(Str, i);
+	}
+
 	// 读取配置文件
 	QString m_FileName = QCoreApplication::applicationDirPath() + "/systemSetting.ini";
 	systemSet = new QSettings(m_FileName, QSettings::IniFormat);
 
 	// 读取设置
+	index = systemSet->value("INDEX").toInt();
 	markCount = systemSet->value("markCounts").toInt();
 	markSpeed = systemSet->value("markSpeed").toFloat();
 	jumpSpeed = systemSet->value("jumpSpeed").toFloat();
@@ -28,6 +43,7 @@ MarkParaSet::MarkParaSet(QWidget *parent)
 	isBitmap = systemSet->value("isBitmap").toBool();
 
 	// 初始化界面
+	ui.indexPara->setCurrentIndex(index);
 	ui.markCountsPara->setValue(markCount);
 	ui.markSpeedPara->setValue(markSpeed);
 	ui.jumpSpeedPara->setValue(jumpSpeed);
@@ -61,6 +77,7 @@ void MarkParaSet::closeEvent(QCloseEvent* event)
 void MarkParaSet::on_GetMarkParaSetting_clicked()
 {
 	// 读取参数设置
+	index = ui.indexPara->currentIndex();
 	markCount = ui.markCountsPara->value();
 	markSpeed = ui.markSpeedPara->value();
 	jumpSpeed = ui.jumpSpeedPara->value();
@@ -79,6 +96,7 @@ void MarkParaSet::on_GetMarkParaSetting_clicked()
 	isBitmap = ui.isBitmapPara->isChecked();
 
 	// 保存设置
+	systemSet->setValue("INDEX", index);
 	systemSet->setValue("markCounts", markCount);
 	systemSet->setValue("markSpeed", markSpeed);
 	systemSet->setValue("jumpSpeed", jumpSpeed);

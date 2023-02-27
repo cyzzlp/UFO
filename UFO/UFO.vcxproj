@@ -59,6 +59,7 @@
     <QtUic Include="ui\UFO.ui" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\PI_GCS2_DLL_dynamicp_loader.h" />
     <QtMoc Include="include\markThread.h" />
     <QtMoc Include="include\ThreadControl.h" />
     <QtMoc Include="include\MarkControl.h" />

@@ -245,6 +245,9 @@
     <ClInclude Include="include\CH375DLL_dynamics_loader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\PI_GCS2_DLL_dynamicp_loader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="depends\CSCInterface.dll" />

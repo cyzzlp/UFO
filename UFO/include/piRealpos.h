@@ -12,7 +12,7 @@ class piRealpos  : public QObject
 	Q_OBJECT
 
 public:
-	piRealpos(QObject *parent);
+	piRealpos(QObject *parent = nullptr);
 	~piRealpos();
 
 private:

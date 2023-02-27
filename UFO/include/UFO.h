@@ -13,7 +13,7 @@
 #include <QThread>
 #include <QtDataVisualization>
 #include <QSettings>
-#include "PI_GCS2_DLL.h"
+#include "PI_GCS2_DLL_dynamicp_loader.h"
 #include "CSCInterface_dynamicm_loader.h"
 #include "CH375DLL_dynamics_loader.h"
 #include "ids_peak_comfort_c.h"
@@ -101,15 +101,6 @@ private:
 
     // PI轴等待
     BOOL bIsMoving[3]{};
-
-    // PI线程
-    bool pthread{};
-
-    // Mark线程
-    bool mthread{};
-
-    // CCD线程
-    bool cthread{};
 
     // CCD错误信息
     bool m_blockErrorMessages{};
@@ -201,9 +192,6 @@ private:
     // PI实时位置
     piRealpos* realpos{};
 
-    // PI实时位置线程
-    QThread MarkThread;
-
     // 预设间隔窗口
     dataSortgap* gap{};
 
@@ -236,6 +224,9 @@ private:
 
     // 系统参数ini文件
     QSettings* systemReadini{};
+
+    // 读取配置文件
+    QSettings* ReadSetting{};
 
     // 系统信息显示
     SystemInfo* sysInfo{};
@@ -277,6 +268,9 @@ private:
     // 连接快门
     int connectSystemShutter();
 
+    // 连接CCD
+    int connectSystemCCD();
+
     // 实现动画效果
     void CreateTimer();
 
@@ -303,9 +297,6 @@ private:
 
     // 初始化CCD界面
     void CreateCCD();
-
-    // CCD开始采集
-    void OpenCCDLibrary();
 
     // 初始化界面控件
     void initButton();
@@ -412,6 +403,9 @@ private slots:
 
     // 显示振镜位置
     void showPosition(double x_Pos, double y_Pos);
+
+    // 振镜标刻前准备
+    int markReady();
     
 signals:
     // 发送错误信号提示

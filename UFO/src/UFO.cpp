@@ -1,5 +1,5 @@
 #include "UFO.h"
-
+   
 UFO::UFO(QWidget* parent)
     : QMainWindow(parent)
 {
@@ -21,6 +21,11 @@ UFO::UFO(QWidget* parent)
      if (!isConnect)
          QMessageBox::warning(nullptr, "快门", "CH375快门连接失败，请检查快门连接");
 
+     // 连接快门
+     isConnect = connectSystemCCD();
+     if (!isConnect)
+         QMessageBox::warning(nullptr, "CCD", "CCD连接失败，请检查快门连接");
+
     ui.setupUi(this);
 
     // 将后端的错误回调连接到UFO
@@ -39,24 +44,12 @@ UFO::UFO(QWidget* parent)
     // 初始化CCD界面
     CreateCCD();
 
-    // 启动CCD采集
-    OpenCCDLibrary();
-
     // 初始化界面控件
     initButton();
-
-    // 生成配置文件
-    InitSetting();
 
     // 如果设备连接失败
     if (!isConnect)
         return;
-
-    // 实时获取PI位置
-    CreateAcquisitionWorkerThreadPI();
-
-    // 开始采集PI位置 
-    StartAcquisitionPI();
 
     // 图像采集准备
     backend_acquisition_prepare();
@@ -66,6 +59,15 @@ UFO::UFO(QWidget* parent)
 
     // 启动图像采集
     StartAcquisition();
+
+    // 实时获取PI位置
+    CreateAcquisitionWorkerThreadPI();
+
+    // 开始采集PI位置 
+    StartAcquisitionPI();
+
+    // 生成配置文件
+    InitSetting();
 }
 
 UFO::~UFO()
@@ -79,9 +81,9 @@ UFO::~UFO()
 
     if (GlobalInfo::mthread)
     {
-        //mthread->Stop();
-        //MarktoThread.quit();
-        //MarktoThread.wait();
+        MarkThreads->Stop();
+        MarktoThread.quit();
+        MarktoThread.wait();
     }
 
     // CCD图像采集线程退出
@@ -126,15 +128,16 @@ int UFO::connectSystemMark()
     int returnValue = 0;
 
     // 搜索驱动文件所在的位置，绝对路径
-    char fpgaPaths[MAX_PATH + 1]{};
-    GetModuleFileNameA(nullptr, fpgaPaths, MAX_PATH);
-    std::string FirmwareProgram = const_cast<char*>(fpgaPaths);
-    int index = FirmwareProgram.find_last_of("\\");
-    std::string folderPath = FirmwareProgram.substr(0, index);
-    std::string fpgaPath = folderPath + "\\" + "FpgaFirmware.rbf";
+    //char fpgaPaths[MAX_PATH + 1]{};
+    //GetModuleFileNameA(nullptr, fpgaPaths, MAX_PATH);
+    //std::string FirmwareProgram = const_cast<char*>(fpgaPaths);
+    //int index = FirmwareProgram.find_last_of("\\");
+    //std::string folderPath = FirmwareProgram.substr(0, index);
+    //std::string fpgaPath = folderPath + "\\" + "FpgaFirmware.rbf";
 
-    // string转char*
-    char* filePath = const_cast<char*>(fpgaPath.c_str());
+    QString fpgaPath = QCoreApplication::applicationDirPath() + "/FpgaFirmware.rbf";
+    QByteArray Path = fpgaPath.toLatin1();
+    char* filePath = Path.data();
     
     // 连接板卡
     returnValue = OpenUSB_Board(0, NULL);
@@ -268,7 +271,7 @@ int UFO::connectSystemShutter()
     // 设置延时
     CH375SetTimeout(index, 2000, 2000);
 
-    // 向快门写入数据
+    // 向快门写入数据，并关闭快门
     int iBuffer = a & 0x0a;
     CH375WriteData(index, &iBuffer, p_ioLength);
 
@@ -278,6 +281,23 @@ int UFO::connectSystemShutter()
     return 1;
 }
 
+int UFO::connectSystemCCD()
+{
+    // 后台启动功能：打开图库，打开相机
+    int status = backend_start();
+    if (status != 0)
+    {
+        m_hasError = true;
+        m_blockErrorMessages = true;
+        backend_exit();
+        return 0;
+    }
+
+    // CCD连接状态
+    GlobalInfo::c_Connect = true;
+
+    return 1;
+}
 // 实现动画效果
 void UFO::CreateTimer()
 {
@@ -396,23 +416,6 @@ void UFO::updateText2()
     {
         ConnectAxis->setText("PI连接轴：等待连接...");
     }
-}
-
-// CCD开始采集
-void UFO::OpenCCDLibrary()
-{
-    // 后台启动功能：打开图库，打开相机
-    int status = backend_start();
-    if (status != 0)
-    {
-        m_hasError = true;
-        m_blockErrorMessages = true;
-        backend_exit();
-        return;
-    }
-
-    // CCD连接状态
-    GlobalInfo::c_Connect = true;
 }
 
 // 创建实时显示标刻点位置的窗口
@@ -589,7 +592,7 @@ void UFO::CreateStatuBar()
 void UFO::CreateAcquisitionWorkerThreadPI()
 {
     // 创建线程类
-    realpos = new piRealpos(this);
+    realpos = new piRealpos();
     realpos->moveToThread(&PiThread);
 
     // 线程开始时，开始获取位置
@@ -607,7 +610,9 @@ void UFO::StartAcquisitionPI()
 {
     // 线程启动
     PiThread.start();
-    pthread = true;
+
+    // 同步状态
+    GlobalInfo::pthread = true;
 }
 
 // 创建信号槽
@@ -689,7 +694,9 @@ void UFO::StartAcquisition()
 
     m_acquisitionThread.start();
     m_acquisitionRunning = true;
-    cthread = true;
+
+    // 同步状态
+    GlobalInfo::cthread = m_acquisitionRunning;
 }
 
 // 停止采集
@@ -705,6 +712,9 @@ void UFO::StopAcquisition()
         backend_acquisition_stop();
     }
     m_acquisitionRunning = false;
+
+    // 同步状态
+    GlobalInfo::cthread = m_acquisitionRunning;
 }
 
 // 创建数据标刻线程
@@ -728,7 +738,7 @@ void UFO::RefreshPiPos(double u_PiPosition)
 // 更新线程错误信息
 void UFO::ResetWrongText(QString dataStatus)
 {
-    // 停止读取
+    // 如果函数调用出现问题，停止读取
     realpos->stop();
 
     // 线程停止
@@ -742,9 +752,6 @@ void UFO::ResetWrongText(QString dataStatus)
 // 生成ini文件
 void UFO::InitSetting()
 {
-    // unsigned long 转 int
-    int INDEX = (int)index;
-
     // 读取当前程序可执行程序绝对路径
     m_FileName = QCoreApplication::applicationDirPath();
 
@@ -792,6 +799,7 @@ void UFO::InitSetting()
     laserReadini->setValue("StandbyFrequency", 20);
     laserReadini->setValue("StandbyPulseWidth", 10);
 
+    systemReadini->setValue("INDEX", 0);
     systemReadini->setValue("markCounts", 1);
     systemReadini->setValue("markSpeed", 10);
     systemReadini->setValue("jumpSpeed", 3000);
@@ -1043,10 +1051,131 @@ void UFO::on_actSystemInfo_triggered()
 // 启动标刻
 void UFO::on_actImplementstart_triggered()
 {
+    if (aFileName == nullptr)
+    {
+        QMessageBox::warning(this, "系统", "不存在已读取的标刻文件数据");
+        return;
+    }
+
+    if (DataReadState->text() != "读取状态：完成")
+    {
+        QMessageBox::warning(this, "系统", "请等待数据读取完毕！");
+        return;
+    }
+
+    // 振镜标刻前准备
+    int isReady = markReady();
+    if (isReady < 0)
+        isReady = 0;
+
+    if (!isReady)
+        return;
+
     // 启动线程
     MarktoThread.start();
-    mthread = true;
+    GlobalInfo::mthread = true;
 }
+
+// 振镜标刻前准备
+int UFO::markReady()
+{
+    // 读取当前程序可执行程序绝对路径
+    m_FileName = QCoreApplication::applicationDirPath();
+
+    // 读取配置
+    QString fileName = m_FileName + "/laserSetting.ini";
+    ReadSetting = new QSettings(fileName, QSettings::IniFormat);
+
+    // 获取参数设置
+    int LaserType = ReadSetting->value("LaserType").toInt();
+    int Standby = ReadSetting->value("Standby").toInt();
+    float StandbyFrequency = ReadSetting->value("StandbyFrequency").toFloat();
+    float StandbyPulseWidth = ReadSetting->value("StandbyPulseWidth").toFloat();
+
+    fileName = m_FileName + "/correctWayRead.ini";
+    ReadSetting = new QSettings(fileName, QSettings::IniFormat);
+
+    bool fixWay = ReadSetting->value("fixWay").toBool();
+
+    fileName = m_FileName + "/correctSetting.ini";
+    ReadSetting = new QSettings(fileName, QSettings::IniFormat);
+
+    double xRange = ReadSetting->value("xRange").toDouble();
+    double yRange = ReadSetting->value("yRange").toDouble();
+    bool ExchangeXY = ReadSetting->value("ExchangeXY").toBool();
+    bool InvertX = ReadSetting->value("InvertX").toBool();
+    bool InvertY = ReadSetting->value("InvertY").toBool();
+    double xCorrection = ReadSetting->value("XCorrection").toDouble();
+    double yCorrection = ReadSetting->value("YCorrection").toDouble();
+    double zCorrection = ReadSetting->value("ZCorrection").toDouble();
+    double xshear = ReadSetting->value("Xshear").toDouble();
+    double yshear = ReadSetting->value("Yshear").toDouble();
+    double xladder = ReadSetting->value("Xladder").toDouble();
+    double yladder = ReadSetting->value("Yladder").toDouble();
+    int startmarkmode = ReadSetting->value("Startmarkmode").toDouble();
+    QString CorrectionPath = ReadSetting->value("CorrectionShowPath").toString();
+    std::string str = CorrectionPath.toStdString();
+    const char* ch = str.c_str();
+    char* filepaths = const_cast<char*>(ch);
+
+    fileName = m_FileName + "/systemSetting.ini";
+    ReadSetting = new QSettings(fileName, QSettings::IniFormat);
+
+    int INDEX = ReadSetting->value("INDEX").toDouble();
+    int markCounts = ReadSetting->value("markCounts").toDouble();
+    float markSpeed = ReadSetting->value("markSpeed").toDouble();
+    float jumpSpeed = ReadSetting->value("jumpSpeed").toDouble();
+    float jumpDelay = ReadSetting->value("jumpDelay").toDouble();
+    float laserOnDelay = ReadSetting->value("laserOnDelay").toDouble();
+    float laserOffDelay = ReadSetting->value("laserOffDelay").toDouble();
+    float polygonDelay = ReadSetting->value("polygonDelay").toDouble();
+    float current= ReadSetting->value("current").toDouble();
+    float laserFrequency = ReadSetting->value("laserFrequency").toDouble();
+    float pulseWidth = ReadSetting->value("pulseWidth").toDouble();
+    float firstPulseWidth = ReadSetting->value("firstPulseWidth").toDouble();
+    float polygonKillerTime= ReadSetting->value("polygonKillerTime").toDouble();
+    float firstPulseKillerLength = ReadSetting->value("firstPulseKillerLength").toDouble();
+    float incrementStep = ReadSetting->value("incrementStep").toDouble();
+    float dotSpace= ReadSetting->value("dotSpace").toDouble();
+    int isBitmap = ReadSetting->value("isBitmap").toDouble();
+
+    int func_Return = 0;
+
+    func_Return = SetSystemParameters(xRange, yRange, ExchangeXY, InvertX, InvertY, startmarkmode);
+    if (!func_Return)
+        return func_Return;
+
+    if (!fixWay)
+    {
+        func_Return = SetCorrectParameters_0(xCorrection, yCorrection, xshear, yshear, xladder, yladder, xCorrection, yCorrection, zCorrection);
+        return func_Return;
+    }  
+    else
+    {
+        func_Return = SetCorrectParameters_1(xCorrection, yCorrection, zCorrection, filepaths);
+        return func_Return;
+    }
+        
+
+    func_Return = SetLaserMode(LaserType, Standby, StandbyFrequency, StandbyPulseWidth);
+    if (!func_Return)
+        return func_Return;
+
+    func_Return = SetMarkParameter(INDEX, markCounts, isBitmap, markSpeed, jumpSpeed, jumpDelay, polygonDelay, laserOnDelay, laserOffDelay, polygonKillerTime, laserFrequency, current, firstPulseKillerLength, pulseWidth, firstPulseWidth, incrementStep, dotSpace);
+    if (!func_Return)
+        return func_Return;
+
+    func_Return = DownloadMarkParameters();
+    if (!func_Return)
+        return func_Return;
+
+    func_Return = SetFirstMarkParameter(INDEX);
+    if (!func_Return)
+        return func_Return;
+
+    return func_Return;
+}
+
 
 // 错误存在，程序退出
 bool UFO::hasError()
