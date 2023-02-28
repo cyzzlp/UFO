@@ -2,7 +2,7 @@
 #include "MarkData.h"
 #include "GlobalInfo.h"
 
-DataSortThread::DataSortThread(QObject *parent = nullptr)
+DataSortThread::DataSortThread(QObject *parent)
 	: QThread(parent)
 {
 		// 获取配置文件地址（绝对地址）
@@ -99,6 +99,7 @@ void DataSortThread::run()
         MarkData::MarkTextDataType.resize(m_dataType + 1);
         MarkData::MarkTextDataType[m_dataType].resize(3);
 
+        // 同面跳点
         if ((abs(x_gap) > xGap) || (abs(y_gap) > yGap) && (z1 == z2))
         {
             MarkData::MarkTextDataType[m_dataType][0] = m_count;
@@ -108,6 +109,7 @@ void DataSortThread::run()
             m_count = i + 2;
         }
 
+        // 非同面
         if ((z1 != z2))
         {
 
@@ -119,6 +121,7 @@ void DataSortThread::run()
         }
     }
 
+    // 标刻完
     if (m_count != returnValue)
     {
         MarkData::MarkTextDataType.resize(m_dataType + 1);
@@ -128,7 +131,7 @@ void DataSortThread::run()
         MarkData::MarkTextDataType[m_dataType][1] = returnValue - 1;
         MarkData::MarkTextDataType[m_dataType][2] = 0;
     }
-
+   
     emit MarkDataNum(returnValue);
 
     // 传递处理完的数据

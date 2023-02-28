@@ -47,6 +47,12 @@ UFO::UFO(QWidget* parent)
     // 初始化界面控件
     initButton();
 
+    // 生成配置文件
+    InitSetting();
+
+    // 准备标刻线程
+    CreateMarkWorkerThread();
+
     // 如果设备连接失败
     if (!isConnect)
         return;
@@ -66,8 +72,8 @@ UFO::UFO(QWidget* parent)
     // 开始采集PI位置 
     StartAcquisitionPI();
 
-    // 生成配置文件
-    InitSetting();
+    // 准备标刻线程
+    CreateMarkWorkerThread();
 }
 
 UFO::~UFO()
@@ -559,7 +565,7 @@ void UFO::CreateStatuBar()
         DeviceConnectState->setText("设备连接成功");
 
         // 显示PI连接轴
-        QString szAxes = szAxes[0];
+        QString szAxes = szAxesed[0];
 
         ConnectAxis->setText("PI连接轴：" + szAxes);
     }
@@ -720,7 +726,7 @@ void UFO::StopAcquisition()
 // 创建数据标刻线程
 void UFO::CreateMarkWorkerThread()
 {
-    MarkThreads = new markThread(this);
+    MarkThreads = new markThread();
     MarkThreads->moveToThread(&MarktoThread);
 
     // 线程开始时，开始标刻
@@ -968,7 +974,7 @@ void UFO::on_actOpenFile_triggered()
         gap->show();
 
         // 创建数据读取线程
-        dataRead = new DataSortThread(this);
+        dataRead = new DataSortThread();
 
         // 更新数据读取状态
         connect(dataRead, &DataSortThread::setTextToLabel, this, &UFO::ResetText);
@@ -1141,6 +1147,9 @@ int UFO::markReady()
 
     int func_Return = 0;
 
+    // 同步标刻次数
+    GlobalInfo::MarkCount = markCounts;
+
     func_Return = SetSystemParameters(xRange, yRange, ExchangeXY, InvertX, InvertY, startmarkmode);
     if (!func_Return)
         return func_Return;
@@ -1156,7 +1165,6 @@ int UFO::markReady()
         return func_Return;
     }
         
-
     func_Return = SetLaserMode(LaserType, Standby, StandbyFrequency, StandbyPulseWidth);
     if (!func_Return)
         return func_Return;
@@ -1187,7 +1195,14 @@ bool UFO::hasError()
 void UFO::on_InfMarkCount_stateChanged(int arg1)
 {
     if (ui.InfMarkCount->isChecked())
+    {
+        // 读取当前程序可执行程序绝对路径
+        m_FileName = QCoreApplication::applicationDirPath();
+        QString m_FileName1 = m_FileName + "/systemSetting.ini";
+        systemReadini = new QSettings(m_FileName1, QSettings::IniFormat);
+        systemReadini->setValue("markCounts", 0);
         GlobalInfo::MarkCount = 0;
+    } 
 }
 
 // 退出程序

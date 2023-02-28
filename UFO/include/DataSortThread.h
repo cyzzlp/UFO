@@ -13,6 +13,10 @@ class DataSortThread  : public QThread
 {
 	Q_OBJECT
 
+public:
+	DataSortThread(QObject* parent = nullptr);
+	~DataSortThread();
+
 private:
 	// 记录文本绝对地址
 	QString FileName;
@@ -52,8 +56,4 @@ signals:
 
 	// 显示错误信息
 	void DelieveWrongInfo(QString WrongInfo);
-
-public:
-	DataSortThread(QObject *parent);
-	~DataSortThread();
 };

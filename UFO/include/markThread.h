@@ -13,7 +13,7 @@ class markThread  : public QObject
 	Q_OBJECT
 
 public:
-	markThread(QObject *parent);
+    markThread(QObject* parent = nullptr);
 	~markThread();
 
 private:
@@ -35,6 +35,9 @@ private:
     // PI轴等待
     BOOL bIsMoving[3]{};
 
+    // 函数返回值
+    BOOL returnValue{};
+
     // 运行标签
     bool m_running{};
 
@@ -45,34 +48,19 @@ private:
     double y_jump{};
 
     // 振镜x位置
-    float xpos{};
+    float xPos{};
 
     // 振镜y位置
-    float ypos{};
+    float yPos{};
 
     // PI位置
-    float zpos{};
+    float zPos{};
 
     // x标刻数组
     double* xMarkData{};
 
     // y标刻数组
     double* yMarkData{};
-
-    // 标刻起点
-    int count{};
-
-    // 标刻终点
-    int m_count{};
-
-    // 记录上次标刻起点
-    int counts{};
-
-    // 记录上次标刻终点
-    int m_counts{};
-
-    // 标刻类型
-    int labels{};
 
 public slots:
     void Start();
