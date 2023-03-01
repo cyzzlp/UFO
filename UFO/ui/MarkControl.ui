@@ -372,6 +372,8 @@ QGroupBox::title {
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="UFO.qrc"/>
+ </resources>
  <connections/>
 </ui>

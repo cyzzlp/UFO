@@ -63,7 +63,7 @@ private:
     float dotSpace{};
 
     // 是否是位图
-    bool isBitmap{};
+    int isBitmap{};
 
 private:
 	// 配置文件

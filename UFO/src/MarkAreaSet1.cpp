@@ -10,15 +10,15 @@ MarkAreaSet1::MarkAreaSet1(QWidget *parent)
 	correctRead = new QSettings(m_FileName, QSettings::IniFormat);
 
 	// 读取设置
-	xRange = correctRead->value("xRange").toDouble();
-	yRange = correctRead->value("yRange").toDouble();
-	ExchangeXY = correctRead->value("ExchangeXY").toBool();
-	InvertX = correctRead->value("InvertX").toBool();
+	xRange = correctRead->value("rangeX").toDouble();
+	yRange = correctRead->value("rangeY").toDouble();
+	ExchangeXY = correctRead->value("exchangeXY").toBool();
+	InvertX = correctRead->value("invertY").toBool();
 	InvertY = correctRead->value("InvertY").toBool();
-	XCorrection = correctRead->value("XCorrection").toDouble();
-	YCorrection = correctRead->value("YCorrection").toDouble();
-	ZCorrection = correctRead->value("ZCorrection").toDouble();
-	CorrectionShowPath = correctRead->value("CorrectionShowPath").toString();
+	ratioX = correctRead->value("ratioX").toDouble();
+	ratioY = correctRead->value("ratioY").toDouble();
+	ratioZ = correctRead->value("ratioZ").toDouble();
+	CorrectionShowPath = correctRead->value("filePath").toString();
 
 	// 初始化界面
 	ui.xrange->setValue(xRange);
@@ -26,9 +26,9 @@ MarkAreaSet1::MarkAreaSet1(QWidget *parent)
 	ui.exchangeXY->setChecked(ExchangeXY);
 	ui.invertX->setChecked(InvertX);
 	ui.invertY->setChecked(InvertY);
-	ui.xCorrectionSpBox->setValue(XCorrection);
-	ui.yCorrectionSpBox->setValue(YCorrection);
-	ui.zCorrectionSpBox->setValue(ZCorrection);
+	ui.xCorrectionSpBox->setValue(ratioX);
+	ui.yCorrectionSpBox->setValue(ratioY);
+	ui.zCorrectionSpBox->setValue(ratioZ);
 	ui.CorrectionShowPath->setText(CorrectionShowPath);
 }
 
@@ -51,21 +51,21 @@ void MarkAreaSet1::on_GetMarkAreaSetting_clicked()
 	ExchangeXY = ui.exchangeXY->isChecked();
 	InvertX = ui.invertX->isChecked();
 	InvertY = ui.invertY->isChecked();
-	XCorrection = ui.xCorrectionSpBox->value();
-	YCorrection = ui.yCorrectionSpBox->value();
-	ZCorrection = ui.zCorrectionSpBox->value();
+	ratioX = ui.xCorrectionSpBox->value();
+	ratioY = ui.yCorrectionSpBox->value();
+	ratioZ = ui.zCorrectionSpBox->value();
 	CorrectionShowPath = ui.CorrectionShowPath->text();
 
 	// 保存设置
-	correctRead->setValue("xRange", 110);
-	correctRead->setValue("yRange", 110);
-	correctRead->setValue("ExchangeXY", false);
-	correctRead->setValue("InvertX", false);
-	correctRead->setValue("InvertY", false);
-	correctRead->setValue("XCorrection", 1);
-	correctRead->setValue("YCorrection", 1);
-	correctRead->setValue("ZCorrection", 1);
-	correctRead->setValue("CorrectionShowPath", "please choose a file Path!");
+	correctRead->setValue("rangeX", xRange);
+	correctRead->setValue("rangeY", xRange);
+	correctRead->setValue("exchangeXY", ExchangeXY);
+	correctRead->setValue("invertX", InvertX);
+	correctRead->setValue("invertY", InvertY);
+	correctRead->setValue("ratioX", ratioX);
+	correctRead->setValue("ratioY", ratioX);
+	correctRead->setValue("ratioZ", ratioX);
+	correctRead->setValue("filePath", CorrectionShowPath);
 	correctRead->sync();
 	delete correctRead;
 
@@ -77,4 +77,38 @@ void MarkAreaSet1::on_GetMarkAreaSetting_clicked()
 void MarkAreaSet1::on_CancelMarkAreaSetting_clicked()
 {
 	this->close();
+}
+
+// 计算x方向的比例
+void MarkAreaSet1::on_clxpBtn_clicked()
+{
+	calaR = new calaRatio();
+	calaR->setWindowModality(Qt::ApplicationModal);
+	calaR->setFixedSize(calaR->width(), calaR->height());
+	calaR->show();
+
+	connect(calaR, &calaRatio::sendProport, this, &MarkAreaSet1::SetxSpinBoxValue);
+}
+
+// 计算y方向的比例
+void MarkAreaSet1::on_clypBtn_clicked()
+{
+	calaR = new calaRatio();
+	calaR->setWindowModality(Qt::ApplicationModal);
+	calaR->setFixedSize(calaR->width(), calaR->height());
+	calaR->show();
+
+	connect(calaR, &calaRatio::sendProport, this, &MarkAreaSet1::SetySpinBoxValue);
+}
+
+// 设置比例控件值
+void MarkAreaSet1::SetxSpinBoxValue(double Proport)
+{
+	ui.xCorrectionSpBox->setValue(Proport);
+}
+
+// 设置比例控件值
+void MarkAreaSet1::SetySpinBoxValue(double Proport)
+{
+	ui.yCorrectionSpBox->setValue(Proport);
 }

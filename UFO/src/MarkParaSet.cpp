@@ -26,6 +26,7 @@ MarkParaSet::MarkParaSet(QWidget *parent)
 	// 读取设置
 	index = systemSet->value("INDEX").toInt();
 	markCount = systemSet->value("markCounts").toInt();
+	isBitmap = systemSet->value("isBitmap").toInt();
 	markSpeed = systemSet->value("markSpeed").toFloat();
 	jumpSpeed = systemSet->value("jumpSpeed").toFloat();
 	jumpDelay = systemSet->value("jumpDelay").toFloat();
@@ -40,7 +41,6 @@ MarkParaSet::MarkParaSet(QWidget *parent)
 	firstPulseKillerLength = systemSet->value("firstPulseKillerLength").toFloat();
 	incrementStep = systemSet->value("incrementStep").toFloat();
 	dotSpace = systemSet->value("dotSpace").toFloat();
-	isBitmap = systemSet->value("isBitmap").toBool();
 
 	// 初始化界面
 	ui.indexPara->setCurrentIndex(index);
@@ -98,21 +98,21 @@ void MarkParaSet::on_GetMarkParaSetting_clicked()
 	// 保存设置
 	systemSet->setValue("INDEX", index);
 	systemSet->setValue("markCounts", markCount);
+	systemSet->setValue("isBitmap", isBitmap);
 	systemSet->setValue("markSpeed", markSpeed);
 	systemSet->setValue("jumpSpeed", jumpSpeed);
 	systemSet->setValue("jumpDelay", jumpDelay);
+	systemSet->setValue("polygonDelay", polygonDelay);
 	systemSet->setValue("laserOnDelay", laserOnDelay);
 	systemSet->setValue("laserOffDelay", laserOffDelay);
-	systemSet->setValue("polygonDelay", polygonDelay);
+	systemSet->setValue("polygonKillerTime", polygonKillerTime);
 	systemSet->setValue("current", current);
 	systemSet->setValue("laserFrequency", laserFrequency);
 	systemSet->setValue("pulseWidth", pulseWidth);
 	systemSet->setValue("firstPulseWidth", firstPulseWidth);
-	systemSet->setValue("polygonKillerTime", polygonKillerTime);
 	systemSet->setValue("firstPulseKillerLength", firstPulseKillerLength);
 	systemSet->setValue("incrementStep", incrementStep);
 	systemSet->setValue("dotSpace", dotSpace);
-	systemSet->setValue("isBitmap", isBitmap);
 
 	// 保存设置文件
 	systemSet->sync();

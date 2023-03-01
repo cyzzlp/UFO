@@ -10,21 +10,21 @@ MarkAreaSet2::MarkAreaSet2(QWidget *parent)
 	correctRead = new QSettings(m_FileName, QSettings::IniFormat);
 
 	// 读取设置
-	xRange = correctRead->value("xRange").toDouble();
-	yRange = correctRead->value("yRange").toDouble();
-	ExchangeXY = correctRead->value("ExchangeXY").toBool();
-	InvertX = correctRead->value("InvertX").toBool();
-	InvertY = correctRead->value("InvertY").toBool();
-	XCorrection = correctRead->value("XCorrection").toDouble();
-	YCorrection = correctRead->value("YCorrection").toDouble();
-	ZCorrection = correctRead->value("ZCorrection").toDouble();
-	xcorrections = correctRead->value("Xcorrections").toDouble();
-	ycorrections = correctRead->value("Ycorrections").toDouble();
-	xshear = correctRead->value("Xshear").toDouble();
-	yshear = correctRead->value("Yshear").toDouble();
-	xladder = correctRead->value("Xladder").toDouble();
-	yladder = correctRead->value("Yladder").toDouble();
-	startmarkmode = correctRead->value("Startmarkmode").toBool();
+	xRange = correctRead->value("rangeX").toDouble();
+	yRange = correctRead->value("rangeY").toDouble();
+	ExchangeXY = correctRead->value("exchangeXY").toBool();
+	InvertX = correctRead->value("invertX").toBool();
+	InvertY = correctRead->value("invertY").toBool();
+	ratioX = correctRead->value("ratioX").toDouble();
+	ratioY = correctRead->value("ratioY").toDouble();
+	ratioZ = correctRead->value("ratioZ").toDouble();
+	xcorrections = correctRead->value("xCorrection").toDouble();
+	ycorrections = correctRead->value("yCorrection").toDouble();
+	xshear = correctRead->value("xShear").toDouble();
+	yshear = correctRead->value("yShear").toDouble();
+	xladder = correctRead->value("xLadder").toDouble();
+	yladder = correctRead->value("yLadder").toDouble();
+	startmarkmode = correctRead->value("startMarkMode").toBool();
 
 	// 初始化界面
 	ui.xrange->setValue(xRange);
@@ -32,9 +32,9 @@ MarkAreaSet2::MarkAreaSet2(QWidget *parent)
 	ui.exchangeXY->setChecked(ExchangeXY);
 	ui.invertX->setChecked(InvertX);
 	ui.invertY->setChecked(InvertY);
-	ui.xCorrectionSpBox->setValue(XCorrection);
-	ui.yCorrectionSpBox->setValue(YCorrection);
-	ui.zCorrectionSpBox->setValue(ZCorrection);
+	ui.xCorrectionSpBox->setValue(ratioX);
+	ui.yCorrectionSpBox->setValue(ratioY);
+	ui.zCorrectionSpBox->setValue(ratioZ);
 	ui.xcorrections->setValue(xcorrections);
 	ui.ycorrections->setValue(ycorrections);
 	ui.xshear->setValue(xshear);
@@ -64,9 +64,9 @@ void MarkAreaSet2::on_GetMarkAreaSetting2_clicked()
 	ExchangeXY = ui.invertX->isChecked();
 	InvertX = ui.invertX->isChecked();
 	InvertY = ui.invertY->isChecked();
-	XCorrection = ui.xCorrectionSpBox->value();
-	YCorrection = ui.yCorrectionSpBox->value();
-	ZCorrection = ui.zCorrectionSpBox->value();
+	ratioX = ui.xCorrectionSpBox->value();
+	ratioY = ui.yCorrectionSpBox->value();
+	ratioZ = ui.zCorrectionSpBox->value();
 	xcorrections = ui.xcorrections->value();
 	ycorrections = ui.ycorrections->value();
 	xshear = ui.xshear->value();
@@ -75,27 +75,25 @@ void MarkAreaSet2::on_GetMarkAreaSetting2_clicked()
 	yladder = ui.yladder->value();
 	startmarkmode = ui.startmarkmode->isChecked();
 
-	correctRead->setValue("xRange", xRange);
-	correctRead->setValue("yRange", yRange);
-	correctRead->setValue("ExchangeXY", ExchangeXY);
-	correctRead->setValue("InvertX", InvertX);
-	correctRead->setValue("InvertY", InvertY);
-	correctRead->setValue("XCorrection", XCorrection);
-	correctRead->setValue("YCorrection", YCorrection);
-	correctRead->setValue("ZCorrection", ZCorrection);
-	correctRead->setValue("Xcorrections", xcorrections);
-	correctRead->setValue("Ycorrections", ycorrections);
-	correctRead->setValue("Xshear", xshear);
-	correctRead->setValue("Yshear", yshear);
-	correctRead->setValue("Xladder", xladder);
-	correctRead->setValue("Yladder", yladder);
-	correctRead->setValue("Startmarkmode", startmarkmode);
+	correctRead->setValue("rangeX", xRange);
+	correctRead->setValue("rangeY", yRange);
+	correctRead->setValue("exchangeXY", ExchangeXY);
+	correctRead->setValue("invertX", InvertX);
+	correctRead->setValue("invertY", InvertY);
+	correctRead->setValue("ratioX", ratioX);
+	correctRead->setValue("ratioY", ratioY);
+	correctRead->setValue("ratioZ", ratioZ);
+	correctRead->setValue("xCorrection", xcorrections);
+	correctRead->setValue("yCorrection", ycorrections);
+	correctRead->setValue("xShear", xshear);
+	correctRead->setValue("yShear", yshear);
+	correctRead->setValue("xLadder", xladder);
+	correctRead->setValue("yLadder", yladder);
+	correctRead->setValue("startMarkMode", startmarkmode);
 	correctRead->setValue("CorrectFile", 1);
 
 	correctRead->sync();
 	delete correctRead;
-
-
 
 	// 关闭窗口
 	this->close();
@@ -106,4 +104,38 @@ void MarkAreaSet2::on_CancelMarkAreaSetting2_clicked()
 {
 	// 关闭窗口
 	this->close();
+}
+
+// 计算x方向的比例
+void MarkAreaSet2::on_clxpBtn_clicked()
+{
+	calaR = new calaRatio();
+	calaR->setWindowModality(Qt::ApplicationModal);
+	calaR->setFixedSize(calaR->width(), calaR->height());
+	calaR->show();
+
+	connect(calaR, &calaRatio::sendProport, this, &MarkAreaSet2::SetxSpinBoxValue);
+}
+
+// 计算y方向的比例
+void MarkAreaSet2::on_clypBtn_clicked()
+{
+	calaR = new calaRatio();
+	calaR->setWindowModality(Qt::ApplicationModal);
+	calaR->setFixedSize(calaR->width(), calaR->height());
+	calaR->show();
+
+	connect(calaR, &calaRatio::sendProport, this, &MarkAreaSet2::SetySpinBoxValue);
+}
+
+// 设置比例控件值
+void MarkAreaSet2::SetxSpinBoxValue(double Proport)
+{
+	ui.xCorrectionSpBox->setValue(Proport);
+}
+
+// 设置比例控件值
+void MarkAreaSet2::SetySpinBoxValue(double Proport)
+{
+	ui.yCorrectionSpBox->setValue(Proport);
 }

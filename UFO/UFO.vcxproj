@@ -39,8 +39,10 @@
     <ClCompile Include="src\shutterControl.cpp" />
     <ClCompile Include="src\MarkControl.cpp" />
     <ClCompile Include="src\ThreadControl.cpp" />
+    <ClCompile Include="src\calaRatio.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <QtUic Include="ui\calaRatio.ui" />
     <QtUic Include="ui\DataVisual.ui" />
     <QtUic Include="ui\MarkControl.ui" />
     <QtUic Include="ui\MarkImplement.ui" />
@@ -60,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\PI_GCS2_DLL_dynamicp_loader.h" />
+    <QtMoc Include="include\calaRatio.h" />
     <QtMoc Include="include\markThread.h" />
     <QtMoc Include="include\ThreadControl.h" />
     <QtMoc Include="include\MarkControl.h" />

@@ -347,6 +347,9 @@ private slots:
     // 更新线程错误信息
     void ResetWrongText(QString dataStatus);
 
+    // 更新线程错误信息
+    void ResetWrongTexts(QString dataStatus);
+
     // 显示数据间隔及类型设置窗口
     void on_actPreGapInput_triggered();
 

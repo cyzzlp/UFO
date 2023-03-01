@@ -8,7 +8,7 @@ MarkControl::MarkControl(QWidget *parent)
 
     // 读取文件地址
     QString m_FileName = QCoreApplication::applicationDirPath();
-    QString m_FileName1 = m_FileName + "/626902.jpeg";
+    QString m_FileName1 = m_FileName + "/Icon/626902.jpeg";
     
     // 转数据格式
     String imgSrc = m_FileName1.toStdString();

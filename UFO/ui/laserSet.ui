@@ -419,6 +419,8 @@ standby、frequency和pulsewidth只有在FIBER-I模式下可设置</string>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="UFO.qrc"/>
+ </resources>
  <connections/>
 </ui>

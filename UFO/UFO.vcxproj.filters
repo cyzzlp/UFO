@@ -92,6 +92,9 @@
     <QtMoc Include="include\markThread.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="include\calaRatio.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -169,6 +172,9 @@
     <ClCompile Include="src\markThread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\calaRatio.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="ui\UFO.ui">
@@ -217,6 +223,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="ui\ThreadControl.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\calaRatio.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

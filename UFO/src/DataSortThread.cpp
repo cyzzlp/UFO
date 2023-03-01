@@ -5,19 +5,7 @@
 DataSortThread::DataSortThread(QObject *parent)
 	: QThread(parent)
 {
-		// 获取配置文件地址（绝对地址）
-	QString m_FileName = QCoreApplication::applicationDirPath() + "/gapSetting.ini";
-	gap = new QSettings(m_FileName, QSettings::IniFormat);
 
-	// 读取预设间隔
-	xGap = gap->value("xGap").toDouble();
-	yGap = gap->value("yGap").toDouble();
-	DataType = gap->value("dataType").toBool();
-
-    FileName = GlobalInfo::aFileName;
-
-    // 默认为XY数据
-    IsErrorTextColumns = 2;
 }
 
 DataSortThread::~DataSortThread()
@@ -27,6 +15,20 @@ DataSortThread::~DataSortThread()
 
 void DataSortThread::run()
 {
+    // 获取配置文件地址（绝对地址）
+    QString m_FileName = QCoreApplication::applicationDirPath() + "/gapSetting.ini";
+    gap = new QSettings(m_FileName, QSettings::IniFormat);
+
+    // 读取预设间隔
+    xGap = gap->value("xGap").toDouble();
+    yGap = gap->value("yGap").toDouble();
+    DataType = gap->value("dataType").toBool();
+
+    FileName = GlobalInfo::aFileName;
+
+    // 默认为XY数据
+    IsErrorTextColumns = 2;
+
     emit setTextToLabel("读取中");
 
     // 文本读取
@@ -56,7 +58,7 @@ void DataSortThread::run()
         if (MarkTextColumns != IsErrorTextColumns)
         {
             emit DelieveWrongInfo("文件数据维度不一致");
-            break;
+            return;
         }
 
         // 初始化向量的规模
@@ -104,7 +106,7 @@ void DataSortThread::run()
         {
             MarkData::MarkTextDataType[m_dataType][0] = m_count;
             MarkData::MarkTextDataType[m_dataType][1] = i;
-            MarkData::MarkTextDataType[m_dataType][2] = 1;
+            MarkData::MarkTextDataType[m_dataType][2] = 0;
             ++m_dataType;
             m_count = i + 2;
         }
@@ -115,7 +117,7 @@ void DataSortThread::run()
 
             MarkData::MarkTextDataType[m_dataType][0] = m_count;
             MarkData::MarkTextDataType[m_dataType][1] = i;
-            MarkData::MarkTextDataType[m_dataType][2] = 2;
+            MarkData::MarkTextDataType[m_dataType][2] = 1;
             ++m_dataType;
             m_count = i + 2;
         }

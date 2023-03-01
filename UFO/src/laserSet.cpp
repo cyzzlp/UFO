@@ -10,25 +10,29 @@ laserSet::laserSet(QWidget *parent)
 	laserset = new QSettings(m_FileName, QSettings::IniFormat);
 
 	// 读取文件
-	LaserType = laserset->value("LaserType").toInt();
-	Standby = laserset->value("Standby").toInt();
-	StandbyFrequency = laserset->value("Standby").toFloat();
-	StandbyPulseWidth = laserset->value("Standby").toFloat();
+	LaserType = laserset->value("laserType").toInt();
+	Standby = laserset->value("standby").toInt();
+	StandbyFrequency = laserset->value("frequency").toFloat();
+	StandbyPulseWidth = laserset->value("pulseWidth").toFloat();
 
 	// 初始化界面
 	switch (LaserType)
 	{
 	case 0:
 		ui.YAGSettingrBtn->setChecked(true);
+		break;
 
 	case 1:
 		ui.CO2SettingrBtn->setChecked(true);
+		break;
 
 	case 2:
 		ui.FIBER1SettingrBtn->setChecked(true);
+		break;
 
 	case 3:
-		ui.FIBER2SettingrBtn->setChecked(true);
+		ui.FIBER2SettingrBtn->setChecked(true); 
+		break;
 	}
 
 	ui.StandbySpBox->setValue(Standby);
@@ -66,13 +70,13 @@ void laserSet::on_GetLaserSetting_clicked()
 	if (ui.FIBER2SettingrBtn->isChecked())
 		LaserType = 3;
 
-	laserset->setValue("LaserType", LaserType);
-	laserset->setValue("Standby", Standby);
-	laserset->setValue("StandbyFrequency", StandbyFrequency);
-	laserset->setValue("StandbyPulseWidth", StandbyPulseWidth);
+	laserset->setValue("laserType", LaserType);
+	laserset->setValue("standby", Standby);
+	laserset->setValue("frequency", StandbyFrequency);
+	laserset->setValue("pulseWidth", StandbyPulseWidth);
 
 	// 保存配置
-	laserset->sync();
+	laserset->sync(); 
 	delete laserset;
 
 	this->close();

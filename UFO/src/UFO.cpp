@@ -6,10 +6,15 @@ UFO::UFO(QWidget* parent)
     // 窗口最大化显示
     setWindowState(Qt::WindowMaximized);
 
+    // 获取Icon文件路径
+    QString m_FileName = QCoreApplication::applicationDirPath();
+    QApplication::setWindowIcon(QIcon(m_FileName + "/icon/ufo.png"));
+
     // 连接振镜
     int isConnect = connectSystemMark();
     if (!isConnect)
         QMessageBox::warning(nullptr, "振镜", "没有板卡不能标刻，请检查振镜连接");
+
 
     // 连接PI
     isConnect = connectSystemPi();
@@ -17,6 +22,7 @@ UFO::UFO(QWidget* parent)
         QMessageBox::warning(nullptr, "PI", szErrorMesage);
 
     // 连接快门
+
      isConnect = connectSystemShutter();
      if (!isConnect)
          QMessageBox::warning(nullptr, "快门", "CH375快门连接失败，请检查快门连接");
@@ -331,7 +337,7 @@ void UFO::HandleLibraryError(QString message, int status)
 
     message.prepend("Error: ");
 
-    QMessageBox::warning(this, "Error", message, QMessageBox::Ok);
+    QMessageBox::warning(nullptr, "Error", message, QMessageBox::Ok);
 }
 
 // 发送错误信号
@@ -498,7 +504,7 @@ void UFO::OnAboutQtLinkActivated(const QString& link)
 {
     if (link == "#aboutQt")
     {
-        QMessageBox::aboutQt(this, "About Qt");
+        QMessageBox::aboutQt(nullptr, "About Qt");
     }
 }
 
@@ -688,7 +694,7 @@ void UFO::HandleErrorAndQuit(QString message)
     message += "\n(Error!)";
     message += "\nExiting application";
 
-    QMessageBox::critical(this, "Error", message, QMessageBox::Ok);
+    QMessageBox::critical(nullptr, "Error", message, QMessageBox::Ok);
     qApp->quit();
 }
 
@@ -731,6 +737,7 @@ void UFO::CreateMarkWorkerThread()
 
     // 线程开始时，开始标刻
     connect(&MarktoThread, SIGNAL(started()), MarkThreads, SLOT(Start()), Qt::UniqueConnection);
+    connect(MarkThreads, &markThread::EmitWrongInfo, this, &UFO::ResetWrongTexts);
     connect(MarkThreads, &markThread::MarkRealPos, this, &UFO::showPosition);
 }
 
@@ -752,7 +759,15 @@ void UFO::ResetWrongText(QString dataStatus)
     PiThread.wait();
 
     // 信息提示
-    QMessageBox::critical(this, "错误", dataStatus);
+    QMessageBox::critical(nullptr, "错误", dataStatus);
+}
+
+// 更新线程错误信息
+void UFO::ResetWrongTexts(QString dataStatus)
+{
+
+    // 信息提示
+    QMessageBox::critical(nullptr, "错误", dataStatus);
 }
 
 // 生成ini文件
@@ -774,54 +789,58 @@ void UFO::InitSetting()
     laserReadini = new QSettings(m_FileName4, QSettings::IniFormat);
     systemReadini = new QSettings(m_FileName5, QSettings::IniFormat);
 
-    // 设置默认值
+    // 设置默认值gapSetting.ini
     gapReadini->setValue("xGap", 1);
     gapReadini->setValue("yGap", 1);
     gapReadini->setValue("dataType", false);
 
+    // correctWayRead.ini
     correctWayReadini->setValue("fixWay", false);
     correctWayReadini->setValue("firstZero", false);
 
-    correctReadini->setValue("xRange", 110);
-    correctReadini->setValue("yRange", 110);
-    correctReadini->setValue("ExchangeXY", false);
-    correctReadini->setValue("InvertX", false);
-    correctReadini->setValue("InvertY", false);
-    correctReadini->setValue("XCorrection", 1);
-    correctReadini->setValue("YCorrection", 1);
-    correctReadini->setValue("ZCorrection", 1);
-    correctReadini->setValue("CorrectionShowPath", "please choose a file Path!");
-    correctReadini->setValue("Xcorrections", 0);
-    correctReadini->setValue("Ycorrections", 0);
-    correctReadini->setValue("Xshear", 0);
-    correctReadini->setValue("Yshear", 0);
-    correctReadini->setValue("Xladder", 0);
-    correctReadini->setValue("Yladder", 0);
-    correctReadini->setValue("Startmarkmode", true);
+    // correctSetting.ini
+    correctReadini->setValue("rangeX", 110.0);
+    correctReadini->setValue("rangeY", 110.0);
+    correctReadini->setValue("exchangeXY", false);
+    correctReadini->setValue("invertX", false);
+    correctReadini->setValue("invertY", false);
+    correctReadini->setValue("xCorrection", 0.0);
+    correctReadini->setValue("yCorrection", 0.0);
+    correctReadini->setValue("xShear", 0.0);
+    correctReadini->setValue("yShear", 0.0);
+    correctReadini->setValue("xLadder", 0.0);
+    correctReadini->setValue("yLadder", 0.0);
+    correctReadini->setValue("ratioX", 1.0);
+    correctReadini->setValue("ratioY", 1.0);
+    correctReadini->setValue("ratioZ", 1.0);
+    correctReadini->setValue("filePath", "please choose a file Path!");
+    correctReadini->setValue("startMarkMode", 0);
     correctReadini->setValue("CorrectFile", 110);
 
-    laserReadini->setValue("LaserType", 1);
-    laserReadini->setValue("Standby", 0);
-    laserReadini->setValue("StandbyFrequency", 20);
-    laserReadini->setValue("StandbyPulseWidth", 10);
+     // laserSetting.ini
+    laserReadini->setValue("laserType", 0);
+    laserReadini->setValue("standby", 0);
+    laserReadini->setValue("frequency", 20);
+    laserReadini->setValue("pulseWidth", 10);
 
+    // systemSetting.ini
     systemReadini->setValue("INDEX", 0);
     systemReadini->setValue("markCounts", 1);
-    systemReadini->setValue("markSpeed", 10);
+    systemReadini->setValue("isBitmap", 0);
+    systemReadini->setValue("markSpeed", 5);
     systemReadini->setValue("jumpSpeed", 3000);
-    systemReadini->setValue("jumpDelay", 200);
+    systemReadini->setValue("jumpDelay", 400);
+    systemReadini->setValue("polygonDelay", 50);
     systemReadini->setValue("laserOnDelay", 100);
     systemReadini->setValue("laserOffDelay", 200);
-    systemReadini->setValue("polygonDelay", 50);
-    systemReadini->setValue("current", 50);
-    systemReadini->setValue("laserFrequency", 10);
-    systemReadini->setValue("pulseWidth", 8);
-    systemReadini->setValue("firstPulseWidth", 10);
     systemReadini->setValue("polygonKillerTime", 25);
+    systemReadini->setValue("laserFrequency", 30);
+    systemReadini->setValue("current", 55);
     systemReadini->setValue("firstPulseKillerLength", 100);
+    systemReadini->setValue("pulseWidth", 30);
+    systemReadini->setValue("firstPulseWidth", 10 );
     systemReadini->setValue("incrementStep", 10);
     systemReadini->setValue("dotSpace", 0.1);
-    systemReadini->setValue("isBitmap", false);
 
     // 保存及关闭配置文件
     gapReadini->sync();
@@ -842,7 +861,7 @@ void UFO::InitSetting()
 void UFO::on_actPreGapInput_triggered()
 {
     // 构造当前窗口
-    gap = new dataSortgap(this);
+    gap = new dataSortgap(nullptr);
     gap->setFixedSize(gap->width(), gap->height());
     gap->setWindowModality(Qt::ApplicationModal);
     gap->show();
@@ -852,7 +871,7 @@ void UFO::on_actPreGapInput_triggered()
 void UFO::on_actCorrectMethod_triggered()
 {
     // 构造当前窗口
-    corrWay = new MarkCorrType(this);
+    corrWay = new MarkCorrType(nullptr);
     corrWay->setWindowModality(Qt::ApplicationModal);
     corrWay->setFixedSize(corrWay->width(), corrWay->height());
     corrWay->show();
@@ -862,7 +881,7 @@ void UFO::on_actCorrectMethod_triggered()
 void UFO::on_actSetLaser_triggered()
 {
     // 构造当前窗口
-    laserset = new laserSet(this);
+    laserset = new laserSet(nullptr);
     laserset->setWindowModality(Qt::ApplicationModal);
     laserset->setFixedSize(laserset->width(), laserset->height());
     laserset->show();
@@ -879,14 +898,14 @@ void UFO::on_actSetMarkArea_triggered()
     bool correctWay = correctWayReadini->value("fixWay").toBool();
     if (!correctWay)
     {
-        markSet2 = new MarkAreaSet2(this);
+        markSet2 = new MarkAreaSet2(nullptr);
         markSet2->setWindowModality(Qt::ApplicationModal);
         markSet2->setFixedSize(markSet2->width(), markSet2->height());
         markSet2->show();
     }
     else
     {
-        markSet1 = new MarkAreaSet1(this);
+        markSet1 = new MarkAreaSet1(nullptr);
         markSet1->setWindowModality(Qt::ApplicationModal);
         markSet1->setFixedSize(markSet1->width(), markSet1->height());
         markSet1->show();
@@ -897,7 +916,7 @@ void UFO::on_actSetMarkArea_triggered()
 void UFO::on_actSetSystemPara_triggered()
 {
     // 构造当前窗口
-    paraSet = new MarkParaSet(this);
+    paraSet = new MarkParaSet(nullptr);
     paraSet->setWindowModality(Qt::ApplicationModal);
     paraSet->setFixedSize(paraSet->width(), paraSet->height());
     paraSet->show();
@@ -906,7 +925,7 @@ void UFO::on_actSetSystemPara_triggered()
 // 显示PI设置界面
 void UFO::on_actConnectPI_triggered()
 {
-    piSet = new piControl(this);
+    piSet = new piControl(nullptr);
     piSet->setWindowModality(Qt::ApplicationModal);
     piSet->setFixedSize(piSet->width(), piSet->height());
     piSet->show();
@@ -915,7 +934,7 @@ void UFO::on_actConnectPI_triggered()
 // 显示快门设置界面
 void UFO::on_actConnectShutter_triggered()
 {
-    shutter = new shutterControl(this);
+    shutter = new shutterControl(nullptr);
     shutter->setWindowModality(Qt::ApplicationModal);
     shutter->setFixedSize(shutter->width(), shutter->height());
     shutter->show();
@@ -924,7 +943,7 @@ void UFO::on_actConnectShutter_triggered()
 // 显示振镜设置界面
 void UFO::on_actMarkSet_triggered()
 {
-    markSet = new MarkControl(this);
+    markSet = new MarkControl(nullptr);
     markSet->setWindowModality(Qt::ApplicationModal);
     markSet->setFixedSize(markSet->width(), markSet->height());
     markSet->show();
@@ -933,7 +952,7 @@ void UFO::on_actMarkSet_triggered()
 // 显示相机设置界面
 void UFO::on_actConnectCCD_triggered()
 {
-    CCDSet = new CCDSetUserface(this);
+    CCDSet = new CCDSetUserface(nullptr);
     CCDSet->setWindowModality(Qt::ApplicationModal);
     CCDSet->setFixedSize(CCDSet->width(), CCDSet->height());
     CCDSet->show();
@@ -968,7 +987,7 @@ void UFO::on_actOpenFile_triggered()
         GlobalInfo::aFileName = aFileName;
 
         // 设置文件预设间隔
-        gap = new dataSortgap(this);
+        gap = new dataSortgap(nullptr);
         gap->setWindowModality(Qt::ApplicationModal);
         gap->setFixedSize(gap->width(), gap->height());
         gap->show();
@@ -997,7 +1016,7 @@ void UFO::on_actOpenFile_triggered()
 // 执行显示数据可视化界面
 void UFO::on_acDataVisual_triggered()
 {
-    dataVis = new DataVisual(this);
+    dataVis = new DataVisual(nullptr);
 
     if (DataReadState->text() == "读取状态：完成")
     {
@@ -1048,7 +1067,7 @@ void UFO::on_actSystemInfo_triggered()
     on_actDefaultPara_triggered();
 
     // 构造当前窗口
-    sysInfo = new SystemInfo(this);
+    sysInfo = new SystemInfo(nullptr);
     sysInfo->setWindowModality(Qt::ApplicationModal);
     sysInfo->setFixedSize(sysInfo->width(), sysInfo->height());
     sysInfo->show();
@@ -1059,13 +1078,13 @@ void UFO::on_actImplementstart_triggered()
 {
     if (aFileName == nullptr)
     {
-        QMessageBox::warning(this, "系统", "不存在已读取的标刻文件数据");
+        QMessageBox::warning(nullptr, "系统", "不存在已读取的标刻文件数据");
         return;
     }
 
     if (DataReadState->text() != "读取状态：完成")
     {
-        QMessageBox::warning(this, "系统", "请等待数据读取完毕！");
+        QMessageBox::warning(nullptr, "系统", "请等待数据读取完毕！");
         return;
     }
 
@@ -1093,10 +1112,10 @@ int UFO::markReady()
     ReadSetting = new QSettings(fileName, QSettings::IniFormat);
 
     // 获取参数设置
-    int LaserType = ReadSetting->value("LaserType").toInt();
-    int Standby = ReadSetting->value("Standby").toInt();
-    float StandbyFrequency = ReadSetting->value("StandbyFrequency").toFloat();
-    float StandbyPulseWidth = ReadSetting->value("StandbyPulseWidth").toFloat();
+    int LaserType = ReadSetting->value("laserType").toInt();
+    int Standby = ReadSetting->value("standby").toInt();
+    float StandbyFrequency = ReadSetting->value("frequency").toFloat();
+    float StandbyPulseWidth = ReadSetting->value("pulseWidth").toFloat();
 
     fileName = m_FileName + "/correctWayRead.ini";
     ReadSetting = new QSettings(fileName, QSettings::IniFormat);
@@ -1106,21 +1125,25 @@ int UFO::markReady()
     fileName = m_FileName + "/correctSetting.ini";
     ReadSetting = new QSettings(fileName, QSettings::IniFormat);
 
-    double xRange = ReadSetting->value("xRange").toDouble();
-    double yRange = ReadSetting->value("yRange").toDouble();
-    bool ExchangeXY = ReadSetting->value("ExchangeXY").toBool();
-    bool InvertX = ReadSetting->value("InvertX").toBool();
-    bool InvertY = ReadSetting->value("InvertY").toBool();
-    double xCorrection = ReadSetting->value("XCorrection").toDouble();
-    double yCorrection = ReadSetting->value("YCorrection").toDouble();
-    double zCorrection = ReadSetting->value("ZCorrection").toDouble();
-    double xshear = ReadSetting->value("Xshear").toDouble();
-    double yshear = ReadSetting->value("Yshear").toDouble();
-    double xladder = ReadSetting->value("Xladder").toDouble();
-    double yladder = ReadSetting->value("Yladder").toDouble();
-    int startmarkmode = ReadSetting->value("Startmarkmode").toDouble();
-    QString CorrectionPath = ReadSetting->value("CorrectionShowPath").toString();
-    std::string str = CorrectionPath.toStdString();
+    double rangeX = ReadSetting->value("rangeX").toDouble();
+    double rangeY = ReadSetting->value("rangeY").toDouble();
+    bool exchangeXY = ReadSetting->value("exchangeXY").toBool();
+    bool invertX = ReadSetting->value("invertX").toBool();
+    bool invertY = ReadSetting->value("invertY").toBool();
+    double xCorrection = ReadSetting->value("xCorrection").toDouble();
+    double yCorrection = ReadSetting->value("yCorrection").toDouble();
+    double xshear = ReadSetting->value("xShear").toDouble();
+    double yshear = ReadSetting->value("yShear").toDouble();
+    double xladder = ReadSetting->value("xLadder").toDouble();
+    double yladder = ReadSetting->value("yLadder").toDouble();
+    double ratioX = ReadSetting->value("ratioX", 1.0).toDouble();
+    double ratioY = ReadSetting->value("ratioY", 1.0).toDouble();
+    double ratioZ = ReadSetting->value("ratioZ", 1.0).toDouble();
+    int startMarkMode = ReadSetting->value("startMarkMode").toInt();
+
+    // QString转char*
+    QString CorrectionShowPath = ReadSetting->value("CorrectionShowPath").toString();
+    std::string str = CorrectionShowPath.toStdString();
     const char* ch = str.c_str();
     char* filepaths = const_cast<char*>(ch);
 
@@ -1129,48 +1152,50 @@ int UFO::markReady()
 
     int INDEX = ReadSetting->value("INDEX").toDouble();
     int markCounts = ReadSetting->value("markCounts").toDouble();
+    int isBitmap = ReadSetting->value("isBitmap").toInt();
     float markSpeed = ReadSetting->value("markSpeed").toDouble();
     float jumpSpeed = ReadSetting->value("jumpSpeed").toDouble();
     float jumpDelay = ReadSetting->value("jumpDelay").toDouble();
+    float polygonDelay = ReadSetting->value("polygonDelay").toDouble();
     float laserOnDelay = ReadSetting->value("laserOnDelay").toDouble();
     float laserOffDelay = ReadSetting->value("laserOffDelay").toDouble();
-    float polygonDelay = ReadSetting->value("polygonDelay").toDouble();
-    float current= ReadSetting->value("current").toDouble();
+    float polygonKillerTime = ReadSetting->value("polygonKillerTime").toDouble();
     float laserFrequency = ReadSetting->value("laserFrequency").toDouble();
+    float current = ReadSetting->value("current").toDouble();
+    float firstPulseKillerLength = ReadSetting->value("firstPulseKillerLength").toDouble();
     float pulseWidth = ReadSetting->value("pulseWidth").toDouble();
     float firstPulseWidth = ReadSetting->value("firstPulseWidth").toDouble();
-    float polygonKillerTime= ReadSetting->value("polygonKillerTime").toDouble();
-    float firstPulseKillerLength = ReadSetting->value("firstPulseKillerLength").toDouble();
     float incrementStep = ReadSetting->value("incrementStep").toDouble();
     float dotSpace= ReadSetting->value("dotSpace").toDouble();
-    int isBitmap = ReadSetting->value("isBitmap").toDouble();
 
     int func_Return = 0;
 
     // 同步标刻次数
     GlobalInfo::MarkCount = markCounts;
 
-    func_Return = SetSystemParameters(xRange, yRange, ExchangeXY, InvertX, InvertY, startmarkmode);
-    if (!func_Return)
+    func_Return = SetSystemParameters(rangeX, rangeY, exchangeXY, invertX, invertY, startMarkMode);
+    if (func_Return != 1)
         return func_Return;
 
     if (!fixWay)
     {
-        func_Return = SetCorrectParameters_0(xCorrection, yCorrection, xshear, yshear, xladder, yladder, xCorrection, yCorrection, zCorrection);
-        return func_Return;
+        func_Return = SetCorrectParameters_0(xCorrection, yCorrection, xshear, yshear, xladder, yladder, ratioX, ratioY, ratioZ);
+        if (func_Return != 1)
+            return func_Return;
     }  
     else
     {
-        func_Return = SetCorrectParameters_1(xCorrection, yCorrection, zCorrection, filepaths);
-        return func_Return;
+        func_Return = SetCorrectParameters_1(ratioX, ratioY, ratioZ, filepaths);
+        if (func_Return != 1)
+            return func_Return;
     }
         
     func_Return = SetLaserMode(LaserType, Standby, StandbyFrequency, StandbyPulseWidth);
-    if (!func_Return)
+    if (func_Return != 1)
         return func_Return;
 
     func_Return = SetMarkParameter(INDEX, markCounts, isBitmap, markSpeed, jumpSpeed, jumpDelay, polygonDelay, laserOnDelay, laserOffDelay, polygonKillerTime, laserFrequency, current, firstPulseKillerLength, pulseWidth, firstPulseWidth, incrementStep, dotSpace);
-    if (!func_Return)
+    if (func_Return != 1)
         return func_Return;
 
     func_Return = DownloadMarkParameters();

@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QSettings>
+#include "calaRatio.h"
 #include "ui_MarkAreaSet1.h"
 
 class MarkAreaSet1 : public QDialog
@@ -30,13 +31,13 @@ private:
 	bool InvertY{};
 
 	// X轴校正系数
-	double XCorrection{};
+	double ratioX{};
 
 	// Y轴校正系数
-	double YCorrection{};
+	double ratioY{};
 
 	// Z轴校正系数
-	double ZCorrection{};
+	double ratioZ{};
 
 	// 调入校正文件
 	QString CorrectionShowPath{};
@@ -44,6 +45,9 @@ private:
 private:
 	// 配置文件
 	QSettings* correctRead{};
+
+	// 比例界面
+	calaRatio* calaR{};
 
 private slots:
 	//关闭窗口事件
@@ -54,6 +58,18 @@ private slots:
 
 	// 关闭界面
 	void on_CancelMarkAreaSetting_clicked();
+
+	// 计算x比例
+	void on_clxpBtn_clicked();
+
+	// 计算y比例
+	void on_clypBtn_clicked();
+
+	// 设置比例控件值
+	void SetxSpinBoxValue(double Proport);
+
+	// 设置比例控件值
+	void SetySpinBoxValue(double Proport);
 
 private:
 	Ui::MarkAreaSet1 ui;

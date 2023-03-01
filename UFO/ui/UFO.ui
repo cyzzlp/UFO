@@ -16,10 +16,6 @@
   <property name="windowTitle">
    <string>UFO</string>
   </property>
-  <property name="windowIcon">
-   <iconset resource="UFO.qrc">
-    <normaloff>:/new/icons/icons/ufo.png</normaloff>:/new/icons/icons/ufo.png</iconset>
-  </property>
   <property name="toolTip">
    <string/>
   </property>
