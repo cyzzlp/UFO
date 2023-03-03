@@ -7,14 +7,15 @@ UFO::UFO(QWidget* parent)
     setWindowState(Qt::WindowMaximized);
 
     // 获取Icon文件路径
-    QString m_FileName = QCoreApplication::applicationDirPath();
-    QApplication::setWindowIcon(QIcon(m_FileName + "/icon/ufo.png"));
+    QString m_FileName = QCoreApplication::applicationDirPath() + "/Icon/ufo.png";
+
+    // 所以窗口Icon均设为选定的图像
+    QApplication::setWindowIcon(QIcon(m_FileName));
 
     // 连接振镜
     int isConnect = connectSystemMark();
     if (!isConnect)
         QMessageBox::warning(nullptr, "振镜", "没有板卡不能标刻，请检查振镜连接");
-
 
     // 连接PI
     isConnect = connectSystemPi();
@@ -22,12 +23,11 @@ UFO::UFO(QWidget* parent)
         QMessageBox::warning(nullptr, "PI", szErrorMesage);
 
     // 连接快门
-
      isConnect = connectSystemShutter();
      if (!isConnect)
          QMessageBox::warning(nullptr, "快门", "CH375快门连接失败，请检查快门连接");
 
-     // 连接快门
+     // 连接CCD
      isConnect = connectSystemCCD();
      if (!isConnect)
          QMessageBox::warning(nullptr, "CCD", "CCD连接失败，请检查快门连接");
@@ -136,17 +136,10 @@ void UFO::closeEvent(QCloseEvent* event)
 // 连接振镜
 int UFO::connectSystemMark()
 {
-    // ReturnFunc
+    // 记录函数返回值
     int returnValue = 0;
 
-    // 搜索驱动文件所在的位置，绝对路径
-    //char fpgaPaths[MAX_PATH + 1]{};
-    //GetModuleFileNameA(nullptr, fpgaPaths, MAX_PATH);
-    //std::string FirmwareProgram = const_cast<char*>(fpgaPaths);
-    //int index = FirmwareProgram.find_last_of("\\");
-    //std::string folderPath = FirmwareProgram.substr(0, index);
-    //std::string fpgaPath = folderPath + "\\" + "FpgaFirmware.rbf";
-
+    // 获取FPGA硬件驱动文件所在的位置
     QString fpgaPath = QCoreApplication::applicationDirPath() + "/FpgaFirmware.rbf";
     QByteArray Path = fpgaPath.toLatin1();
     char* filePath = Path.data();
@@ -220,6 +213,7 @@ bool UFO::connectSystemPi()
         PI_CloseConnection(ID);
         return false;
     }
+
     // 选择等待轴
     bIsMoving[0] = TRUE;
     while (bIsMoving[0] == TRUE)
@@ -293,6 +287,7 @@ int UFO::connectSystemShutter()
     return 1;
 }
 
+// 连接CCD
 int UFO::connectSystemCCD()
 {
     // 后台启动功能：打开图库，打开相机
@@ -310,6 +305,7 @@ int UFO::connectSystemCCD()
 
     return 1;
 }
+
 // 实现动画效果
 void UFO::CreateTimer()
 {
@@ -335,8 +331,10 @@ void UFO::HandleLibraryError(QString message, int status)
     if (m_blockErrorMessages)
         return;
 
+    // 把"Error: "加到message前面
     message.prepend("Error: ");
 
+    // 显示错误
     QMessageBox::warning(nullptr, "Error", message, QMessageBox::Ok);
 }
 
@@ -433,9 +431,13 @@ void UFO::updateText2()
 // 创建实时显示标刻点位置的窗口
 void UFO::InitMarkDataVisual()
 {
+    // 3D散点图
     Q3DScatter* graph3D;
+
     // 创建图表
     graph3D = new Q3DScatter();
+
+    // 设定画布
     graphContainer = QWidget::createWindowContainer(graph3D);
 
     // 数据代理
@@ -443,18 +445,32 @@ void UFO::InitMarkDataVisual()
 
     // 创建序列
     series = new QScatter3DSeries(proxy);
+
+    // 标签
     series->setItemLabelFormat("@xLabel @zLabel @yLabel");
+    
+    // 光滑性
     series->setMeshSmooth(true);
+
+    // 添加序列
     graph3D->addSeries(series);
 
     // 创建坐标轴
     graph3D->axisX()->setTitle("axis Y");
+
+    // 坐标轴可见
     graph3D->axisX()->setTitleVisible(true);
 
+    // 创建坐标轴
     graph3D->axisY()->setTitle("axis Z");
+
+    // 坐标轴可见
     graph3D->axisY()->setTitleVisible(true);
 
+    // 创建坐标轴
     graph3D->axisZ()->setTitle("axis X");
+
+    // 坐标轴可见
     graph3D->axisZ()->setTitleVisible(true);
 
     graph3D->activeTheme()->setLabelBackgroundEnabled(false);
@@ -465,9 +481,11 @@ void UFO::InitMarkDataVisual()
     // 取值范围0~1 ，自动放缩因子
     series->setItemSize(0.05);
 
+    // 变换视角
     Q3DCamera::CameraPreset cameraPos = Q3DCamera::CameraPreset(Q3DCamera::CameraPresetFront);
     graph3D->scene()->activeCamera()->setCameraPreset(cameraPos);
 
+    // 布局
     ui.verticalLayout_graph3D->addWidget(graphContainer);
 }
 
@@ -511,6 +529,7 @@ void UFO::OnAboutQtLinkActivated(const QString& link)
 // 初始化界面控件
 void UFO::initButton()
 {
+    // 如果CCD未连接
     if (!GlobalInfo::c_Connect)
     {
         ui.m_buttonStartStop->setEnabled(false);
@@ -631,7 +650,7 @@ void UFO::StartAcquisitionPI()
 void UFO::CreateAcquisitionWorkerThreadCCD()
 {
     // CCD参数设置窗口
-    CCDSet = new CCDSetUserface;
+    CCDSet = new CCDSetUserface();
 
     // 创建用于图像采集工作线程
     m_acquisitionWorker = new AcquisitionWorker();
@@ -667,11 +686,13 @@ void UFO::OnButtonStopStart()
     if ("停止采集" == ui.m_buttonStartStop->text())
     {
         ui.m_buttonStartStop->setText("开始采集");
+        GlobalInfo::cthread = false;
         StopAcquisition();
     }
     else
     {
         ui.m_buttonStartStop->setText("停止采集");
+        GlobalInfo::cthread = true;
         StartAcquisition();
     }
 }
@@ -704,10 +725,11 @@ void UFO::StartAcquisition()
     // 开始执行图像采集线程
     backend_acquisition_start();
 
+    // 线程启动
     m_acquisitionThread.start();
-    m_acquisitionRunning = true;
 
     // 同步状态
+    m_acquisitionRunning = true;
     GlobalInfo::cthread = m_acquisitionRunning;
 }
 
@@ -717,15 +739,19 @@ void UFO::StopAcquisition()
     // 停止执行图像采集线程
     if (m_acquisitionWorker)
     {
+        // 线程停止
         m_acquisitionWorker->Stop();
+
+        // 线程退出
         m_acquisitionThread.quit();
         m_acquisitionThread.wait();
 
+        // 停止图像采集
         backend_acquisition_stop();
     }
-    m_acquisitionRunning = false;
 
     // 同步状态
+    m_acquisitionRunning = false;
     GlobalInfo::cthread = m_acquisitionRunning;
 }
 
@@ -737,7 +763,11 @@ void UFO::CreateMarkWorkerThread()
 
     // 线程开始时，开始标刻
     connect(&MarktoThread, SIGNAL(started()), MarkThreads, SLOT(Start()), Qt::UniqueConnection);
+    
+    // 显示标刻中出现的错误
     connect(MarkThreads, &markThread::EmitWrongInfo, this, &UFO::ResetWrongTexts);
+
+    // 实时显示振镜的位置
     connect(MarkThreads, &markThread::MarkRealPos, this, &UFO::showPosition);
 }
 
@@ -765,9 +795,11 @@ void UFO::ResetWrongText(QString dataStatus)
 // 更新线程错误信息
 void UFO::ResetWrongTexts(QString dataStatus)
 {
+    // 线程停止
+    MarkThreads->Stop();
 
     // 信息提示
-    QMessageBox::critical(nullptr, "错误", dataStatus);
+    QMessageBox::critical(nullptr, "PI", dataStatus);
 }
 
 // 生成ini文件
@@ -849,7 +881,7 @@ void UFO::InitSetting()
     laserReadini->sync();
     systemReadini->sync();
 
-    // 删除句柄
+    // 删除指针
     delete gapReadini;
     delete correctWayReadini;
     delete correctReadini;
@@ -861,9 +893,15 @@ void UFO::InitSetting()
 void UFO::on_actPreGapInput_triggered()
 {
     // 构造当前窗口
-    gap = new dataSortgap(nullptr);
+    gap = new dataSortgap();
+
+    // 窗口大小固定
     gap->setFixedSize(gap->width(), gap->height());
+
+    // 阻塞整个应用程序的所有其他窗口响应
     gap->setWindowModality(Qt::ApplicationModal);
+
+    // 显示窗口
     gap->show();
 }
 
@@ -871,9 +909,15 @@ void UFO::on_actPreGapInput_triggered()
 void UFO::on_actCorrectMethod_triggered()
 {
     // 构造当前窗口
-    corrWay = new MarkCorrType(nullptr);
-    corrWay->setWindowModality(Qt::ApplicationModal);
+    corrWay = new MarkCorrType();
+
+    // 窗口大小固定
     corrWay->setFixedSize(corrWay->width(), corrWay->height());
+
+    // 阻塞整个应用程序的所有其他窗口响应
+    corrWay->setWindowModality(Qt::ApplicationModal);
+
+    // 显示窗口
     corrWay->show();
 }
 
@@ -881,9 +925,15 @@ void UFO::on_actCorrectMethod_triggered()
 void UFO::on_actSetLaser_triggered()
 {
     // 构造当前窗口
-    laserset = new laserSet(nullptr);
-    laserset->setWindowModality(Qt::ApplicationModal);
+    laserset = new laserSet();
+
+    // 窗口大小固定
     laserset->setFixedSize(laserset->width(), laserset->height());
+
+    // 阻塞整个应用程序的所有其他窗口响应
+    laserset->setWindowModality(Qt::ApplicationModal);
+
+    // 显示窗口
     laserset->show();
 }
 
@@ -898,16 +948,28 @@ void UFO::on_actSetMarkArea_triggered()
     bool correctWay = correctWayReadini->value("fixWay").toBool();
     if (!correctWay)
     {
-        markSet2 = new MarkAreaSet2(nullptr);
-        markSet2->setWindowModality(Qt::ApplicationModal);
+        markSet2 = new MarkAreaSet2();
+
+        // 窗口大小固定
         markSet2->setFixedSize(markSet2->width(), markSet2->height());
+
+        // 阻塞整个应用程序的所有其他窗口响应
+        markSet2->setWindowModality(Qt::ApplicationModal);
+
+        // 显示窗口
         markSet2->show();
     }
     else
     {
-        markSet1 = new MarkAreaSet1(nullptr);
-        markSet1->setWindowModality(Qt::ApplicationModal);
+        markSet1 = new MarkAreaSet1();
+
+        // 窗口大小固定
         markSet1->setFixedSize(markSet1->width(), markSet1->height());
+
+        // 阻塞整个应用程序的所有其他窗口响应
+        markSet1->setWindowModality(Qt::ApplicationModal);
+
+        // 显示窗口
         markSet1->show();
     }
 }
@@ -916,45 +978,75 @@ void UFO::on_actSetMarkArea_triggered()
 void UFO::on_actSetSystemPara_triggered()
 {
     // 构造当前窗口
-    paraSet = new MarkParaSet(nullptr);
-    paraSet->setWindowModality(Qt::ApplicationModal);
+    paraSet = new MarkParaSet();
+
+    // 窗口大小固定
     paraSet->setFixedSize(paraSet->width(), paraSet->height());
+
+    // 阻塞整个应用程序的所有其他窗口响应
+    paraSet->setWindowModality(Qt::ApplicationModal);
+
+    // 显示窗口
     paraSet->show();
 }
 
 // 显示PI设置界面
 void UFO::on_actConnectPI_triggered()
 {
-    piSet = new piControl(nullptr);
-    piSet->setWindowModality(Qt::ApplicationModal);
+    piSet = new piControl();
+
+    // 窗口大小固定
     piSet->setFixedSize(piSet->width(), piSet->height());
+
+    // 阻塞整个应用程序的所有其他窗口响应
+    piSet->setWindowModality(Qt::ApplicationModal);
+
+    // 显示窗口
     piSet->show();
 }
 
 // 显示快门设置界面
 void UFO::on_actConnectShutter_triggered()
 {
-    shutter = new shutterControl(nullptr);
-    shutter->setWindowModality(Qt::ApplicationModal);
+    shutter = new shutterControl();
+
+    // 窗口大小固定
     shutter->setFixedSize(shutter->width(), shutter->height());
+
+    // 阻塞整个应用程序的所有其他窗口响应
+    shutter->setWindowModality(Qt::ApplicationModal);
+
+    // 显示窗口
     shutter->show();
 }
 
 // 显示振镜设置界面
 void UFO::on_actMarkSet_triggered()
 {
-    markSet = new MarkControl(nullptr);
-    markSet->setWindowModality(Qt::ApplicationModal);
+    markSet = new MarkControl();
+
+    // 窗口大小固定
     markSet->setFixedSize(markSet->width(), markSet->height());
+
+    // 阻塞整个应用程序的所有其他窗口响应
+    markSet->setWindowModality(Qt::ApplicationModal);
+
+    // 显示窗口
     markSet->show();
 }
 
 // 显示相机设置界面
 void UFO::on_actConnectCCD_triggered()
 {
-    CCDSet = new CCDSetUserface(nullptr);
-    CCDSet->setWindowModality(Qt::ApplicationModal);
+    CCDSet = new CCDSetUserface();
+        
+    // 窗口大小固定
     CCDSet->setFixedSize(CCDSet->width(), CCDSet->height());
+
+    // 阻塞整个应用程序的所有其他窗口响应
+    CCDSet->setWindowModality(Qt::ApplicationModal);
+
+    // 显示窗口
     CCDSet->show();
 }
 
@@ -987,9 +1079,15 @@ void UFO::on_actOpenFile_triggered()
         GlobalInfo::aFileName = aFileName;
 
         // 设置文件预设间隔
-        gap = new dataSortgap(nullptr);
+        gap = new dataSortgap();
+
+        // 阻塞整个应用程序的所有其他窗口响应
         gap->setWindowModality(Qt::ApplicationModal);
+
+        // 窗口大小固定
         gap->setFixedSize(gap->width(), gap->height());
+
+        // 显示窗口
         gap->show();
 
         // 创建数据读取线程
@@ -1016,18 +1114,25 @@ void UFO::on_actOpenFile_triggered()
 // 执行显示数据可视化界面
 void UFO::on_acDataVisual_triggered()
 {
-    dataVis = new DataVisual(nullptr);
+    dataVis = new DataVisual();
 
     if (DataReadState->text() == "读取状态：完成")
     {
-        dataVis->setWindowModality(Qt::ApplicationModal);
+        // 窗口大小固定
         dataVis->setFixedSize(dataVis->width(), dataVis->height());
+
+        // 阻塞整个应用程序的所有其他窗口响应
+        dataVis->setWindowModality(Qt::ApplicationModal);
+
+        // 显示窗口
         dataVis->show();
+
+        // 绘图
         dataVis->DrawData(MarkData::returnMarkData);
     }
     else
     {
-        QMessageBox::warning(this, "警告", "数据未读取或读取中，无法可视化数据！");
+        QMessageBox::warning(nullptr, "警告", "数据未读取或读取中，无法可视化数据！");
     }
 }
 
@@ -1047,16 +1152,21 @@ void UFO::ResetText(QString dataStatus)
 // 更新数据量状态
 void UFO::ResetDataText(int dataNum)
 {
+    // double转QString
     QString Num = QString::number(dataNum);
+
+    // 显示
     MarkDataNum->setText("标刻数据总量：" + Num);
 }
 
 // 显示振镜位置
 void UFO::showPosition(double x_Pos, double y_Pos)
 {
+    // double转QString
     QString xPos = QString::number(x_Pos);
     QString yPos = QString::number(y_Pos);
 
+    // 显示
     x_Position->setText("振镜x位置：" + xPos);
     y_Position->setText("振镜y位置：" + yPos);
 }
@@ -1067,15 +1177,38 @@ void UFO::on_actSystemInfo_triggered()
     on_actDefaultPara_triggered();
 
     // 构造当前窗口
-    sysInfo = new SystemInfo(nullptr);
-    sysInfo->setWindowModality(Qt::ApplicationModal);
+    sysInfo = new SystemInfo();
+
+    // 窗口大小固定
     sysInfo->setFixedSize(sysInfo->width(), sysInfo->height());
+
+    // 阻塞整个应用程序的所有其他窗口响应
+    sysInfo->setWindowModality(Qt::ApplicationModal);
+
+    // 显示窗口
     sysInfo->show();
+}
+
+// 自定义标刻数据
+void UFO::on_actYoursData_triggered()
+{
+    // 构造当前窗口
+    yoursData = new YoursData();
+
+    // 窗口大小固定
+    yoursData->setFixedSize(yoursData->width(), yoursData->height());
+
+    // 阻塞整个应用程序的所有其他窗口响应
+    yoursData->setWindowModality(Qt::ApplicationModal);
+
+    // 显示窗口
+    yoursData->show();
 }
 
 // 启动标刻
 void UFO::on_actImplementstart_triggered()
 {
+    // 判断是否具有标刻条件
     if (aFileName == nullptr)
     {
         QMessageBox::warning(nullptr, "系统", "不存在已读取的标刻文件数据");
@@ -1098,6 +1231,8 @@ void UFO::on_actImplementstart_triggered()
 
     // 启动线程
     MarktoThread.start();
+
+    // 同步状态
     GlobalInfo::mthread = true;
 }
 
@@ -1173,10 +1308,12 @@ int UFO::markReady()
     // 同步标刻次数
     GlobalInfo::MarkCount = markCounts;
 
+    // 初始化系统参数
     func_Return = SetSystemParameters(rangeX, rangeY, exchangeXY, invertX, invertY, startMarkMode);
     if (func_Return != 1)
         return func_Return;
 
+    // 设置校正参数
     if (!fixWay)
     {
         func_Return = SetCorrectParameters_0(xCorrection, yCorrection, xshear, yshear, xladder, yladder, ratioX, ratioY, ratioZ);
@@ -1189,26 +1326,29 @@ int UFO::markReady()
         if (func_Return != 1)
             return func_Return;
     }
-        
+
+    // 设置激光模式
     func_Return = SetLaserMode(LaserType, Standby, StandbyFrequency, StandbyPulseWidth);
     if (func_Return != 1)
         return func_Return;
 
+    // 设置标刻参数
     func_Return = SetMarkParameter(INDEX, markCounts, isBitmap, markSpeed, jumpSpeed, jumpDelay, polygonDelay, laserOnDelay, laserOffDelay, polygonKillerTime, laserFrequency, current, firstPulseKillerLength, pulseWidth, firstPulseWidth, incrementStep, dotSpace);
     if (func_Return != 1)
         return func_Return;
 
+    // 加载标刻参数至板卡
     func_Return = DownloadMarkParameters();
     if (!func_Return)
         return func_Return;
 
+    // 将参数加载到FPGA
     func_Return = SetFirstMarkParameter(INDEX);
     if (!func_Return)
         return func_Return;
 
     return func_Return;
 }
-
 
 // 错误存在，程序退出
 bool UFO::hasError()
@@ -1223,8 +1363,12 @@ void UFO::on_InfMarkCount_stateChanged(int arg1)
     {
         // 读取当前程序可执行程序绝对路径
         m_FileName = QCoreApplication::applicationDirPath();
+
+        // systemSetting.ini文件绝对地址
         QString m_FileName1 = m_FileName + "/systemSetting.ini";
         systemReadini = new QSettings(m_FileName1, QSettings::IniFormat);
+
+        // 记录当前标刻次数
         systemReadini->setValue("markCounts", 0);
         GlobalInfo::MarkCount = 0;
     } 

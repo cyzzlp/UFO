@@ -197,6 +197,7 @@ void markThread::Start()
 		if (groupCount == groupSize)
 		{
 			Stop();
+			GlobalInfo::mthread = false;
 			break;
 		}		
 	}
@@ -205,6 +206,6 @@ void markThread::Start()
 // 线程停止
 void markThread::Stop()
 {
+	// 停止数据分解
 	m_running = false;
-	GlobalInfo::mthread = false;
 }

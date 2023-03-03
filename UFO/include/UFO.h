@@ -37,6 +37,7 @@
 #include "MarkControl.h"
 #include "GlobalInfo.h"
 #include "markThread.h"
+#include "YoursData.h"
 #include "ui_UFO.h"
 
 using namespace QtDataVisualization;
@@ -252,6 +253,9 @@ private:
     // 执行标刻线程
     QThread MarktoThread{};
 
+    // 自定义数据输入窗口
+    YoursData* yoursData{};
+
 private:
     // 关闭窗口时间，可以询问是否退出
     void closeEvent(QCloseEvent* event);
@@ -379,6 +383,9 @@ private slots:
 
     // 执行显示数据可视化界面
     void on_acDataVisual_triggered();
+
+    // 自定义标刻数据
+    void on_actYoursData_triggered();
 
     // 显示PI设置界面
     void on_actConnectPI_triggered();

@@ -110,7 +110,6 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actAddNewFile"/>
    <addaction name="actOpenFile"/>
    <addaction name="actSaveFile"/>
    <addaction name="actQuit"/>
@@ -144,7 +143,6 @@
     <property name="title">
      <string>文件</string>
     </property>
-    <addaction name="actAddNewFile"/>
     <addaction name="actOpenFile"/>
     <addaction name="actSaveFile"/>
     <addaction name="actQuit"/>

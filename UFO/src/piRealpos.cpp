@@ -18,9 +18,6 @@ piRealpos::~piRealpos()
 // 这个线程用于不断读取PI的实时位置(PI的实时位置一直在改变)
 void piRealpos::Start()
 {
-    // 线程停止
-    GlobalInfo::pthread = true;
-
 	// 选择等待轴
     BOOL bIsMoving[3] = { 0 };
 
@@ -58,13 +55,14 @@ void piRealpos::Start()
         // 500ms延时
         QThread::msleep(250);
     }
-
-    // 线程停止
-    GlobalInfo::pthread = false;
 }
 
 // 线程停止
 void piRealpos::stop()
 {
+    // 停止采集数据
 	P_IsConnected = false;
+
+    // 线程停止
+    GlobalInfo::pthread = false;
 }
